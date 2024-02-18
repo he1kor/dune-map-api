@@ -1,0 +1,4 @@
+project(TestApp)
+add_executable(TestApp first_test.cpp)
+target_link_libraries(TestApp Dune2kMapApi)
+target_include_directories(TestApp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
