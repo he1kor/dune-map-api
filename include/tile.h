@@ -2,6 +2,6 @@
 #include <cstdint>
 
 struct Tile{
-    uint16_t tileID;
-    uint16_t entityID;
+    uint16_t tileID = 0;
+    uint16_t entityID = 0;
 };

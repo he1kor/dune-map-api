@@ -14,39 +14,18 @@ void printMap(Map& map){
 }
 
 int main() {
-    // int height = 10;
-    // int width = 16;
-    // Map map = Map(width, height);
-    // for (int r = 0; r < height; r++){
-    //     for (int c = 0; c < width; c++){
-    //         map[r][c].entityID = 10 + (r * c);
-    //         map[r][c].tileID = r * c;
-    //     }
-    // }
-
-    // printMap(map);
-    // MapBinIO map_bin_io;
-    // map_bin_io.create(map, "test.map");
-    // map_bin_io.open("test.map");
-    // Map map2 = map_bin_io.load();
-    // printMap(map2);
-
     MapBinIO map_bin_io;
+    Map map(128, 128);
+    map_bin_io.create(map, "temp.map");
     map_bin_io.open("temp.map");
-    Map map = map_bin_io.load();
-    int r = 30;
-    int a = (int) map.height() / 2;
-    int b = (int) map.width() / 2;
-
+    
     for (int y = 0; y < map.height(); y++){
-        for (int x = 0; x < map.width(); x++){
-            map[x][y].tileID = 0;
-            map[x][y].entityID = 0;
-            if (((x-a)*(x-a)) + ((y-b)*(y-b)) < r*r){
-                map[x][y].tileID = 554;
-            }
+        for (int x = 0; x < 20; x++){
+            map[y][x].tileID = 20*y + x;
         }
     }
+
     map_bin_io.save(map);
-     return 0;
+    map_bin_io.close();
+    return 0;
 }

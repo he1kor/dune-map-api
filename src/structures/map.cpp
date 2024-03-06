@@ -32,7 +32,6 @@ Map::Map(uint16_t width, uint16_t height) :
     validateSize(width, height);
     matrix = new Row[height];
     for (int i = 0; i < height; i++) {
-        Row(2);
         matrix[i] = Row(width);
     }
 }

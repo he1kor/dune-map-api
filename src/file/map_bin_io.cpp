@@ -26,7 +26,7 @@ void MapBinIO::open(const char file_path[]){
 }
 
 bool MapBinIO::close(){
-    checkOpenedError();
+    checkNotOpenedError();
     bin_file.close();
 }
 
