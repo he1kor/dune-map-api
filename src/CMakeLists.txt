@@ -1,6 +1,5 @@
 project(Dune2kMapApi)
 add_library(Dune2kMapApi
-    library.cpp
     structures/map.cpp
     file/map_bin_io.cpp
     )
