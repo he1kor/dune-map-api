@@ -1,0 +1,153 @@
+{
+    "palette": {
+        "rock":{
+            "x": 12,
+            "y": 27,
+            "width": 5,
+            "height:": 3
+        },
+        "sand":{
+            "x": 8,
+            "y": 2,
+            "width": 5,
+            "height": 2
+        },
+        "dunes":{
+            "x": 3,
+            "y": 3,
+            "width": 2,
+            "height": 4
+        }
+    },
+
+    "compatibleTypes":[
+        "rock_plain",
+        "sand",
+        "near_rock",
+        "far_rock"
+    ],
+
+    "rock_cliffs": [
+        {
+            "x": 16,
+            "y": 18,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "sand", "sand"],
+            "compatible_left": ["sand", "sand"],
+            "compatible_right": ["far_rock", "far_rock"],
+            "compatible_bottom": ["far_rock", "far_rock"]
+        },
+        {
+            "x": 18,
+            "y": 18,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "sand", "sand"],
+            "compatible_left": ["far_rock", "far_rock"],
+            "compatible_right": ["sand", "sand"],
+            "compatible_bottom": ["near_rock", "near_rock"]
+        },
+        {
+            "x": 16,
+            "y": 20,
+            "width": 2,
+            "height": 2,
+
+            "compatible_up": [ "far_rock", "far_rock"],
+            "compatible_left": ["sand", "sand"],
+            "compatible_right": ["near_rock", "near_rock"],
+            "compatible_bottom": ["sand", "sand"]
+        },
+        {
+            "x": 18,
+            "y": 20,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "near_rock", "near_rock"],
+            "compatible_left": ["near_rock", "near_rock"],
+            "compatible_right": ["sand", "sand"],
+            "compatible_bottom": ["sand", "sand"]
+        },
+        {
+            "x": 2,
+            "y": 20,
+            "width": 2,
+            "height": 3,
+            "compatible_up": [ "rock_plain", "rock_plain"],
+            "compatible_left": ["near_rock", "near_rock", "sand"],
+            "compatible_right": ["rock_plain", "near_rock", "near_rock"],
+            "compatible_bottom": ["sand", "sand"]
+        },
+        {
+            "x": 4,
+            "y": 20,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "rock_plain", "rock_plain"],
+            "compatible_left": ["near_rock", "near_rock"],
+            "compatible_right": ["near_rock", "near_rock"],
+            "compatible_bottom": ["sand", "sand"]
+        },
+        {
+            "x": 6,
+            "y": 20,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "rock_plain", "rock_plain"],
+            "compatible_left": ["near_rock", "near_rock"],
+            "compatible_right": ["near_rock", "near_rock"],
+            "compatible_bottom": ["sand", "sand"]
+        },
+        {
+            "x": 8,
+            "y": 20,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "rock_plain", "rock_plain"],
+            "compatible_left": ["near_rock", "near_rock"],
+            "compatible_right": ["near_rock", "near_rock"],
+            "compatible_bottom": ["sand", "sand"]
+        },
+        {
+            "x": 10,
+            "y": 20,
+            "width": 2,
+            "height": 3,
+            "compatible_up": [ "rock_plain", "rock_plain"],
+            "compatible_left": ["rock_plain", "near_rock", "near_rock"],
+            "compatible_right": ["near_rock", "near_rock", "sand"],
+            "compatible_bottom": ["sand", "sand"]
+        },
+        {
+            "x": 4,
+            "y": 22,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "far_rock", "far_rock"],
+            "compatible_left": ["sand", "sand"],
+            "compatible_right": ["rock_plain", "rock_plain"],
+            "compatible_bottom": ["far_rock", "far_rock"]
+        },
+        {
+            "x": 6,
+            "y": 22,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "far_rock", "far_rock"],
+            "compatible_left": ["sand", "sand"],
+            "compatible_right": ["rock_plain", "rock_plain"],
+            "compatible_bottom": ["far_rock", "far_rock"]
+        },
+        {
+            "x": 8,
+            "y": 22,
+            "width": 2,
+            "height": 2,
+            "compatible_up": [ "far_rock", "far_rock"],
+            "compatible_left": ["sand", "sand"],
+            "compatible_right": ["rock_plain", "rock_plain"],
+            "compatible_bottom": ["far_rock", "far_rock"]
+        },
+    ]
+}
