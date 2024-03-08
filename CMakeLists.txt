@@ -13,5 +13,11 @@ include(FetchContent)
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
 FetchContent_MakeAvailable(json)
 
+set(DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data/tileset")
+
+set(DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/test/data")
+
+configure_file(${DATA_DIR}/tileset.json ${DEST_DIR}/tileset.json COPYONLY)
+
 add_subdirectory(src)
 add_subdirectory(test)
