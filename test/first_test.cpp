@@ -1,6 +1,7 @@
 #include "library.h"
 #include "map.h"
 #include "map_bin_io.h"
+#include "palette.h"
 #include <iostream>
 
 void printMap(Map& map){
@@ -27,5 +28,20 @@ int main() {
 
     map_bin_io.save(map);
     map_bin_io.close();
+
+    Palette palette;
+    palette.addMaterial("rock", Material(0, 0, 5, 6));
+    palette.addMaterial("sand", Material(5, 0, 2, 2));
+
+    std::cout << "test: \n";
+    for (int i = 0; i < 100; i++){
+        std::cout << palette.pick("rock") << "\t";
+    }
+    
+    std::cout << "\nTEST\n";
+
+    for (int i = 0; i < 100; i++){
+        std::cout << palette.pick("sand") << "\t";
+    }
     return 0;
 }
