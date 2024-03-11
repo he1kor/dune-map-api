@@ -8,7 +8,7 @@ class MapBinIO{
         MapBinIO(Map& map, const char file_path[]);
         bool fileOpened();
         void open(const char file_path[]);
-        bool close();
+        void close();
         void create(Map& map, const char file_path[]);
         void save(Map& map);
         Map load();
