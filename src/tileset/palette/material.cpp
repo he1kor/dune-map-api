@@ -10,3 +10,10 @@ Material::Material(int x, int y, int width, int height){
         }
     }
 }
+const uint16_t& Material::operator[](int i){
+    return tiles.at(i);
+}
+
+int Material::size(){
+    return tiles.size();
+}
