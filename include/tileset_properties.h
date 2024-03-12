@@ -1,7 +1,7 @@
 #pragma once
 #include "palette.h"
 
-struct tilesetProperties
+struct TilesetProperties
 {
-    Palette* const palette;
+    Palette palette;
 };
