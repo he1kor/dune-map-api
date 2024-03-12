@@ -53,3 +53,26 @@ bool checkFileExistError(const char file_path[]){
     }
     return true;
 }
+bool checkOpenedError(std::ifstream& file){
+    if (file.is_open()){
+        throw std::ios_base::failure("File is opened");
+        return false;
+    }
+    return true;
+}
+
+bool checkNotOpenedError(std::ifstream& file){
+    if (!file.is_open()){
+        throw std::ios_base::failure("File is not opened");
+        return false;
+    }
+    return true;
+}
+bool checkFileIssues(std::ifstream& file){
+    if (!file){
+            file.close();
+            throw std::ios_base::failure("Error opening file");
+            return false;
+        }
+    return true;
+}
