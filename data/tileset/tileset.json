@@ -4,7 +4,7 @@
             "x": 12,
             "y": 27,
             "width": 5,
-            "height:": 3
+            "height": 3
         },
         "sand":{
             "x": 8,
@@ -16,7 +16,7 @@
             "x": 3,
             "y": 3,
             "width": 2,
-            "height": 4
+            "height": 3
         }
     },
 
