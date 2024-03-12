@@ -19,8 +19,8 @@ Palette::Palette(Palette &palette) : materials{palette.materials}{
 Palette &Palette::operator=(Palette &&palette){
     if (this != &palette){
         materials = std::move(palette.materials);
-    return *this;
     }
+    return *this;
 }
 
 void Palette::addMaterial(std::string material_name, const Material& material){
