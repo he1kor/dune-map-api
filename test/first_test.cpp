@@ -1,6 +1,5 @@
-#include "library.h"
 #include "map.h"
-#include "map_bin_io.h"
+#include "map_bin_file_io.h"
 #include "palette.h"
 #include <iostream>
 
@@ -15,10 +14,10 @@ void printMap(Map& map){
 }
 
 int main() {
-    MapBinIO map_bin_io;
+    MapBinFileIO map_bin_file;
     Map map(128, 128);
-    map_bin_io.create(map, "temp.map");
-    map_bin_io.open("temp.map");
+    map_bin_file.create(map, "temp.map");
+    map_bin_file.open("temp.map");
     
     for (int y = 0; y < map.height(); y++){
         for (int x = 0; x < 20; x++){
@@ -26,8 +25,8 @@ int main() {
         }
     }
 
-    map_bin_io.save(map);
-    map_bin_io.close();
+    map_bin_file.save(map);
+    map_bin_file.close();
 
     Palette palette;
     palette.addMaterial("rock", Material(0, 0, 5, 6));

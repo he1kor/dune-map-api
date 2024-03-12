@@ -3,10 +3,10 @@
 #include "file_reader.h"
 #include <fstream>
 
-class MapBinFile : public FileReader {
+class MapBinFileIO : public FileReader {
     public:        
-        MapBinFile();
-        MapBinFile(Map& map, const char file_path[]);
+        MapBinFileIO();
+        MapBinFileIO(Map& map, const char file_path[]);
         void create(Map& map, const char file_path[]);
         void save(Map& map);
         Map load();
