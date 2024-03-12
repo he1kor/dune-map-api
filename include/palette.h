@@ -9,6 +9,7 @@ class Palette{
         Palette(std::map<std::string, Material>& materials);
         Palette();
         Palette(Palette&& palette);
+        Palette(Palette& palette);
         Palette& operator=(Palette&& palette);
         uint16_t pick(std::string material_name);
         const Material& operator[](std::string material_name);

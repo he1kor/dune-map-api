@@ -12,6 +12,10 @@ Palette::Palette(std::map<std::string, Material>& materials) : materials(materia
 
 Palette::Palette(Palette&& palette) : materials{std::move(palette.materials)}{}
 
+Palette::Palette(Palette &palette) : materials{palette.materials}{
+
+}
+
 Palette &Palette::operator=(Palette &&palette){
     if (this != &palette){
         materials = std::move(palette.materials);
