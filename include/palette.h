@@ -2,15 +2,18 @@
 #include "material.h"
 #include <map>
 #include <cstdint>
+#include <string>
 
 class Palette{
     public:
-        Palette(std::map<const char*, Material>& materials);
+        Palette(std::map<std::string, Material>& materials);
         Palette();
-        uint16_t pick(const char* material_name);
-        const Material& operator[](const char* material_name);
-        void addMaterial(const char* material_name, const Material& material);
-        void removeMaterial(const char*);
+        Palette(Palette&& palette);
+        Palette& operator=(Palette&& palette);
+        uint16_t pick(std::string material_name);
+        const Material& operator[](std::string material_name);
+        void addMaterial(std::string material_name, const Material& material);
+        void removeMaterial(std::string material_name);
     private:
-        std::map<const char*, Material> materials;
+        std::map<std::string, Material> materials;
 };
