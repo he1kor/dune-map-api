@@ -7,6 +7,7 @@ add_library(Dune2kMapApi
     file/tileset_json_i.cpp
     tileset/palette/material.cpp
     tileset/palette/palette.cpp
+    paint/painter.cpp
     )
 
 target_link_libraries(Dune2kMapApi PRIVATE nlohmann_json::nlohmann_json)

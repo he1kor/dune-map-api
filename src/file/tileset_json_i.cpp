@@ -1,7 +1,6 @@
 #include "tileset_json_i.h"
 #include "file_checks.h"
 #include <nlohmann/json.hpp>
-#include <iostream>
 
 constexpr char JSON_EXTENSION[] = ".json";
 
@@ -14,7 +13,6 @@ namespace {
         for (auto it = json_palette.begin(); it != json_palette.end(); ++it){
 
             nlohmann::json json_material = it.value();
-            std::cout << json_material;
             Material material(
                 json_material.at("x"),
                 json_material.at("y"),

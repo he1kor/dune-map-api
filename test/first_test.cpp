@@ -1,6 +1,7 @@
 #include "map.h"
 #include "map_bin_file_io.h"
 #include "palette.h"
+#include "painter.h"
 #include <tileset_json_i.h>
 #include <iostream>
 
@@ -15,18 +16,17 @@ void printMap(Map& map){
 }
 
 int main() {
-    MapBinFileIO map_bin_file;
-    Map map(128, 128);
     TilesetProperties tilesetProperties = load("data/tileset.json");
-    map_bin_file.create(map, "temp.map");
-    map_bin_file.open("temp.map");
-    
-    for (int y = 0; y < map.height(); y++){
-        for (int x = 0; x < map.width(); x++){
-            map[y][x].tileID = tilesetProperties.palette.pick("dunes");
-        }
-    }
 
+    MapBinFileIO map_bin_file;
+    map_bin_file.open("temp.map");
+    Map map = map_bin_file.load();
+    
+    Painter painter(&map, &tilesetProperties.palette);
+
+    painter.fill(40, 23, "sand", true);
+    painter.fill(0, 0, "rock", true);
+    painter.fill(40, 0, "rock", true);
     map_bin_file.save(map);
     map_bin_file.close();
 
