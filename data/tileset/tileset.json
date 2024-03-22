@@ -1,32 +1,35 @@
 {
+    "compatibilityTypes": [
+        "rock_plain",
+        "sand",
+        "dunes",
+        "forward_rock_cliff",
+        "backward_rock_cliff",
+        "rock_border"
+    ],
     "palette": {
         "rock":{
             "x": 12,
             "y": 27,
             "width": 5,
-            "height": 3
+            "height": 3,
+            "compatibility": "rock_plain"
         },
         "sand":{
             "x": 8,
             "y": 2,
             "width": 5,
-            "height": 2
+            "height": 2,
+            "compatibility": "sand"
         },
         "dunes":{
             "x": 3,
             "y": 3,
             "width": 2,
-            "height": 3
+            "height": 3,
+            "compatibility": "dunes"
         }
     },
-
-    "compatibleTypes": [
-        "rock_plain",
-        "sand",
-        "forward_rock_cliff",
-        "backward_rock_cliff",
-        "rock_border"
-    ],
     "groups": {
         "rock_cliffs": [
             {
@@ -34,20 +37,20 @@
                 "y": 18,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
             },
             {
                 "x": 18,
                 "y": 18,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
             },
             {
                 "x": 16,
@@ -55,20 +58,20 @@
                 "width": 2,
                 "height": 2,
     
-                "compatible_up": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["sand", "sand"]
             },
             {
                 "x": 18,
                 "y": 20,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_left": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["sand", "sand"]
             },
     
     
@@ -77,10 +80,10 @@
                 "y": 20,
                 "width": 2,
                 "height": 3,
-                "compatible_up": ["rock_plain", "rock_plain"],
-                "compatible_left": ["forward_rock_cliff", "forward_rock_cliff", "sand"],
-                "compatible_right": ["rock_plain", "forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["rock_plain", "rock_plain"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff", "sand"],
+                "compatibility_right": ["rock_plain", "forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["sand", "sand"]
             },
     
     
@@ -89,30 +92,30 @@
                 "y": 20,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["rock_plain", "rock_plain"],
-                "compatible_left": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_right": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["rock_plain", "rock_plain"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["sand", "sand"]
             },
             {
                 "x": 6,
                 "y": 20,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["rock_plain", "rock_plain"],
-                "compatible_left": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_right": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["rock_plain", "rock_plain"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["sand", "sand"]
             },
             {
                 "x": 8,
                 "y": 20,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["rock_plain", "rock_plain"],
-                "compatible_left": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_right": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["rock_plain", "rock_plain"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["sand", "sand"]
             },
     
     
@@ -121,10 +124,10 @@
                 "y": 20,
                 "width": 2,
                 "height": 3,
-                "compatible_up": ["rock_plain", "rock_plain"],
-                "compatible_left": ["rock_plain", "forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_right": ["forward_rock_cliff", "forward_rock_cliff", "sand"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["rock_plain", "rock_plain"],
+                "compatibility_left": ["rock_plain", "forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff", "sand"],
+                "compatibility_bottom": ["sand", "sand"]
             },
     
     
@@ -133,30 +136,30 @@
                 "y": 22,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["rock_plain", "rock_plain"],
-                "compatible_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
+                "compatibility_up": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["rock_plain", "rock_plain"],
+                "compatibility_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
             },
             {
                 "x": 6,
                 "y": 22,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["rock_plain", "rock_plain"],
-                "compatible_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
+                "compatibility_up": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["rock_plain", "rock_plain"],
+                "compatibility_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
             },
             {
                 "x": 8,
                 "y": 22,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["rock_plain", "rock_plain"],
-                "compatible_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
+                "compatibility_up": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["rock_plain", "rock_plain"],
+                "compatibility_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
             },
     
     
@@ -165,20 +168,20 @@
                 "y": 22,
                 "width": 2,
                 "height": 3,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["backward_rock_cliff", "backward_rock_cliff", "rock_plain"],
-                "compatible_right": ["sand", "backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_bottom": ["rock_plain", "rock_plain"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["backward_rock_cliff", "backward_rock_cliff", "rock_plain"],
+                "compatibility_right": ["sand", "backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_bottom": ["rock_plain", "rock_plain"]
             },
             {
                 "x": 16,
                 "y": 22,
                 "width": 2,
                 "height": 3,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["sand", "backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_right": ["backward_rock_cliff", "backward_rock_cliff", "rock_plain"],
-                "compatible_bottom": ["rock_plain", "rock_plain"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["sand", "backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_right": ["backward_rock_cliff", "backward_rock_cliff", "rock_plain"],
+                "compatibility_bottom": ["rock_plain", "rock_plain"]
             },
     
     
@@ -187,20 +190,20 @@
                 "y": 24,
                 "width": 3,
                 "height": 2,
-                "compatible_up": ["backward_rock_cliff", "backward_rock_cliff", "rock_plain"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["rock_plain", "rock_plain"],
-                "compatible_bottom": ["sand", "backward_rock_cliff", "backward_rock_cliff"]
+                "compatibility_up": ["backward_rock_cliff", "backward_rock_cliff", "rock_plain"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["rock_plain", "rock_plain"],
+                "compatibility_bottom": ["sand", "backward_rock_cliff", "backward_rock_cliff"]
             },
             {
                 "x": 0,
                 "y": 26,
                 "width": 3,
                 "height": 2,
-                "compatible_up": ["sand", "backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["rock_plain", "rock_plain"],
-                "compatible_bottom": ["backward_rock_cliff", "backward_rock_cliff", "rock_plain"]
+                "compatibility_up": ["sand", "backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["rock_plain", "rock_plain"],
+                "compatibility_bottom": ["backward_rock_cliff", "backward_rock_cliff", "rock_plain"]
             },
     
     
@@ -209,30 +212,30 @@
                 "y": 24,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_left": ["rock_plain", "rock_plain"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
+                "compatibility_up": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_left": ["rock_plain", "rock_plain"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
             },
             {
                 "x": 7,
                 "y": 24,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_left": ["rock_plain", "rock_plain"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
+                "compatibility_up": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_left": ["rock_plain", "rock_plain"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
             },
             {
                 "x": 9,
                 "y": 24,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_left": ["rock_plain", "rock_plain"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
+                "compatibility_up": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_left": ["rock_plain", "rock_plain"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
             },
     
     
@@ -241,20 +244,20 @@
                 "y": 23,
                 "width": 3,
                 "height": 2,
-                "compatible_up": ["forward_rock_cliff", "forward_rock_cliff", "sand"],
-                "compatible_left": ["rock_plain", "rock_plain"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["rock_plain", "forward_rock_cliff", "forward_rock_cliff"]
+                "compatibility_up": ["forward_rock_cliff", "forward_rock_cliff", "sand"],
+                "compatibility_left": ["rock_plain", "rock_plain"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["rock_plain", "forward_rock_cliff", "forward_rock_cliff"]
             },
             {
                 "x": 11,
                 "y": 25,
                 "width": 3,
                 "height": 2,
-                "compatible_up": ["rock_plain", "forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_left": ["rock_plain", "rock_plain"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["forward_rock_cliff", "forward_rock_cliff", "sand"]
+                "compatibility_up": ["rock_plain", "forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_left": ["rock_plain", "rock_plain"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["forward_rock_cliff", "forward_rock_cliff", "sand"]
             },
     
     
@@ -263,30 +266,30 @@
                 "y": 26,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_right": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_bottom": ["rock_plain", "rock_plain"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_right": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_bottom": ["rock_plain", "rock_plain"]
             },
             {
                 "x": 9,
                 "y": 26,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_right": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_bottom": ["rock_plain", "rock_plain"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_right": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_bottom": ["rock_plain", "rock_plain"]
             },
             {
                 "x": 0,
                 "y": 28,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_right": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_bottom": ["rock_plain", "rock_plain"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_right": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_bottom": ["rock_plain", "rock_plain"]
             },
     
     
@@ -295,40 +298,40 @@
                 "y": 28,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["rock_plain", "rock_plain"],
-                "compatible_left": ["rock_plain", "rock_plain"],
-                "compatible_right": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
+                "compatibility_up": ["rock_plain", "rock_plain"],
+                "compatibility_left": ["rock_plain", "rock_plain"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
             },
             {
                 "x": 6,
                 "y": 28,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["rock_plain", "rock_plain"],
-                "compatible_left": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_right": ["rock_plain", "rock_plain"],
-                "compatible_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
+                "compatibility_up": ["rock_plain", "rock_plain"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["rock_plain", "rock_plain"],
+                "compatibility_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
             },
             {
                 "x": 8,
                 "y": 28,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_left": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_right": ["rock_plain", "rock_plain"],
-                "compatible_bottom": ["rock_plain", "rock_plain"]
+                "compatibility_up": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_left": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_right": ["rock_plain", "rock_plain"],
+                "compatibility_bottom": ["rock_plain", "rock_plain"]
             },
             {
                 "x": 10,
                 "y": 28,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_left": ["rock_plain", "rock_plain"],
-                "compatible_right": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_bottom": ["rock_plain", "rock_plain"]
+                "compatibility_up": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_left": ["rock_plain", "rock_plain"],
+                "compatibility_right": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_bottom": ["rock_plain", "rock_plain"]
             },
     
     
@@ -337,40 +340,40 @@
                 "y": 33,
                 "width": 1,
                 "height": 2,
-                "compatible_up": ["rock_plain"],
-                "compatible_left": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_right": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_bottom": ["sand"]
+                "compatibility_up": ["rock_plain"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["sand"]
             },
             {
                 "x": 16,
                 "y": 33,
                 "width": 1,
                 "height": 2,
-                "compatible_up": ["sand"],
-                "compatible_left": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_right": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_bottom": ["rock_plain"]
+                "compatibility_up": ["sand"],
+                "compatibility_left": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_right": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_bottom": ["rock_plain"]
             },
             {
                 "x": 18,
                 "y": 33,
                 "width": 2,
                 "height": 1,
-                "compatible_up": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_left": ["rock_plain"],
-                "compatible_right": ["sand"],
-                "compatible_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
+                "compatibility_up": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_left": ["rock_plain"],
+                "compatibility_right": ["sand"],
+                "compatibility_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
             },
             {
                 "x": 18,
                 "y": 34,
                 "width": 2,
                 "height": 1,
-                "compatible_up": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_left": ["sand"],
-                "compatible_right": ["rock_plain"],
-                "compatible_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
+                "compatibility_up": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_left": ["sand"],
+                "compatibility_right": ["rock_plain"],
+                "compatibility_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
             }
         ],
         "connection_rock_cliffs": [
@@ -379,80 +382,80 @@
                 "y": 20,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["rock_border", "rock_plain"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["rock_border", "rock_plain"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["sand", "sand"]
             },
             {
                 "x": 12,
                 "y": 20,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["rock_plain", "rock_border"],
-                "compatible_left": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["rock_plain", "rock_border"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["sand", "sand"]
             },
             {
                 "x": 0,
                 "y": 22,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["rock_border", "rock_plain"],
-                "compatible_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["rock_border", "rock_plain"],
+                "compatibility_bottom": ["backward_rock_cliff", "backward_rock_cliff"]
             },
             {
                 "x": 12,
                 "y": 22,
                 "width": 2,
                 "height": 1,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["rock_border"],
-                "compatible_right": ["sand"],
-                "compatible_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["rock_border"],
+                "compatibility_right": ["sand"],
+                "compatibility_bottom": ["forward_rock_cliff", "forward_rock_cliff"]
             },
             {
                 "x": 3,
                 "y": 24,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["rock_plain", "rock_border"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["rock_plain", "rock_border"],
+                "compatibility_bottom": ["sand", "sand"]
             },
             {
                 "x": 3,
                 "y": 26,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["forward_rock_cliff", "forward_rock_cliff"],
-                "compatible_left": ["rock_plain", "rock_border"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["sand", "sand"]
+                "compatibility_up": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_left": ["rock_plain", "rock_border"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["sand", "sand"]
             },
             {
                 "x": 5,
                 "y": 26,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["sand", "sand"],
-                "compatible_right": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_bottom": ["rock_border", "rock_plain"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["sand", "sand"],
+                "compatibility_right": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_bottom": ["rock_border", "rock_plain"]
             },
             {
                 "x": 2,
                 "y": 28,
                 "width": 2,
                 "height": 2,
-                "compatible_up": ["sand", "sand"],
-                "compatible_left": ["backward_rock_cliff", "backward_rock_cliff"],
-                "compatible_right": ["sand", "sand"],
-                "compatible_bottom": ["rock_plain", "rock_border"]
+                "compatibility_up": ["sand", "sand"],
+                "compatibility_left": ["backward_rock_cliff", "backward_rock_cliff"],
+                "compatibility_right": ["sand", "sand"],
+                "compatibility_bottom": ["rock_plain", "rock_border"]
             }
         ]
     }
