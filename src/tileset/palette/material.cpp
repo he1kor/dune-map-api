@@ -3,39 +3,36 @@
 
 Material::Material(){}
 
-Material::Material(uint16_t tile) : tiles{tile}{}
+Material::Material(uint16_t tile) : indexed_tiles{tile}, {}
 
 Material::Material(int x, int y, int width, int height){
     for (int r = y; r < y + height; r++){
         for (int c = x; c < x + width; c++){
-            tiles.push_back(r * 20 + c);
+            indexed_tiles.push_back(r * 20 + c);
+            set_tiles.insert(r * 20 + c);
         }
     }
 }
 bool Material::containsTile(uint16_t unknown_tile) const{
-    for (auto &existing_tile : tiles)
-    {
-        if (existing_tile == unknown_tile)
-            return true;
-    }
-    return false;
+    return set_tiles.find(unknown_tile) != set_tiles.end();
 }
 
 const uint16_t &Material::operator[](int i)
 {
-    return tiles.at(i);
+    return indexed_tiles.at(i);
 }
 
 void Material::addTile(uint16_t tile){
-    tiles.push_back(tile);
+    indexed_tiles.push_back(tile);
+    set_tiles.insert(tile);
 }
 
 bool Material::operator==(const Material &other) const{
-    if (tiles.size() != other.tiles.size())
+    if (indexed_tiles.size() != other.indexed_tiles.size())
         return false;
 
-    std::vector<uint16_t> sortedThis = tiles;
-    std::vector<uint16_t> sortedOther = other.tiles;
+    std::vector<uint16_t> sortedThis = indexed_tiles;
+    std::vector<uint16_t> sortedOther = other.indexed_tiles;
 
     std::sort(sortedThis.begin(), sortedThis.end());
     std::sort(sortedOther.begin(), sortedOther.end());
@@ -44,5 +41,5 @@ bool Material::operator==(const Material &other) const{
 }
 
 int Material::size() const{
-    return tiles.size();
+    return indexed_tiles.size();
 }
