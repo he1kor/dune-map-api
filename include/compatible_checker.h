@@ -1,6 +1,7 @@
 #pragma once
-#include <vector>
+#include <set>
 #include <string>
+#include <array>
 #include <unordered_map>
 #include <cstdint>
 
@@ -11,15 +12,19 @@ class CompatibleType{
     private:
         std::string type;
 };
-enum Direction{
-    top, left, right, bottom
+enum Direction {
+    UP = 0,
+    LEFT = 1,
+    DOWN = 2,
+    RIGHT = 3,
 };
 class CompatibleCheker{
     public:
-        CompatibleCheker(int tile_count, std::vector<CompatibleType> compatible_types);
+        CompatibleCheker(int tile_count, std::set<CompatibleType> compatible_types);
         void putCompatible(uint16_t tile, CompatibleType top, CompatibleType left, CompatibleType right, CompatibleType bottom);
-        std::string compatible(uint16_t, Direction direction);
+        CompatibleType compatibleType(uint16_t tile, Direction direction);
+        bool areCompatible(uint16_t tile1, Direction tile1_direction, uint16_t tile2);
     private:
-        std::vector<CompatibleType> compatible_types;
-        std::unordered_map<uint16_t, std::array<short, 4>> compatibility;
+        std::set<CompatibleType> compatible_types;
+        std::unordered_map<uint16_t, std::array<const CompatibleType*, 4>> compatibility;
 };
