@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <set>
 #include <vector>
 
 class Material{
@@ -13,5 +14,6 @@ class Material{
         bool operator==(const Material& other) const;
         int size() const;
     private:
-        std::vector<uint16_t> tiles;
+        std::vector<uint16_t> indexed_tiles;
+        std::set<uint16_t> set_tiles;
 };
