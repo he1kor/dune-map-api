@@ -6,22 +6,34 @@
 Edge::Edge(int x, int y, int size, Orientation orientation) : x{x}, y{y}, size{size}, orientation{orientation} {};
 
 bool Edge::checkLeftBounds(int x){
-    if (x < 0)
+    if (x < 0){
         throw std::out_of_range(std::format("Left edge! ({})", 0));
+        return false;
+    }
+    return true;
 }
 bool Edge::checkRightBounds(int x){
-    if (x > d2kmapapi::max_map_size)
+    if (x > d2kmapapi::max_map_size){
         throw std::out_of_range(std::format("Right edge! ({})", d2kmapapi::max_map_size));
+        return false;
+    }
+    return true;
 }
 
 bool Edge::checkTopBounds(int y){
-    if (y < 0)
+    if (y < 0){
         throw std::out_of_range(std::format("Top edge! ({})", 0));
+        return false;
+    }
+    return true;
 }
 
 bool Edge::checkBottomBounds(int y){
-    if (y > d2kmapapi::max_map_size)
+    if (y > d2kmapapi::max_map_size){
         throw std::out_of_range(std::format("Bottom edge! ({})", d2kmapapi::max_map_size));
+        return false;
+    }
+    return true;
 }
 
 
