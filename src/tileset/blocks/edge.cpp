@@ -30,23 +30,39 @@ bool Edge::checkBottomBounds(int y){
 Horizontal::Horizontal(int x, int y, int size) : Edge::Edge(x, y, size, Orientation::horizontal){}
 
 Horizontal Horizontal::fromTop(int x, int y){
-    return Horizontal(x, y, 1);
+    checkTopBounds(y+1);
+    checkBottomBounds(y+1);
+    checkLeftBounds(x);
+    checkRightBounds(x);
+    return Horizontal(x, y+1, 1);
 }
 
 Horizontal Horizontal::fromTop(int x1, int x2, int y){
+    checkTopBounds(y+1);
+    checkBottomBounds(y+1);
+    checkLeftBounds(x1);
+    checkRightBounds(x2);
     if (x2 < x1)
         throw std::invalid_argument(std::format("The x2 ({}) should not be less than x1 ({})!", x1, x2));
-    return Horizontal(x1, y, 1+x2-x1);
+    return Horizontal(x1, y+1, 1+x2-x1);
 }
 
 Horizontal Horizontal::fromBottom(int x, int y){
-    return Horizontal(x+1, y+1, 1);
+    checkTopBounds(y);
+    checkBottomBounds(y);
+    checkLeftBounds(x);
+    checkRightBounds(x);
+    return Horizontal(x, y, 1);
 }
 
 Horizontal Horizontal::fromBottom(int x1, int x2, int y){
+    checkTopBounds(y);
+    checkBottomBounds(y);
+    checkLeftBounds(x1);
+    checkRightBounds(x2);
     if (x2 < x1)
         throw std::invalid_argument(std::format("The x2 ({}) should not be less than x1 ({})!", x1, x2));
-    return Horizontal(x1+1, y+1, 1+x2-x1);
+    return Horizontal(x1, y, 1+x2-x1);
 }
 
 
@@ -63,14 +79,14 @@ Vertical Vertical::fromLeft(int x, int y){
     checkRightBounds(x+1);
     return Vertical(x+1, y, 1);
 }
-Vertical Vertical::fromLeft(int x1, int x2, int y){
-    checkTopBounds(y);
-    checkBottomBounds(y);
-    checkLeftBounds(x1+1);
-    checkRightBounds(x2+1);
-    if (x2 < x1)
-        throw std::invalid_argument(std::format("The x2 ({}) should not be less than x1 ({})!", x1, x2));
-    return Vertical(x1+1, y, 1+x2-x1);
+Vertical Vertical::fromLeft(int y1, int y2, int x){
+    checkTopBounds(y1);
+    checkBottomBounds(y2);
+    checkLeftBounds(x+1);
+    checkRightBounds(x+1);
+    if (y2 < y1)
+        throw std::invalid_argument(std::format("The y2 ({}) should not be less than y1 ({})!", y1, y2));
+    return Vertical(x+1, y1, 1+y2-y1);
 }
 
 
@@ -81,14 +97,14 @@ Vertical Vertical::fromRight(int x, int y){
     checkRightBounds(x);
     return Vertical(x, y, 1);
 }
-Vertical Vertical::fromRight(int x1, int x2, int y){
-    checkTopBounds(y);
-    checkBottomBounds(y);
-    checkLeftBounds(x1);
-    checkRightBounds(x2);
-    if (x2 < x1)
-        throw std::invalid_argument(std::format("The x2 ({}) should not be less than x1 ({})!", x1, x2));
-    return Vertical(x1, y, 1+x2-x1);
+Vertical Vertical::fromRight(int y1, int y2, int x){
+    checkTopBounds(y1);
+    checkBottomBounds(y2);
+    checkLeftBounds(x);
+    checkRightBounds(x);
+    if (y2 < y1)
+        throw std::invalid_argument(std::format("The y2 ({}) should not be less than y1 ({})!", y1, y2));
+    return Vertical(x, y1, 1+y2-y1);
 }
 
 std::vector<std::pair<int, int>> Vertical::onLeft(){

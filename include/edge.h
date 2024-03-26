@@ -38,9 +38,9 @@ class Horizontal : public Edge{
 class Vertical : public Edge{
     public:
         static Vertical fromLeft(int x, int y);
-        static Vertical fromLeft(int x1, int x2, int y);
+        static Vertical fromLeft(int y1, int y2, int x);
         static Vertical fromRight(int x, int y);
-        static Vertical fromRight(int x1, int x2, int y);
+        static Vertical fromRight(int y1, int y2, int x);
         std::vector<std::pair<int, int>> onLeft();
         std::pair<int, int> onLeft(int i);
         std::vector<std::pair<int, int>> onRight();
