@@ -7,6 +7,7 @@ add_library(Dune2kMapApi
     file/tileset_json_i.cpp
     tileset/palette/material.cpp
     tileset/palette/palette.cpp
+    tileset/blocks/compatible_checker.cpp
     paint/painter.cpp
     )
 
