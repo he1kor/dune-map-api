@@ -15,6 +15,10 @@ class Edge{
         int y;
         int size;
         Orientation orientation;
+        static bool checkLeftBounds(int x);
+        static bool checkRightBounds(int x);
+        static bool checkTopBounds(int y);
+        static bool checkBottomBounds(int y);
 };
 
 class Horizontal : public Edge{
@@ -23,6 +27,10 @@ class Horizontal : public Edge{
         static Horizontal fromTop(int x1, int x2, int y);
         static Horizontal fromBottom(int x, int y);
         static Horizontal fromBottom(int x1, int x2, int y);
+        std::vector<std::pair<int, int>> onTop();
+        std::pair<int, int> onTop(int i);
+        std::vector<std::pair<int, int>> onBottom();
+        std::pair<int, int> onBottom(int i);
     protected:
         Horizontal(int x, int y, int size);
 };
