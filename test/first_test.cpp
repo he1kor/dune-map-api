@@ -2,6 +2,7 @@
 #include "map_bin_file_io.h"
 #include "palette.h"
 #include "painter.h"
+#include "edge.h"
 #include <tileset_json_i.h>
 #include <iostream>
 
@@ -23,7 +24,7 @@ int main() {
     Map map = map_bin_file.load();
     
     Painter painter(&map, &tilesetProperties.palette);
-
+    Vertical vert = Vertical::fromLeft(0, 0);
     painter.fill(40, 23, "sand", true);
     painter.fill(0, 0, "rock", true);
     painter.fill(40, 0, "rock", true);
