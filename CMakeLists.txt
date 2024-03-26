@@ -21,3 +21,4 @@ configure_file(${DATA_DIR}/tileset.json ${DEST_DIR}/tileset.json COPYONLY)
 
 add_subdirectory(src)
 add_subdirectory(test)
+set_property(TARGET Dune2kMapApi PROPERTY CXX_STANDARD 23)
