@@ -3,10 +3,6 @@
 
 Material::Material(){}
 
-Material::Material(uint16_t tile)
-{
-}
-
 Material::Material(uint16_t tile) : indexed_tiles{tile}, set_tiles{tile}{}
 
 Material::Material(int x, int y, int width, int height){
