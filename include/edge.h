@@ -21,7 +21,7 @@ class Edge{
         Edge(int x, int y, int size, Orientation orientation);
         int x;
         int y;
-        int _size;
+        int size;
         Orientation orientation;
         static bool checkLeftBounds(int x);
         static bool checkRightBounds(int x);
