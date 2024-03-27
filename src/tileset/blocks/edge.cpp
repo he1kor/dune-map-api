@@ -9,14 +9,14 @@
 Edge::Edge(int x, int y, int size, Orientation orientation) : x{x}, y{y}, size{size}, orientation{orientation} {
     if (size < 1)
         throw std::invalid_argument(std::format("The size ({}) should not be less than 1!", size));
-    if (x < 0 || 
+    if (x < 0 ||
         y < 0 ||
-        x + size - 1 > d2kmapapi::max_map_size ||
-        y + size - 1 > d2kmapapi::max_map_size)
+        x + size-1 > d2kmapapi::max_map_size ||
+        y + size-1 > d2kmapapi::max_map_size)
         throw std::invalid_argument(std::format("The coords ({}-{},{}-{}) are out of map bounds ({})!", x, x+size-1, y, y+size-1, d2kmapapi::max_map_size));
 };
 
-std::vector<std::pair<int, int>> Edge::onBefore(){
+std::vector<std::pair<int, int>> Edge::onBefore() const{
     std::vector<std::pair<int, int>> tiles(size);
     if (orientation == Orientation::horizontal){
         checkTopBounds(y);
@@ -31,7 +31,7 @@ std::vector<std::pair<int, int>> Edge::onBefore(){
     }
     return tiles;
 }
-std::pair<int, int> Edge::onBefore(int i){
+std::pair<int, int> Edge::onBefore(int i) const{
     if (orientation == Orientation::horizontal){
         checkTopBounds(y);
         if (i < 0 || i >= size)
@@ -44,7 +44,7 @@ std::pair<int, int> Edge::onBefore(int i){
         return {x-1, y+i};
     }
 }
-std::vector<std::pair<int, int>> Edge::onAfter(){
+std::vector<std::pair<int, int>> Edge::onAfter() const{
     std::vector<std::pair<int, int>> tiles(size);
     if (orientation == Orientation::horizontal){
         checkBottomBounds(y);
@@ -59,7 +59,7 @@ std::vector<std::pair<int, int>> Edge::onAfter(){
     }
     return tiles;
 }
-std::pair<int, int> Edge::onAfter(int i){
+std::pair<int, int> Edge::onAfter(int i) const{
     if (orientation == Orientation::horizontal){
         checkBottomBounds(y);
         if (i < 0 || i >= size)
@@ -73,16 +73,16 @@ std::pair<int, int> Edge::onAfter(int i){
     }
 }
 
-int Edge::getX(){
+int Edge::getX() const{
     return x;
 }
-int Edge::getY(){
+int Edge::getY() const{
     return y;
 }
-int Edge::getSize(){
+int Edge::getSize() const{
     return size;
 }
-Orientation Edge::getOrientation(){
+Orientation Edge::getOrientation() const{
     return orientation;
 }
 

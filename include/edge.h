@@ -9,15 +9,19 @@ enum Orientation{
 
 class Edge{
     public:
-        std::vector<std::pair<int, int>> onBefore();
-        std::pair<int, int> onBefore(int i);
-        std::vector<std::pair<int, int>> onAfter();
-        std::pair<int, int> onAfter(int i);
+        std::vector<std::pair<int, int>> onBefore() const;
+        std::pair<int, int> onBefore(int i) const;
+        std::vector<std::pair<int, int>> onAfter() const;
+        std::pair<int, int> onAfter(int i) const;
+        int getX() const;
+        int getY() const;
+        int getSize() const;
+        Orientation getOrientation() const;
     protected:
         Edge(int x, int y, int size, Orientation orientation);
         int x;
         int y;
-        int size;
+        int _size;
         Orientation orientation;
         static bool checkLeftBounds(int x);
         static bool checkRightBounds(int x);
