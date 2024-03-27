@@ -73,6 +73,20 @@ std::pair<int, int> Edge::onAfter(int i){
     }
 }
 
+int Edge::getX(){
+    return x;
+}
+int Edge::getY(){
+    return y;
+}
+int Edge::getSize(){
+    return size;
+}
+Orientation Edge::getOrientation(){
+    return orientation;
+}
+
+
 bool Edge::checkLeftBounds(int edge_x){
     if (edge_x <= 0){
         throw std::out_of_range(std::format("Left edge! ({})", 0));
