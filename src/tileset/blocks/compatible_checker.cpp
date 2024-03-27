@@ -6,12 +6,10 @@ CompatibleType::CompatibleType(std::string type) : type(type){}
 bool CompatibleType::operator==(const CompatibleType &second_type) const{
     return type == second_type.type;
 }
-bool CompatibleType::operator>(const CompatibleType &second_type) const
-{
+bool CompatibleType::operator>(const CompatibleType &second_type) const{
     return type > second_type.type;
 };
-bool CompatibleType::operator<(const CompatibleType &second_type) const
-{
+bool CompatibleType::operator<(const CompatibleType &second_type) const{
     return type > second_type.type;
 };
 

@@ -37,9 +37,7 @@ bool Edge::checkBottomBounds(int y){
 }
 
 
-
-
-Horizontal::Horizontal(int x, int y, int size) : Edge::Edge(x, y, size, Orientation::horizontal){}
+Horizontal::Horizontal(int x, int y, int size) : Edge::Edge(x, y, size, Orientation::horizontal) {}
 
 Horizontal Horizontal::fromTop(int x, int y){
     checkTopBounds(y+1);
@@ -77,9 +75,36 @@ Horizontal Horizontal::fromBottom(int x1, int x2, int y){
     return Horizontal(x1, y, 1+x2-x1);
 }
 
+std::vector<std::pair<int, int>> Horizontal::onTop(){
+    checkTopBounds(y-1);
+    std::vector<std::pair<int, int>> tiles(size);
+    for (int i_x = x; i_x < x+size; i_x++){
+        tiles.push_back({i_x, y-1});
+    }
+    return tiles;
+}
+std::pair<int, int> Horizontal::onTop(int i){
+    checkTopBounds(y-1);
+    if (i < 0 || i >= size)
+        throw std::out_of_range(std::format("The i ({}) is out of range!", i));
+    return {x+i, y-1};
+}
 
+std::vector<std::pair<int, int>> Horizontal::onBottom(){
+    checkBottomBounds(y);
+    std::vector<std::pair<int, int>> tiles(size);
+    for (int i_x = x; i_x < x+size; i_x++){
+        tiles.push_back({i_x, y});
+    }
+    return tiles;
+}
 
-
+std::pair<int, int> Horizontal::onBottom(int i){
+    checkBottomBounds(y);
+    if (i < 0 || i >= size)
+        throw std::out_of_range(std::format("The i ({}) is out of range!", i));
+    return {x+i, y};
+}
 
 Vertical::Vertical(int x, int y, int size) : Edge::Edge(x, y, size, Orientation::vertical){}
 
