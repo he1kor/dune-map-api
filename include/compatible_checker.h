@@ -10,8 +10,7 @@ class CompatibleType{
         CompatibleType(std::string);
         bool operator==(const CompatibleType& second_type) const;
         bool operator>(const CompatibleType& second_type) const;
-        bool operator<(const CompatibleType &second_type) const;
-
+        bool operator<(const CompatibleType& second_type) const;
     private:
         std::string type;
 };
