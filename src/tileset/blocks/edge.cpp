@@ -3,33 +3,101 @@
 #include <format>
 #include "global.h"
 
-Edge::Edge(int x, int y, int size, Orientation orientation) : x{x}, y{y}, size{size}, orientation{orientation} {};
+//horizontal line is above same Y tile (top  tile is Y-1, bottom tile is Y)
+//vertical   line is above same X tile (left tile is X-1, right  tile is X)
 
-bool Edge::checkLeftBounds(int x){
-    if (x < 0){
+Edge::Edge(int x, int y, int size, Orientation orientation) : x{x}, y{y}, size{size}, orientation{orientation} {
+    if (size < 1)
+        throw std::invalid_argument(std::format("The size ({}) should not be less than 1!", size));
+    if (x < 0 || 
+        y < 0 ||
+        x + size - 1 > d2kmapapi::max_map_size ||
+        y + size - 1 > d2kmapapi::max_map_size)
+        throw std::invalid_argument(std::format("The coords ({}-{},{}-{}) are out of map bounds ({})!", x, x+size-1, y, y+size-1, d2kmapapi::max_map_size));
+};
+
+std::vector<std::pair<int, int>> Edge::onBefore(){
+    std::vector<std::pair<int, int>> tiles(size);
+    if (orientation == Orientation::horizontal){
+        checkTopBounds(y);
+        for (int i_x = x; i_x < x+size; i_x++){
+            tiles.push_back({i_x, y-1});
+        }
+    } else {
+        checkLeftBounds(x);
+        for (int i_y = y; i_y < y+size; i_y++){
+            tiles.push_back({x-1, i_y});
+        }
+    }
+    return tiles;
+}
+std::pair<int, int> Edge::onBefore(int i){
+    if (orientation == Orientation::horizontal){
+        checkTopBounds(y);
+        if (i < 0 || i >= size)
+            throw std::out_of_range(std::format("The i ({}) is out of range!", i));
+        return {x+i, y-1};
+    } else {
+        checkLeftBounds(x);
+        if (i < 0 || i >= size)
+            throw std::out_of_range(std::format("The i ({}) is out of range!", i));
+        return {x-1, y+i};
+    }
+}
+std::vector<std::pair<int, int>> Edge::onAfter(){
+    std::vector<std::pair<int, int>> tiles(size);
+    if (orientation == Orientation::horizontal){
+        checkBottomBounds(y);
+        for (int i_x = x; i_x < x+size; i_x++){
+            tiles.push_back({i_x, y});
+        }
+    } else {
+        checkRightBounds(x);
+        for (int i_y = y; i_y < y+size; i_y++){
+            tiles.push_back({x, i_y});
+        }
+    }
+    return tiles;
+}
+std::pair<int, int> Edge::onAfter(int i){
+    if (orientation == Orientation::horizontal){
+        checkBottomBounds(y);
+        if (i < 0 || i >= size)
+            throw std::out_of_range(std::format("The i ({}) is out of range!", i));
+        return {x+i, y};
+    } else {
+        checkRightBounds(x);
+        if (i < 0 || i >= size)
+            throw std::out_of_range(std::format("The i ({}) is out of range!", i));
+        return {x, y+i};
+    }
+}
+
+bool Edge::checkLeftBounds(int edge_x){
+    if (edge_x <= 0){
         throw std::out_of_range(std::format("Left edge! ({})", 0));
         return false;
     }
     return true;
 }
-bool Edge::checkRightBounds(int x){
-    if (x > d2kmapapi::max_map_size){
+bool Edge::checkRightBounds(int edge_x){
+    if (edge_x >= d2kmapapi::max_map_size){
         throw std::out_of_range(std::format("Right edge! ({})", d2kmapapi::max_map_size));
         return false;
     }
     return true;
 }
 
-bool Edge::checkTopBounds(int y){
-    if (y < 0){
+bool Edge::checkTopBounds(int edge_y){
+    if (edge_y <= 0){
         throw std::out_of_range(std::format("Top edge! ({})", 0));
         return false;
     }
     return true;
 }
 
-bool Edge::checkBottomBounds(int y){
-    if (y > d2kmapapi::max_map_size){
+bool Edge::checkBottomBounds(int edge_y){
+    if (edge_y >= d2kmapapi::max_map_size){
         throw std::out_of_range(std::format("Bottom edge! ({})", d2kmapapi::max_map_size));
         return false;
     }
@@ -37,66 +105,38 @@ bool Edge::checkBottomBounds(int y){
 }
 
 
-Horizontal::Horizontal(int x, int y, int size) : Edge::Edge(x, y, size, Orientation::horizontal) {}
+Horizontal::Horizontal(int x, int y, int size) : Edge::Edge(x, y, size, Orientation::horizontal){}
 
 Horizontal Horizontal::fromTop(int x, int y){
-    checkTopBounds(y+1);
-    checkBottomBounds(y+1);
-    checkLeftBounds(x);
-    checkRightBounds(x);
     return Horizontal(x, y+1, 1);
 }
 
 Horizontal Horizontal::fromTop(int x1, int x2, int y){
-    checkTopBounds(y+1);
-    checkBottomBounds(y+1);
-    checkLeftBounds(x1);
-    checkRightBounds(x2);
     if (x2 < x1)
         throw std::invalid_argument(std::format("The x2 ({}) should not be less than x1 ({})!", x1, x2));
     return Horizontal(x1, y+1, 1+x2-x1);
 }
 
 Horizontal Horizontal::fromBottom(int x, int y){
-    checkTopBounds(y);
-    checkBottomBounds(y);
-    checkLeftBounds(x);
-    checkRightBounds(x);
     return Horizontal(x, y, 1);
 }
 
 Horizontal Horizontal::fromBottom(int x1, int x2, int y){
-    checkTopBounds(y);
-    checkBottomBounds(y);
-    checkLeftBounds(x1);
-    checkRightBounds(x2);
     if (x2 < x1)
         throw std::invalid_argument(std::format("The x2 ({}) should not be less than x1 ({})!", x1, x2));
     return Horizontal(x1, y, 1+x2-x1);
 }
 
 std::vector<std::pair<int, int>> Horizontal::onTop(){
-    checkTopBounds(y-1);
-    std::vector<std::pair<int, int>> tiles(size);
-    for (int i_x = x; i_x < x+size; i_x++){
-        tiles.push_back({i_x, y-1});
-    }
-    return tiles;
+    return onBefore();
 }
+
 std::pair<int, int> Horizontal::onTop(int i){
-    checkTopBounds(y-1);
-    if (i < 0 || i >= size)
-        throw std::out_of_range(std::format("The i ({}) is out of range!", i));
-    return {x+i, y-1};
+    return onBefore(i);
 }
 
 std::vector<std::pair<int, int>> Horizontal::onBottom(){
-    checkBottomBounds(y);
-    std::vector<std::pair<int, int>> tiles(size);
-    for (int i_x = x; i_x < x+size; i_x++){
-        tiles.push_back({i_x, y});
-    }
-    return tiles;
+    return onAfter();
 }
 
 std::pair<int, int> Horizontal::onBottom(int i){
@@ -110,17 +150,9 @@ Vertical::Vertical(int x, int y, int size) : Edge::Edge(x, y, size, Orientation:
 
 
 Vertical Vertical::fromLeft(int x, int y){
-    checkTopBounds(y);
-    checkBottomBounds(y);
-    checkLeftBounds(x+1);
-    checkRightBounds(x+1);
     return Vertical(x+1, y, 1);
 }
 Vertical Vertical::fromLeft(int y1, int y2, int x){
-    checkTopBounds(y1);
-    checkBottomBounds(y2);
-    checkLeftBounds(x+1);
-    checkRightBounds(x+1);
     if (y2 < y1)
         throw std::invalid_argument(std::format("The y2 ({}) should not be less than y1 ({})!", y1, y2));
     return Vertical(x+1, y1, 1+y2-y1);
@@ -128,49 +160,25 @@ Vertical Vertical::fromLeft(int y1, int y2, int x){
 
 
 Vertical Vertical::fromRight(int x, int y){
-    checkTopBounds(y);
-    checkBottomBounds(y);
-    checkLeftBounds(x);
-    checkRightBounds(x);
     return Vertical(x, y, 1);
 }
 Vertical Vertical::fromRight(int y1, int y2, int x){
-    checkTopBounds(y1);
-    checkBottomBounds(y2);
-    checkLeftBounds(x);
-    checkRightBounds(x);
     if (y2 < y1)
         throw std::invalid_argument(std::format("The y2 ({}) should not be less than y1 ({})!", y1, y2));
     return Vertical(x, y1, 1+y2-y1);
 }
 
 std::vector<std::pair<int, int>> Vertical::onLeft(){
-    checkLeftBounds(x-1);
-    std::vector<std::pair<int, int>> tiles(size);
-    for (int i_y = y; i_y < y+size; i_y++){
-        tiles.push_back({x-1, i_y});
-    }
-    return tiles;
+    return onBefore();
 }
 
 std::pair<int, int> Vertical::onLeft(int i){
-    checkLeftBounds(x-1);
-    if (i < 0 || i >= size)
-        throw std::out_of_range(std::format("The i ({}) is out of range!", i));
-    return {x-1, y+i};
+    return onBefore(i);
 }
 std::vector<std::pair<int, int>> Vertical::onRight(){
-    checkRightBounds(x+1);
-    std::vector<std::pair<int, int>> tiles(size);
-    for (int i_y = y; i_y < y+size; i_y++){
-        tiles.push_back({x, i_y});
-    }
-    return tiles;
+    return onAfter();
 }
 
 std::pair<int, int> Vertical::onRight(int i){
-    checkRightBounds(x+1);
-    if (i < 0 || i >= size)
-        throw std::out_of_range(std::format("The i ({}) is out of range!", i));
-    return {x, y+i};
+    return onAfter(i);
 }
