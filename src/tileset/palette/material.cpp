@@ -1,4 +1,5 @@
 #include "material.h"
+#include "global.h"
 #include <algorithm>
 
 Material::Material(){}
@@ -8,8 +9,8 @@ Material::Material(uint16_t tile) : indexed_tiles{tile}, set_tiles{tile}{}
 Material::Material(int x, int y, int width, int height){
     for (int r = y; r < y + height; r++){
         for (int c = x; c < x + width; c++){
-            indexed_tiles.push_back(r * 20 + c);
-            set_tiles.insert(r * 20 + c);
+            indexed_tiles.push_back(r * d2kmapapi::tileset_width + c);
+            set_tiles.insert(r * d2kmapapi::tileset_width + c);
         }
     }
 }
