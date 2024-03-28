@@ -1,6 +1,17 @@
 #include "block_placer.h"
+#include "global.h"
 #include <vector>
 #include <utility>
+
+Block::Block(int x, int y, int width, int height) : width{width}, height{height}{
+    for (int r = y; r < y + height; r++){
+        for (int c = x; c < x + width; c++){
+            tiles.push_back(r * d2kmapapi::tileset_width + c);
+        }
+    }
+}
+
+
 
 bool BlockPlacer::fit(const Edge &edge) const{
     Direction direction;

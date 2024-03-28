@@ -11,6 +11,7 @@ add_library(Dune2kMapApi
     tileset/palette/material.cpp
     tileset/palette/palette.cpp
     tileset/blocks/compatible_checker.cpp
+    tileset/blocks/block_placer.cpp
     tileset/blocks/edge.cpp
 
     paint/painter.cpp
