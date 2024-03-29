@@ -5,15 +5,37 @@
 
 Block::Block(int x, int y, int width, int height) : width{width}, height{height}{
     for (int r = y; r < y + height; r++){
+        left.push_back(r * d2kmapapi::tileset_width + x);
+        right.push_back(r * d2kmapapi::tileset_width + x + width - 1);
         for (int c = x; c < x + width; c++){
-            tiles.push_back(r * d2kmapapi::tileset_width + c);
+            tiles[r].push_back(r * d2kmapapi::tileset_width + c);
         }
     }
 }
 
+std::vector<std::vector<uint16_t>> Block::getMatrix() const{
+    return std::vector<std::vector<uint16_t>>();
+}
 
+std::vector<uint16_t> Block::getTopTiles() const{
+    return tiles[0];
+}
+std::vector<uint16_t> Block::getLeftTiles() const{
+    return left;
+}
+std::vector<uint16_t> Block::getRightTiles() const{
+    return right;
+}
+std::vector<uint16_t> Block::getBottomTiles() const{
+    return tiles[height-1];
+}
 
-bool BlockPlacer::fit(const Edge &edge) const{
+void BlockPlacer::place(int x, int y, const Block& block){
+    
+}
+
+bool BlockPlacer::fit(const Edge &edge) const
+{
     Direction direction;
     if (edge.getOrientation() == Orientation::horizontal)
         direction = Direction::RIGHT;
