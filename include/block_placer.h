@@ -24,7 +24,7 @@ class BlockPlacer{
         void place(int x, int y, const Block& block);
         bool fit(const Edge& edge) const;
     private:
-        CompatibleCheker* compatible_checker;
+        CompatibleChecker* compatible_checker;
         std::vector<Block> blocks;
         Map* map;
 };

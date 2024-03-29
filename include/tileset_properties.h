@@ -5,5 +5,5 @@
 struct TilesetProperties
 {
     Palette palette;
-    CompatibleCheker compatible_cheker;
+    CompatibleChecker compatible_checker;
 };

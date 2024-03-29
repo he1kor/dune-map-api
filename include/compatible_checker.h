@@ -28,9 +28,9 @@ enum Direction {
     DOWN = 2,
     RIGHT = 3,
 };
-class CompatibleCheker{
+class CompatibleChecker{
     public:
-        CompatibleCheker(int tile_count, std::set<CompatibleType> compatible_types);
+        CompatibleChecker(int tile_count, std::set<CompatibleType> compatible_types);
         void putCompatible(CompatibleTile compatible_tile);
         CompatibleType compatibleType(uint16_t tile, Direction direction);
         bool areCompatible(uint16_t tile1, Direction tile1_direction, uint16_t tile2);

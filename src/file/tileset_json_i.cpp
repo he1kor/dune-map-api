@@ -7,7 +7,6 @@
 constexpr char JSON_EXTENSION[] = ".json";
 
 namespace {
-
     static int readSize(nlohmann::json& json_properties){
         return json_properties.at("size").get<int>();
     };
@@ -23,7 +22,7 @@ namespace {
         return compatible_types;
     }
 
-    static Palette readPalette(nlohmann::json& json_properties){
+    static Palette readPalette(nlohmann::json& json_properties, CompatibleChecker& compatible_checker){
         Palette palette;
         std::vector<CompatibleType> compatible_types;
         
@@ -60,8 +59,8 @@ TilesetProperties load(const char filename[])
     int size = readSize(json_properties);
     std::set<CompatibleType> compatible_types = readCompatibleTypes(json_properties);
 
-    CompatibleCheker compatible_cheker(size, compatible_types);
-    Palette palette = readPalette(json_properties);
+    CompatibleChecker compatible_cheker(size, compatible_types);
+    Palette palette = readPalette(json_properties, compatible_cheker);
     file.close();
 
     return TilesetProperties{palette, compatible_cheker};
