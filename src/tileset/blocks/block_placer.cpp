@@ -31,7 +31,12 @@ std::vector<uint16_t> Block::getBottomTiles() const{
 }
 
 void BlockPlacer::place(int x, int y, const Block& block){
-    
+    std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
+    for (int r = 0; r < tiles.size(); r++){
+        for (int c = 0; c < tiles.size(); c++){
+            map[y+r][x+c] = tiles[r][c];
+        }
+    }
 }
 
 bool BlockPlacer::fit(const Edge &edge) const
