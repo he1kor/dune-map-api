@@ -8,6 +8,7 @@
 class CompatibleType{
     public:
         CompatibleType(std::string);
+        CompatibleType(const CompatibleType& compatible_type);
         bool operator==(const CompatibleType& second_type) const;
         bool operator>(const CompatibleType& second_type) const;
         bool operator<(const CompatibleType& second_type) const;

@@ -3,6 +3,10 @@
 
 CompatibleType::CompatibleType(std::string type) : type(type){}
 
+CompatibleType::CompatibleType(const CompatibleType &compatible_type){
+    type = compatible_type.type;
+}
+
 bool CompatibleType::operator==(const CompatibleType &second_type) const{
     return type == second_type.type;
 }
@@ -10,7 +14,7 @@ bool CompatibleType::operator>(const CompatibleType &second_type) const{
     return type > second_type.type;
 };
 bool CompatibleType::operator<(const CompatibleType &second_type) const{
-    return type > second_type.type;
+    return type < second_type.type;
 };
 
 CompatibleCheker::CompatibleCheker(int tile_count, std::set<CompatibleType> compatible_types) : compatible_types(compatible_types){
@@ -28,7 +32,6 @@ void CompatibleCheker::putCompatible(CompatibleTile compatible_tile){
     
     compatibility[compatible_tile.tile_id] = std::array{&(*i_top), &(*i_left), &(*i_right), &(*i_bottom)};
 }
-
 CompatibleType CompatibleCheker::compatibleType(uint16_t tile, Direction direction){
     return *(compatibility.at(tile)[direction]);
 }
