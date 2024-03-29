@@ -1,10 +1,15 @@
 #include "compatible_checker.h"
 #include <stdexcept>
 
+CompatibleType::CompatibleType() : type(""){}
 CompatibleType::CompatibleType(std::string type) : type(type){}
 
 CompatibleType::CompatibleType(const CompatibleType &compatible_type){
     type = compatible_type.type;
+}
+
+std::string CompatibleType::name() const{
+    return type;
 }
 
 bool CompatibleType::operator==(const CompatibleType &second_type) const{
@@ -21,19 +26,18 @@ CompatibleChecker::CompatibleChecker(int tile_count, std::set<CompatibleType> co
     compatibility.reserve(tile_count);
 }
 
-void CompatibleChecker::putCompatible(CompatibleTile compatible_tile){
-    auto i_top = compatible_types.find(compatible_tile.top);
-    auto i_left = compatible_types.find(compatible_tile.left);
-    auto i_right = compatible_types.find(compatible_tile.right);
-    auto i_bottom = compatible_types.find(compatible_tile.bottom);
+void CompatibleChecker::putCompatible(CompatibleTile cmptbl_tl){
+    auto i_top = compatible_types.find(cmptbl_tl.top);
+    auto i_left = compatible_types.find(cmptbl_tl.left);
+    auto i_right = compatible_types.find(cmptbl_tl.right);
+    auto i_bottom = compatible_types.find(cmptbl_tl.bottom);
     auto end = compatible_types.end();
     if (i_top == end || i_left == end || i_right == end || i_bottom == end)
         throw std::invalid_argument("Unknown compatible type!");
-    
-    compatibility[compatible_tile.tile_id] = std::array{&(*i_top), &(*i_left), &(*i_right), &(*i_bottom)};
+    compatibility[cmptbl_tl.tile_id] = std::array{cmptbl_tl.top, cmptbl_tl.left, cmptbl_tl.right, cmptbl_tl.bottom};
 }
 CompatibleType CompatibleChecker::compatibleType(uint16_t tile, Direction direction){
-    return *(compatibility.at(tile)[direction]);
+    return compatibility.at(tile)[direction];
 }
 
 bool CompatibleChecker::areCompatible(uint16_t tile1, Direction tile1_direction, uint16_t tile2){

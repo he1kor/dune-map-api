@@ -18,15 +18,12 @@ void printMap(Map& map){
 
 int main() {
     TilesetProperties tilesetProperties = load("data/tileset.json");
-
-    CompatibleType ct("rock_plain");
-    tilesetProperties.compatible_checker.putCompatible(CompatibleTile{0, ct, ct, ct, ct});
-
     MapBinFileIO map_bin_file;
     map_bin_file.open("temp.map");
     Map map = map_bin_file.load();
-    
     Painter painter(&map, &tilesetProperties.palette);
+    uint16_t tile = tilesetProperties.palette.pick("rock");
+    tilesetProperties.compatible_checker.areCompatible(tile, Direction::RIGHT, tile);
     Vertical vert = Vertical::fromLeft(0, 0);
     painter.fill(40, 23, "sand", true);
     painter.fill(0, 0, "rock", true);

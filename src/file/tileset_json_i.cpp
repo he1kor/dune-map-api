@@ -1,6 +1,6 @@
-#include "tileset_json_i.h"
 #include "file_checks.h"
 #include "compatible_checker.h"
+#include "tileset_json_i.h"
 #include <nlohmann/json.hpp>
 #include <set>
 
@@ -36,15 +36,15 @@ namespace {
                 json_material.at("y"),
                 json_material.at("width"),
                 json_material.at("height"));
-            json_material.at("compatibility");
+            CompatibleType cmpt_tp(json_material.at("compatibility"));
+            for (int i = 0; i < material.size(); i++){
+                compatible_checker.putCompatible(CompatibleTile{material[i], cmpt_tp, cmpt_tp, cmpt_tp, cmpt_tp});
+            }
 
             palette.addMaterial(it.key(), material);
         }
-
         return palette;
     }
-
-    
 }
 
 TilesetProperties load(const char filename[])
