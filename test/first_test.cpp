@@ -19,6 +19,9 @@ void printMap(Map& map){
 int main() {
     TilesetProperties tilesetProperties = load("data/tileset.json");
 
+    CompatibleType ct("rock_plain");
+    tilesetProperties.compatible_cheker.putCompatible(CompatibleTile{0, ct, ct, ct, ct});
+
     MapBinFileIO map_bin_file;
     map_bin_file.open("temp.map");
     Map map = map_bin_file.load();
