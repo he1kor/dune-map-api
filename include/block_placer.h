@@ -7,16 +7,19 @@
 class Block{
     public:
         Block(int x, int y, int width, int height);
+        Block(const Block& block);
         std::vector<std::vector<uint16_t>> getMatrix() const;
         std::vector<uint16_t> getTopTiles() const;
         std::vector<uint16_t> getLeftTiles() const;
         std::vector<uint16_t> getRightTiles() const;
         std::vector<uint16_t> getBottomTiles() const;
-        const int width;
-        const int height;
+        int getWidth() const;
+        int getHeight() const;
     private:
         std::vector<uint16_t> left;
         std::vector<uint16_t> right;
+        int width;
+        int height;
         std::vector<std::vector<uint16_t>> tiles;
 };
 class BlockPlacer{

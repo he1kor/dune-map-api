@@ -13,6 +13,13 @@ Block::Block(int x, int y, int width, int height) : width{width}, height{height}
     }
 }
 
+Block::Block(const Block &block) : width(block.width), height(block.height){
+    left = block.left;
+    right = block.right;
+    tiles = block.tiles;
+}
+
+
 std::vector<std::vector<uint16_t>> Block::getMatrix() const{
     return std::vector<std::vector<uint16_t>>();
 }
@@ -28,6 +35,13 @@ std::vector<uint16_t> Block::getRightTiles() const{
 }
 std::vector<uint16_t> Block::getBottomTiles() const{
     return tiles[height-1];
+}
+
+int Block::getWidth() const{
+    return width;
+}
+int Block::getHeight() const{
+    return height;
 }
 
 void BlockPlacer::place(int x, int y, const Block& block){
