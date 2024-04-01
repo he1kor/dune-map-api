@@ -31,7 +31,7 @@
             "compatibility": "dunes"
         }
     },
-    "groups": {
+    "blocks": {
         "rock_cliffs": [
             {
                 "x": 16,
