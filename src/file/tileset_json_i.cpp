@@ -1,6 +1,7 @@
 #include "file_checks.h"
 #include "compatible_checker.h"
 #include "tileset_json_i.h"
+#include "block_placer.h"
 #include <nlohmann/json.hpp>
 #include <set>
 
@@ -45,6 +46,24 @@ namespace {
         }
         return palette;
     }
+    static std::map<std::string, std::vector<Block>> readBlocks(nlohmann::json& json_properties, CompatibleChecker& compatible_checker){
+        std::map<std::string, std::vector<Block>> blocks;
+        nlohmann::json json_blocks = json_properties.at("blocks");         
+        for (auto it = json_blocks.begin(); it != json_blocks.end(); it++){
+            std::vector<Block> temp_blocks;
+            nlohmann::json json_block_type = it.value();
+            for (auto json_block : json_block_type){
+                temp_blocks.push_back(Block(
+                    json_block.at("x"),
+                    json_block.at("y"),
+                    json_block.at("width"),
+                    json_block.at("height")
+                ));
+            }
+            blocks[it.key()] = temp_blocks;
+        }
+         return blocks;
+    }
 }
 
 TilesetProperties load(const char filename[])
@@ -61,6 +80,7 @@ TilesetProperties load(const char filename[])
 
     CompatibleChecker compatible_cheker(size, compatible_types);
     Palette palette = readPalette(json_properties, compatible_cheker);
+    std::map<std::string, std::vector<Block>> blocks = readBlocks(json_properties, compatible_cheker);
     file.close();
 
     return TilesetProperties{palette, compatible_cheker};
