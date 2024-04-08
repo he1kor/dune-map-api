@@ -12,11 +12,13 @@ add_library(Dune2kMapApi
     tileset/palette/palette.cpp
     tileset/blocks/compatible_checker.cpp
     tileset/blocks/block_placer.cpp
+    tileset/blocks/block_set.cpp
     tileset/blocks/edge.cpp
 
     paint/painter.cpp
 
     global/global.cpp
+    global/util.cpp
     )
 
 target_link_libraries(Dune2kMapApi PRIVATE nlohmann_json::nlohmann_json)
