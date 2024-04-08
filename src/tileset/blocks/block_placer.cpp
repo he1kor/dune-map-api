@@ -55,11 +55,11 @@ void BlockPlacer::place(int x, int y, const Block& block){
 
 bool BlockPlacer::fit(const Edge &edge) const
 {
-    Direction direction;
+    d2kmapapi::Direction direction;
     if (edge.getOrientation() == Orientation::horizontal)
-        direction = Direction::RIGHT;
+        direction = d2kmapapi::Direction::RIGHT;
     else
-        direction = Direction::DOWN;
+        direction = d2kmapapi::Direction::DOWN;
     
     std::vector<std::pair<int, int>> coords1 = edge.onBefore();
     std::vector<std::pair<int, int>> coords2 = edge.onAfter();
