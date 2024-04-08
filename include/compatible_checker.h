@@ -31,7 +31,7 @@ class CompatibleChecker{
         CompatibleChecker(int tile_count, std::set<CompatibleType> compatible_types);
         void putCompatible(CompatibleTile compatible_tile);
         CompatibleType compatibleType(uint16_t tile, d2kmapapi::Direction direction);
-        bool areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2);
+        bool areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2) const;
     private:
         std::set<CompatibleType> compatible_types;
         std::unordered_map<uint16_t, std::array<CompatibleType, 4>> compatibility;

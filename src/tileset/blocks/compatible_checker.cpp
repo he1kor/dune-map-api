@@ -40,6 +40,6 @@ CompatibleType CompatibleChecker::compatibleType(uint16_t tile, d2kmapapi::Direc
     return compatibility.at(tile)[direction];
 }
 
-bool CompatibleChecker::areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2){
+bool CompatibleChecker::areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2) const{
     return compatibleType(tile1, tile1_direction) == compatibleType(tile2, reverse(tile1_direction));
 }
