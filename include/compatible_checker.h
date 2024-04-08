@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <map>
 #include <cstdint>
+#include "util.h"
 
 class CompatibleType{
     public:
@@ -24,12 +25,6 @@ struct CompatibleTile{
     CompatibleType left;
     CompatibleType right;
     CompatibleType bottom;
-};
-enum Direction {
-    UP = 0,
-    LEFT = 1,
-    DOWN = 2,
-    RIGHT = 3,
 };
 class CompatibleChecker{
     public:

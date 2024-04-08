@@ -36,10 +36,10 @@ void CompatibleChecker::putCompatible(CompatibleTile cmptbl_tl){
         throw std::invalid_argument("Unknown compatible type!");
     compatibility[cmptbl_tl.tile_id] = std::array{cmptbl_tl.top, cmptbl_tl.left, cmptbl_tl.right, cmptbl_tl.bottom};
 }
-CompatibleType CompatibleChecker::compatibleType(uint16_t tile, Direction direction){
+CompatibleType CompatibleChecker::compatibleType(uint16_t tile, d2kmapapi::Direction direction){
     return compatibility.at(tile)[direction];
 }
 
-bool CompatibleChecker::areCompatible(uint16_t tile1, Direction tile1_direction, uint16_t tile2){
-    return compatibleType(tile1, tile1_direction) == compatibleType(tile2, Direction(3-int(tile1_direction)));
+bool CompatibleChecker::areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2){
+    return compatibleType(tile1, tile1_direction) == compatibleType(tile2, reverse(tile1_direction));
 }
