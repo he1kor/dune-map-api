@@ -1,33 +1,18 @@
 #pragma once
 #include <vector>
 #include <cstdint>
+#include "block_set.h"
 #include "map.h"
 #include "edge.h"
 #include "compatible_checker.h"
-class Block{
-    public:
-        Block(int x, int y, int width, int height);
-        Block(const Block& block);
-        std::vector<std::vector<uint16_t>> getMatrix() const;
-        std::vector<uint16_t> getTopTiles() const;
-        std::vector<uint16_t> getLeftTiles() const;
-        std::vector<uint16_t> getRightTiles() const;
-        std::vector<uint16_t> getBottomTiles() const;
-        int getWidth() const;
-        int getHeight() const;
-    private:
-        std::vector<uint16_t> left;
-        std::vector<uint16_t> right;
-        int width;
-        int height;
-        std::vector<std::vector<uint16_t>> tiles;
-};
+
 class BlockPlacer{
     public:
+        BlockPlacer();
         void place(int x, int y, const Block& block);
         bool fit(const Edge& edge) const;
     private:
         CompatibleChecker* compatible_checker;
-        std::vector<Block> blocks;
+        BlockSet* block_set;
         Map* map;
 };
