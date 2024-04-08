@@ -10,10 +10,12 @@ add_library(Dune2kMapApi
 
     tileset/palette/material.cpp
     tileset/palette/palette.cpp
+
     tileset/blocks/compatible_checker.cpp
     tileset/blocks/block_placer.cpp
     tileset/blocks/block_set.cpp
     tileset/blocks/edge.cpp
+    tileset/blocks/directional_line.cpp
 
     paint/painter.cpp
 
