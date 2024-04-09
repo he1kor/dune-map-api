@@ -46,7 +46,7 @@ namespace {
         }
         return palette;
     }
-    static std::map<std::string, std::vector<Block>> readBlocks(nlohmann::json& json_properties, CompatibleChecker& compatible_checker){
+    static BlockSet readBlocks(nlohmann::json& json_properties, CompatibleChecker& compatible_checker){
         std::map<std::string, std::vector<Block>> blocks;
         nlohmann::json json_blocks = json_properties.at("blocks");         
         for (auto it = json_blocks.begin(); it != json_blocks.end(); it++){
@@ -62,7 +62,7 @@ namespace {
             }
             blocks[it.key()] = temp_blocks;
         }
-         return blocks;
+        return BlockSet(blocks);
     }
 }
 
@@ -80,8 +80,8 @@ TilesetProperties load(const char filename[])
 
     CompatibleChecker compatible_cheker(size, compatible_types);
     Palette palette = readPalette(json_properties, compatible_cheker);
-    std::map<std::string, std::vector<Block>> blocks = readBlocks(json_properties, compatible_cheker);
+    BlockSet blocks_set = readBlocks(json_properties, compatible_cheker);
     file.close();
 
-    return TilesetProperties{palette, compatible_cheker};
+    return TilesetProperties{palette, compatible_cheker, blocks_set};
 }
