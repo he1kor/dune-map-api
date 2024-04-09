@@ -24,6 +24,14 @@ std::vector<Block> BlockSet::operator[](std::string group) const{
     return block_groups.at(group);
 }
 
+std::vector<std::string> BlockSet::getGroups(){
+    std::vector<std::string> groups;
+    for (auto p : block_groups){
+        groups.push_back(p.first);
+    }
+    return groups;
+}
+
 std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string groupName){
     std::vector<Block> compatible_blocks;
     return compatible_blocks;

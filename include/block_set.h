@@ -29,6 +29,7 @@ class BlockSet{
         void addGroup(const std::string& group);
         void addBlock(const Block& block, const std::string& group);
         std::vector<Block> operator[](std::string group) const;
+        std::vector<std::string> getGroups();
         std::vector<Block> compatibleBlocks(const DirectionalLine& line, std::string group);
     private:
         const CompatibleChecker* compatible_checker;
