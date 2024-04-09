@@ -2,13 +2,15 @@
 #include "global.h"
 #include <vector>
 #include <utility>
+#include <iostream>
 
 Block::Block(int x, int y, int width, int height) : width{width}, height{height}{
-    for (int r = y; r < y + height; r++){
-        left.push_back(r * d2kmapapi::tileset_width + x);
-        right.push_back(r * d2kmapapi::tileset_width + x + width - 1);
-        for (int c = x; c < x + width; c++){
-            tiles[r].push_back(r * d2kmapapi::tileset_width + c);
+    tiles = std::vector<std::vector<uint16_t>>(height, std::vector<uint16_t>());
+    for (int r = 0; r < height; r++){
+        left.push_back((r+y) * d2kmapapi::tileset_width + x);
+        right.push_back((r+y) * d2kmapapi::tileset_width + x + width-1);
+        for (int c = 0; c < width; c++){
+            tiles[r].push_back((r+y) * d2kmapapi::tileset_width + (c+x));
         }
     }
 }
@@ -21,7 +23,7 @@ Block::Block(const Block &block) : width(block.width), height(block.height){
 
 
 std::vector<std::vector<uint16_t>> Block::getMatrix() const{
-    return std::vector<std::vector<uint16_t>>();
+    return tiles;
 }
 
 std::vector<uint16_t> Block::getTopTiles() const{

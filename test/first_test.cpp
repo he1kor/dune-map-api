@@ -3,6 +3,7 @@
 #include "palette.h"
 #include "painter.h"
 #include "edge.h"
+#include "util.h"
 #include <tileset_json_i.h>
 #include <iostream>
 
@@ -23,14 +24,28 @@ int main() {
     Map map = map_bin_file.load();
     Painter painter(&map, &tilesetProperties.palette);
     uint16_t tile = tilesetProperties.palette.pick("rock");
-    tilesetProperties.compatible_checker.areCompatible(tile, Direction::RIGHT, tile);
+    tilesetProperties.compatible_checker.areCompatible(tile, d2kmapapi::Direction::RIGHT, tile);
     Vertical vert = Vertical::fromLeft(0, 0);
     painter.fill(40, 23, "sand", true);
     painter.fill(0, 0, "rock", true);
     painter.fill(40, 0, "rock", true);
+    auto groups = tilesetProperties.block_set.getGroups();
+    for (auto group : groups){
+        std::cout << group << ":\n";
+        for (Block block : tilesetProperties.block_set[group]){
+            auto m = block.getMatrix();
+            for (auto v : m){
+                for (uint16_t t : v){
+                    std::cout << t << "\t";
+                }
+                std::cout << "\n";
+            }
+            std::cout << "\n";
+        }
+        std::cout << "\n------------------------\n";
+    }
     map_bin_file.save(map);
     map_bin_file.close();
-
 
     return 0;
 }
