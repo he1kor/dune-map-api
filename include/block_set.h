@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <cstdint>
+#include "directional_line.h"
 #include "compatible_checker.h"
 class Block{
     public:
@@ -13,7 +14,7 @@ class Block{
         std::vector<uint16_t> getBottomTiles() const;
         int getWidth() const;
         int getHeight() const;
-    private:
+    private:    
         std::vector<uint16_t> left;
         std::vector<uint16_t> right;
         int width;
@@ -22,12 +23,13 @@ class Block{
 };
 class BlockSet{
     public:
-        BlockSet(const std::vector<Block>& blocks);
+        BlockSet(const std::map<std::string, std::vector<Block>>& blocks);
         BlockSet();
         void addCompatibleCheker(const CompatibleChecker* compatible_checker);
-        void addBlock(const Block& block);
-        std::vector<Block> compatibleBlocks(d2kmapapi::Direction direction);
+        void addGroup(const std::string& group);
+        void addBlock(const Block& block, const std::string& group);
+        std::vector<Block> compatibleBlocks(const DirectionalLine& line, std::string group_name);
     private:
-        CompatibleChecker* compatible_checker;
-        std::vector<Block> blocks;
+        const CompatibleChecker* compatible_checker;
+        std::map<std::string, std::vector<Block>> block_groups;
 };
