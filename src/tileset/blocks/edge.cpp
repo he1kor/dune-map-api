@@ -13,7 +13,7 @@ Edge::Edge(int x, int y, int size, Orientation orientation) : x{x}, y{y}, size{s
         y < 0 ||
         x + size-1 > d2kmapapi::max_map_size ||
         y + size-1 > d2kmapapi::max_map_size)
-        throw std::invalid_argument(std::format("The coords ({}-{},{}-{}) are out of map bounds ({})!", x, x+size-1, y, y+size-1, d2kmapapi::max_map_size));
+        throw std::out_of_range(std::format("The coords ({}-{},{}-{}) are out of map bounds ({})!", x, x+size-1, y, y+size-1, d2kmapapi::max_map_size));
 };
 
 std::vector<std::pair<int, int>> Edge::onBefore() const{
