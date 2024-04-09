@@ -7,5 +7,5 @@ struct TilesetProperties
 {
     Palette palette;
     CompatibleChecker compatible_checker;
-    BlockPlacer blockPlacer;
+    BlockSet block_set;
 };
