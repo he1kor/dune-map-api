@@ -7,9 +7,9 @@ class DirectionalLine{
     public:
         DirectionalLine(const std::vector<uint16_t>& lines, d2kmapapi::Direction normal_direction);
         void reverse();
-        int size();
-        uint16_t operator[](int i);
-        d2kmapapi::Direction getNormalDirection();
+        int size() const;
+        uint16_t operator[](int i) const;
+        d2kmapapi::Direction getNormalDirection() const;
     private:
         std::vector<uint16_t> lines;
         d2kmapapi::Direction normal_direction;

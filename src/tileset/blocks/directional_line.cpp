@@ -7,14 +7,14 @@ void DirectionalLine::reverse(){
     normal_direction = d2kmapapi::reverse(normal_direction);
 }
 
-int DirectionalLine::size(){
+int DirectionalLine::size() const{
     return lines.size();
 }
 
-uint16_t DirectionalLine::operator[](int i){
+uint16_t DirectionalLine::operator[](int i) const{
     return lines.at(i);
 }
 
-d2kmapapi::Direction DirectionalLine::getNormalDirection(){
+d2kmapapi::Direction DirectionalLine::getNormalDirection() const{
     return normal_direction;
 }
