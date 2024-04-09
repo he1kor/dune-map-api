@@ -20,6 +20,10 @@ void BlockSet::addBlock(const Block &block, const std::string& group){
     block_groups.at(group).push_back(block); 
 }
 
+std::vector<Block> BlockSet::operator[](std::string group) const{
+    return block_groups.at(group);
+}
+
 std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string groupName){
     std::vector<Block> compatible_blocks;
     return compatible_blocks;
