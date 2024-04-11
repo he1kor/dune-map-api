@@ -8,11 +8,15 @@ void DirectionalLine::reverse(){
 }
 
 int DirectionalLine::size() const{
-    return lines.size();
+    return tiles.size();
 }
 
 uint16_t DirectionalLine::operator[](int i) const{
-    return lines.at(i);
+    return tiles.at(i);
+}
+
+std::vector<uint16_t> DirectionalLine::getTiles() const{
+    return tiles;
 }
 
 d2kmapapi::Direction DirectionalLine::getNormalDirection() const{
