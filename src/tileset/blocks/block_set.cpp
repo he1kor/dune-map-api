@@ -2,6 +2,7 @@
 #include "global.h"
 #include <stdexcept>
 #include <format>
+#include "util.h"
 
 Block::Block(int x, int y, int width, int height) : width{width}, height{height}{
     tiles = std::vector<std::vector<uint16_t>>(height, std::vector<uint16_t>());
@@ -75,7 +76,27 @@ std::vector<std::string> BlockSet::getGroups(){
     return groups;
 }
 
-std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string groupName){
+std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string group_name){
     std::vector<Block> compatible_blocks;
+
+    for (Block block : block_groups.at(group_name)){
+        std::vector<uint16_t> compare_blocks;
+        switch(line.getNormalDirection()){
+            case d2kmapapi::Direction::UP:
+                compare_blocks = block.getBottomTiles();
+                break;
+            case d2kmapapi::Direction::LEFT:
+                compare_blocks = block.getRightTiles();
+                break;
+            case d2kmapapi::Direction::RIGHT:
+                compare_blocks = block.getLeftTiles();
+                break;
+            case d2kmapapi::Direction::DOWN:
+                compare_blocks = block.getTopTiles();
+                break;
+        }
+        if (d2kmapapi::isSubarray(line.getTiles(), compare_blocks))
+            compatible_blocks.push_back(block);
+    }
     return compatible_blocks;
 }
