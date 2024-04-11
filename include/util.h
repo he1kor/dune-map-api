@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 namespace d2kmapapi{
     enum Direction {
@@ -8,4 +9,5 @@ namespace d2kmapapi{
         RIGHT = 3
     };
     Direction reverse(Direction direction);
+    template<typename T> bool isSubarray(std::vector<T> array, std::vector<T> subarray);
 }
