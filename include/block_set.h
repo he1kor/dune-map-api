@@ -73,15 +73,52 @@ class Block{
         int height;
         std::vector<std::vector<uint16_t>> tiles;
 };
+/*!
+	\brief Container of block groups. All groups can be accesed by corresponding string name. CompatibleChecker is included for determing compatibility of different blocks.
+*/
 class BlockSet{
     public:
-        BlockSet(const std::map<std::string, std::vector<Block>>& blocks);
+        /**
+         * \brief Constructor, setting block_groups field.
+         * \param block_groups map of string to array of blocks.
+        */
+        BlockSet(const std::map<std::string, std::vector<Block>>& block_groups);
+        /**
+         * \brief Constructor with late block_groups initialization.
+        */
         BlockSet();
+        /**
+         * \brief Sets active compatible checker for compatible operations.
+         * \param compatible_checker compatible_checker pointer to be set as field
+        */
         void addCompatibleCheker(const CompatibleChecker* compatible_checker);
+        /**
+         * \brief Adds new block group to block grouops.
+         * \param group block group to be added.
+        */
         void addGroup(const std::string& group);
+        /**
+         * \brief Adds new block to certain block group.
+         * \param block block to be added
+         * \param group target group
+        */
         void addBlock(const Block& block, const std::string& group);
+        /**
+         * \brief returns block group by group name.
+         * \param group string name of the group
+         * \return array of blocks
+        */
         std::vector<Block> operator[](std::string group) const;
+        /**
+         * \brief returns all group names.
+         * \return array of all group names
+        */
         std::vector<std::string> getGroups();
+        /**
+         * \brief Calculates all blocks of given group compatible to given line from its direction.
+         * \param line line to which all returned blocks should be compatible
+         * \param group name of group in which compatible blocks are searched.
+        */
         std::vector<Block> compatibleBlocks(const DirectionalLine& line, std::string group);
     private:
         const CompatibleChecker* compatible_checker;
