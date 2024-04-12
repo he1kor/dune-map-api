@@ -1,18 +1,70 @@
+/**
+ * \file
+ * \brief Contains Block and BlockSet classes.
+ * 
+*/
+
 #pragma once
 #include <vector>
 #include <cstdint>
 #include "directional_line.h"
 #include "compatible_checker.h"
+
+/*!
+	\brief Class, which contains very related tiles in the one matrix.
+*/
 class Block{
     public:
+        /**
+         * \brief Common constructor, worked by provided tileset coords, width and height of block. The whole tileset width is determined in global.h
+         * \param x x of top-left corner of the block in tileset matrix.
+         * \param y y of top-left corner of the block in tileset matrix.
+        */
         Block(int x, int y, int width, int height);
+        
+        /**
+         * \brief Copy constructor.
+        */
         Block(const Block& block);
+        
+        /**
+         * \brief Getter of matrix.
+         * \return matrix of block tiles.
+        */
         std::vector<std::vector<uint16_t>> getMatrix() const;
+        
+        /**
+         * \brief Getter of top side of the matrix.
+         * \return vector of tiles
+        */
         std::vector<uint16_t> getTopTiles() const;
+        
+        /**
+         * \brief Getter of left side of the matrix.
+         * \return vector of tiles
+        */
         std::vector<uint16_t> getLeftTiles() const;
+        
+        /**
+         * \brief Getter of right side of the matrix.
+         * \return vector of tiles
+        */
         std::vector<uint16_t> getRightTiles() const;
+
+        /**
+         * \brief Getter of bottom side of the matrix.
+         * \return vector of tiles
+        */
         std::vector<uint16_t> getBottomTiles() const;
+        /**
+         * \brief Getter of width of the matrix.
+         * \return width integer
+        */
         int getWidth() const;
+        /**
+         * \brief Getter of height of the matrix.
+         * \return width integer
+        */
         int getHeight() const;
     private:    
         std::vector<uint16_t> left;
