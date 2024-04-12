@@ -2,11 +2,17 @@
 #include <vector>
 #include <utility>
 
+/*!
+	\brief Orientation of an edge
+*/
 enum Orientation{
     vertical,
     horizontal
 };
 
+/*!
+	\brief Class representing edge between two rows of tiles. Can be either vertical or horizontal, contains its coords and size.
+*/
 class Edge{
     public:
         std::vector<std::pair<int, int>> onBefore() const;

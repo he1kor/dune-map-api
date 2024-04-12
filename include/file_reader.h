@@ -1,6 +1,8 @@
 #pragma once
 #include <fstream>
-
+/*!
+	\brief Abstract class for file access.
+*/
 class FileReader{
     public:
         bool fileOpened();

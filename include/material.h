@@ -3,6 +3,9 @@
 #include <set>
 #include <vector>
 
+/*!
+	\brief Class representing functionally the same plain tiles but with different texture. 
+*/
 class Material{
     public:
         Material();

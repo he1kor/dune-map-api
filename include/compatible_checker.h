@@ -8,6 +8,9 @@
 #include "util.h"
 #include "directional_line.h"
 
+/*!
+	\brief String wrapper for containing name of CompatibleType
+*/
 class CompatibleType{
     public:
         CompatibleType();
@@ -20,6 +23,9 @@ class CompatibleType{
     private:
         std::string type;
 };
+/*!
+	\brief Struct representing tile and it's compatible type from each side
+*/
 struct CompatibleTile{
     uint16_t tile_id;
     CompatibleType top;
@@ -27,6 +33,9 @@ struct CompatibleTile{
     CompatibleType right;
     CompatibleType bottom;
 };
+/*!
+	\brief Class containing all compatible relations between tiles and some useful methods for it.
+*/
 class CompatibleChecker{
     public:
         CompatibleChecker(int tile_count, std::set<CompatibleType> compatible_types);

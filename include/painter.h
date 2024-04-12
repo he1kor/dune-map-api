@@ -3,6 +3,9 @@
 #include "map.h"
 #include "palette.h"
 
+/*!
+	\brief Class containing Map pointer, Palette pointer and methods for ease of use. Used for smart change of map tiles. 
+*/
 class Painter{
     public:
         Painter();

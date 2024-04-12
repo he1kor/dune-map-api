@@ -3,7 +3,9 @@
 #include <map>
 #include <cstdint>
 #include <string>
-
+/*!
+	\brief Class-wrapper for all materials. 
+*/
 class Palette{
     public:
         Palette(std::map<std::string, Material>& materials);

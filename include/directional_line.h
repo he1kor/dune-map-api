@@ -2,7 +2,9 @@
 #include <vector>
 #include <cstdint>
 #include "util.h"
-
+/*!
+	\brief Wrapper of tiles array and normal direction of this array, used for simplifying compatible algorithms code.
+*/
 class DirectionalLine{
     public:
         DirectionalLine(const std::vector<uint16_t>& tiles, d2kmapapi::Direction normal_direction);

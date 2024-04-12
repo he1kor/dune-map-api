@@ -3,6 +3,9 @@
 #include "file_reader.h"
 #include <fstream>
 
+/*!
+	\brief Class for saving and loading map binaries.
+*/
 class MapBinFileIO : public FileReader {
     public:        
         MapBinFileIO();

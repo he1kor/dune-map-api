@@ -3,6 +3,9 @@
 #include <cstdint>
 #include "tile.h"
 
+/*!
+	\brief Class wrapping a row of the map.
+*/
 class Row{
     public:
         Row();
@@ -14,6 +17,9 @@ class Row{
         Tile * tiles;
 };
 
+/*!
+	\brief Class representing the whole map which can be saved. Contains matrix of Tile. Each tile is tile texture id and entity id on it.
+*/
 class Map{
     public:
         Map(uint16_t width, uint16_t height);
