@@ -34,7 +34,9 @@ class Edge{
         static bool checkTopBounds(int y);
         static bool checkBottomBounds(int y);
 };
-
+/*!
+	\brief Edge which can be horizontal only.
+*/
 class Horizontal : public Edge{
     public:
         static Horizontal fromTop(int x, int y);
@@ -48,7 +50,9 @@ class Horizontal : public Edge{
     protected:
         Horizontal(int x, int y, int size);
 };
-
+/*!
+	\brief Edge which can be vertical only.
+*/
 class Vertical : public Edge{
     public:
         static Vertical fromLeft(int x, int y);
