@@ -40,6 +40,14 @@ CompatibleType CompatibleChecker::compatibleType(uint16_t tile, d2kmapapi::Direc
     return compatibility.at(tile)[direction];
 }
 
+std::vector<CompatibleType> CompatibleChecker::compatibleTypes(DirectionalLine directional_line){
+    std::vector<CompatibleType> compatible_types;
+    for (uint16_t tile : directional_line.getTiles()){
+        compatible_types.push_back(compatibleType(tile, directional_line.getNormalDirection()));
+    }
+    return compatible_types;
+}
+
 bool CompatibleChecker::areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2) const {
     return compatibility.at(tile1)[tile1_direction] == compatibility.at(tile2)[reverse(tile1_direction)];
 }

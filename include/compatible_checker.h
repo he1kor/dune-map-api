@@ -6,6 +6,7 @@
 #include <map>
 #include <cstdint>
 #include "util.h"
+#include "directional_line.h"
 
 class CompatibleType{
     public:
@@ -31,6 +32,7 @@ class CompatibleChecker{
         CompatibleChecker(int tile_count, std::set<CompatibleType> compatible_types);
         void putCompatible(CompatibleTile compatible_tile);
         CompatibleType compatibleType(uint16_t tile, d2kmapapi::Direction direction);
+        std::vector<CompatibleType> compatibleTypes(DirectionalLine directional_line);
         bool areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2) const;
     private:
         std::set<CompatibleType> compatible_types;
