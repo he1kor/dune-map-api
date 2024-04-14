@@ -1,42 +1,38 @@
 #include "compatible_checker.h"
 #include <stdexcept>
+#include <iostream>
 
-CompatibleType::CompatibleType() : type(""){}
-CompatibleType::CompatibleType(std::string type) : type(type){}
+CompatibleType::CompatibleType() : type_name(""){}
+CompatibleType::CompatibleType(std::string type_name) :type_name(type_name){}
 
 CompatibleType::CompatibleType(const CompatibleType &compatible_type){
-    type = compatible_type.type;
+    type_name = compatible_type.type_name;
 }
 
 std::string CompatibleType::name() const{
-    return type;
+    return type_name;
 }
 
 bool CompatibleType::operator==(const CompatibleType &second_type) const{
-    return type == second_type.type;    
+    return type_name == second_type.type_name;    
 }
 bool CompatibleType::operator>(const CompatibleType &second_type) const{
-    return type > second_type.type;
+    return type_name > second_type.type_name;
 };
 bool CompatibleType::operator<(const CompatibleType &second_type) const{
-    return type < second_type.type;
+    return type_name < second_type.type_name;
 };
 
-CompatibleChecker::CompatibleChecker(int tile_count, std::set<CompatibleType> compatible_types) : compatible_types(compatible_types){
+CompatibleChecker::CompatibleChecker(int tile_count){
     compatibility.reserve(tile_count);
 }
 
-void CompatibleChecker::putCompatible(CompatibleTile cmptbl_tl){
-    auto i_top = compatible_types.find(cmptbl_tl.top);
-    auto i_left = compatible_types.find(cmptbl_tl.left);
-    auto i_right = compatible_types.find(cmptbl_tl.right);
-    auto i_bottom = compatible_types.find(cmptbl_tl.bottom);
-    auto end = compatible_types.end();
-    if (i_top == end || i_left == end || i_right == end || i_bottom == end)
-        throw std::invalid_argument("Unknown compatible type!");
+void CompatibleChecker::putCompatible(CompatibleTile cmptbl_tl)
+{
     compatibility[cmptbl_tl.tile_id] = std::array{cmptbl_tl.top, cmptbl_tl.left, cmptbl_tl.right, cmptbl_tl.bottom};
 }
 CompatibleType CompatibleChecker::compatibleType(uint16_t tile, d2kmapapi::Direction direction) const{
+    std::cout << tile << "\n";
     return compatibility.at(tile)[direction];
 }
 
