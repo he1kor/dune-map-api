@@ -65,13 +65,13 @@ struct CompatibleTile{
 class CompatibleChecker{
     public:
         /**
-         * \brief Common constructor, takes number of tiles for hash map reservation and set of used CompatibleType
+         * \brief Common constructor, takes number of tiles for hash map reservation.
          * \param tile_count Required for hash map reservation for better perfomance.
         */
         CompatibleChecker(int tile_count);
         /**
-         * \brief Common constructor, takes number of tiles for hash map reservation and set of used CompatibleType
-         * \param tile_count Required for hash map reservation for better perfomance.
+         * \brief puts new tile compatible data to CompatibleChecker.
+         * \param tile_count CompatibleTile to put in.
         */
         void putCompatible(CompatibleTile compatible_tile);
         /**
