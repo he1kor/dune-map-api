@@ -69,9 +69,31 @@ class CompatibleChecker{
          * \param tile_count Required for hash map reservation for better perfomance.
         */
         CompatibleChecker(int tile_count);
+        /**
+         * \brief Common constructor, takes number of tiles for hash map reservation and set of used CompatibleType
+         * \param tile_count Required for hash map reservation for better perfomance.
+        */
         void putCompatible(CompatibleTile compatible_tile);
+        /**
+         * \brief returns compatibleType of some of tile's side.
+         * \param tile tile id
+         * \param direction direction, from what tile side that CompatibleSide
+         * \return CompatibleType of the given tile's side
+        */
         CompatibleType compatibleType(uint16_t tile, d2kmapapi::Direction direction) const;
+        /**
+         * \brief Same as compatibleType(uint16_t tile, d2kmapapi::Direction direction), but for array of tiles. Returns array of CompatibleType in the correct order.
+         * \param directional_line DirectionalLine where take tile array and the direction.
+         * \return vector<CompatibleType> of the given DirectionalLine.
+        */
         std::vector<CompatibleType> compatibleTypes(DirectionalLine directional_line) const;
+        /**
+         * \brief Checks are given two tiles compatible. Direction determines what direction check second tile from the first tile.
+         * \param tile1 The first tile id
+         * \param tile1_direction Direction from first tile to second one.
+         * \param tile2 The second tile id
+         * \return are given tiles compatible from the given side
+        */
         bool areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2) const;
     private:
         std::unordered_map<uint16_t, std::array<CompatibleType, 4>> compatibility;
