@@ -13,15 +13,41 @@
 */
 class CompatibleType{
     public:
+        /**
+         * \brief Default constructor, assumes "" as the type_name.
+        */
         CompatibleType();
-        CompatibleType(std::string);
+        /**
+         * \brief Common constructor, takes string as the type_name.
+         * \param type_name sets the type_name
+        */
+        CompatibleType(std::string type_name);
+        /**
+         * \brief Copy constructor
+        */
         CompatibleType(const CompatibleType& compatible_type);
+        /**
+         * \brief type_name getter
+         * \return type_name
+        */
         std::string name() const;
+        /**
+         * \brief equals if type_name variables are equal.
+         * \return are type_name equal
+        */
         bool operator==(const CompatibleType& second_type) const;
+        /**
+         * \brief greater if this type_name is greater.
+         * \return is this type_name greater
+        */
         bool operator>(const CompatibleType& second_type) const;
+        /**
+         * \brief less if this type_name is less.
+         * \return is this type_name less
+        */
         bool operator<(const CompatibleType& second_type) const;
     private:
-        std::string type;
+        std::string type_name;
 };
 /*!
 	\brief Struct representing tile and it's compatible type from each side
