@@ -8,9 +8,25 @@
 */
 class Row{
     public:
+        /**
+         * \brief Default constructor. Size is 0, tiles are undefinded.
+        */
         Row();
+        /**
+         * \brief Common constructor, size is set from param.
+         * \param size Sets size and initializes with it array.
+        */
         Row(uint16_t size);
+        /**
+         * \brief Accesses i-th tile of the row. If out of size, it throws an exception.
+         * \param index Index of the tile in the row.
+         * \return Tile reference.
+        */
         Tile& operator[](uint16_t index);
+        /**
+         * \brief Size getter.
+         * \return Size of the row.
+        */
         uint16_t size();
     private:
         uint16_t _size;
