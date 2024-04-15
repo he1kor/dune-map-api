@@ -1,6 +1,12 @@
+/**
+ * \file
+ * \brief Contains function to load .json tileset properties.
+*/
+
 #pragma once
 #include "tileset_properties.h"
+
 /*!
-	\brief Class which loads .json tileset data to TilesetProperties.
+	\brief Function which loads .json tileset properties to TilesetProperties.
 */
 TilesetProperties load(const char filename[]);
