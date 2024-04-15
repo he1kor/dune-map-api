@@ -51,6 +51,7 @@ Map MapBinFileIO::load(){
 }
 
 void MapBinFileIO::saveTile(Tile& tile, uint16_t x, uint16_t y){
+    checkNotOpenedError(file);
     file.seekp(
         (sizeof(uint16_t) * 2)
         + (width * y)
@@ -60,6 +61,8 @@ void MapBinFileIO::saveTile(Tile& tile, uint16_t x, uint16_t y){
 }
 
 Tile MapBinFileIO::loadTile(uint16_t x, uint16_t y){
+    checkNotOpenedError(file);
+    checkFileIssues(file);
     Tile tile;
     file.seekp(
         (sizeof(uint16_t) * 2)
