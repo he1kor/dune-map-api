@@ -18,8 +18,7 @@ bool Material::containsTile(uint16_t unknown_tile) const{
     return set_tiles.find(unknown_tile) != set_tiles.end();
 }
 
-const uint16_t &Material::operator[](int i)
-{
+const uint16_t &Material::operator[](int i) const{
     return indexed_tiles.at(i);
 }
 
