@@ -5,9 +5,9 @@
 
 Painter::Painter() : map{nullptr}, palette{nullptr}{}
 
-Painter::Painter(Map * map) : map{map}, palette{nullptr}{}
+Painter::Painter(Map* map) : map{map}, palette{nullptr}{}
 
-Painter::Painter(Map * map, Palette * palette) : map{map}, palette{palette}{}
+Painter::Painter(Map* map, Palette* palette) : map{map}, palette{palette}{}
 
 bool Painter::isMaterial(int x, int y, const Material &material){
     return (material.containsTile((*map)[y][x].tileID));;
@@ -17,14 +17,14 @@ bool Painter::isMaterial(int x, int y, const std::string& material_name){
 }
 
 
-void Painter::setMap(Map *map){
+void Painter::setMap(Map* map){
     this->map = map;
 }
-void Painter::setPalette(Palette *palette){
+void Painter::setPalette(Palette* palette){
     this->palette = palette;
 }
 
-void Painter::paint(int x, int y, const Material &material){
+void Painter::paint(int x, int y, const Material& material){
     checkMapSet();
     (*map)[y][x].tileID = Palette::pick(material);
 }
@@ -44,7 +44,7 @@ bool Painter::isOutOfBounds(int x, int y)
 }
 
 
-void Painter::fill(int x, int y, const Material &fill_material, const Material &replaced_material){
+void Painter::fill(int x, int y, const Material& fill_material, const Material& replaced_material){
     checkMapSet();
     if (fill_material == replaced_material)
         return;
@@ -66,12 +66,12 @@ void Painter::fill(int x, int y, const Material &fill_material, const Material &
         queue.push(std::make_pair(x, y-1));
     }
 }
-void Painter::fill(int x, int y, const std::string &fill_material_name, const std::string &replaced_material_name){
+void Painter::fill(int x, int y, const std::string& fill_material_name, const std::string& replaced_material_name){
     checkPaletteSet();
     fill(x, y, (*palette)[fill_material_name], (*palette)[replaced_material_name]);
 }
 
-void Painter::fill(int x, int y, const Material &fill_material, bool use_palette){
+void Painter::fill(int x, int y, const Material& fill_material, bool use_palette){
     if (use_palette){
         fill(x, y, fill_material, palette->findMaterial((*map)[y][x].tileID));
     } else {
@@ -79,7 +79,7 @@ void Painter::fill(int x, int y, const Material &fill_material, bool use_palette
     }
 }
 
-void Painter::fill(int x, int y, const std::string &fill_material_name, bool use_palette)
+void Painter::fill(int x, int y, const std::string& fill_material_name, bool use_palette)
 {
     checkPaletteSet();
     fill(x, y, (*palette)[fill_material_name], use_palette);
