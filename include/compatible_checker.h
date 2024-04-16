@@ -54,6 +54,7 @@ class CompatibleType{
 */
 struct CompatibleTile{
     CompatibleTile(uint16_t tile_id, CompatibleType all_side_compatible_type);
+    CompatibleTile(uint16_t tile_id, CompatibleType top, CompatibleType left, CompatibleType right, CompatibleType bottom);
     uint16_t tile_id;
     CompatibleType top;
     CompatibleType left;
