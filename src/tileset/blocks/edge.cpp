@@ -3,8 +3,8 @@
 #include <format>
 #include "global.h"
 
-//horizontal line is above same Y tile (top  tile is Y-1, bottom tile is Y)
-//vertical   line is above same X tile (left tile is X-1, right  tile is X)
+//horizontal line is above the same Y tile      (top  tile is Y-1, bottom tile is Y)
+//vertical   line is on left of the same X tile (left tile is X-1, right  tile is X)
 
 Edge::Edge(int x, int y, int size, Orientation orientation) : x{x}, y{y}, size{size}, orientation{orientation} {
     if (size < 1)
