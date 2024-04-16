@@ -53,4 +53,4 @@ CompatibleTile::CompatibleTile(uint16_t tile_id, CompatibleType all_side_compati
     top{all_side_compatible_type},
     left{all_side_compatible_type},
     right{all_side_compatible_type},
-    bottom{all_side_compatible_type}
+    bottom{all_side_compatible_type}{}
