@@ -87,7 +87,7 @@ class Painter{
         void fill(int x, int y, const std::string& fill_material_name, const std::string& replaced_material_name);
 
         /**
-         * \brief Flood fill of the tile placed in map[y][x]] if use_palette is False, or of the material placed in map[y][x] if use_material is True, started at provided coords, replaced with provided fill_material.
+         * \brief Flood fill of the tile placed in map[y][x] if use_palette is False, or of the material placed in map[y][x] if use_material is True, started at provided coords, replaced with provided fill_material.
          * \param x X coord of the tile to start filling.
          * \param y Y coord of the tile to start filling.
          * \param fill_material Material that will be used for filling (for each coord it will pick a random tile ID).
@@ -96,7 +96,7 @@ class Painter{
         void fill(int x, int y, const Material& fill_material, bool use_palette);
 
         /**
-         * \brief Flood fill of the tile placed in map[y][x]] if use_palette is False, or of the material placed in map[y][x] if use_material is True, started at provided coords, replaced with provided fill_material.
+         * \brief Flood fill of the tile placed in map[y][x] if use_palette is False, or of the material placed in map[y][x] if use_material is True, started at provided coords, replaced with provided fill_material.
          * \param x X coord of the tile to start filling.
          * \param y Y coord of the tile to start filling.
          * \param fill_material Material name that will be used for filling (for each coord it will pick a random tile ID). If the material is not in this palette, it throws an exception.
