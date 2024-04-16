@@ -39,7 +39,7 @@ class Material{
          * \param i Index of the tile to return.
          * \return i-th tile id of the material.
         */
-        const uint16_t& operator[](int i);
+        const uint16_t& operator[](int i) const;
 
         /**
          * \brief Adds a given tile to the Material.
