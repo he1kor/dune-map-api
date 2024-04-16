@@ -8,13 +8,13 @@ Palette::Palette(){
     srand(time(0));
 }
 
-Palette::Palette(std::map<std::string, Material>& materials) : materials(materials){
+Palette::Palette(const std::map<std::string, Material>& materials) : materials(materials){
     srand(time(0));
 }
 
 Palette::Palette(Palette&& palette) : materials{std::move(palette.materials)}{}
 
-Palette::Palette(Palette &palette) : materials{palette.materials}{
+Palette::Palette(const Palette &palette) : materials{palette.materials}{
 
 }
 
@@ -25,11 +25,11 @@ Palette &Palette::operator=(Palette &&palette){
     return *this;
 }
 
-void Palette::addMaterial(std::string material_name, const Material& material){
+void Palette::addMaterial(const std::string& material_name, const Material& material){
     materials[material_name] = material;
 }
 
-const Material& Palette::operator[](std::string material_name){
+const Material& Palette::operator[](const std::string& material_name){
     return materials.at(material_name);
 }
 
@@ -43,13 +43,13 @@ Material Palette::findMaterial(uint16_t id)
     return Material(id);
 }
 
-void Palette::removeMaterial(std::string material_name){
+void Palette::removeMaterial(const std::string& material_name){
     materials.erase(materials.find(material_name));
 }
-uint16_t Palette::pick(Material material){
+uint16_t Palette::pick(const Material& material){
     int ranged_rand = std::rand() % material.size();
     return material[ranged_rand];
 }
-uint16_t Palette::pick(std::string material_name){
+uint16_t Palette::pick(const std::string& material_name){
     return pick((*this)[material_name]);
 }
