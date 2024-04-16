@@ -53,6 +53,7 @@ class CompatibleType{
 	\brief Struct representing tile and it's compatible type from each side
 */
 struct CompatibleTile{
+    CompatibleTile(uint16_t tile_id, CompatibleType all_side_compatible_type);
     uint16_t tile_id;
     CompatibleType top;
     CompatibleType left;

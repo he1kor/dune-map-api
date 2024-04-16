@@ -47,3 +47,10 @@ std::vector<CompatibleType> CompatibleChecker::compatibleTypes(DirectionalLine d
 bool CompatibleChecker::areCompatible(uint16_t tile1, d2kmapapi::Direction tile1_direction, uint16_t tile2) const {
     return compatibility.at(tile1)[tile1_direction] == compatibility.at(tile2)[reverse(tile1_direction)];
 }
+
+CompatibleTile::CompatibleTile(uint16_t tile_id, CompatibleType all_side_compatible_type)
+    : tile_id{tile_id},
+    top{all_side_compatible_type},
+    left{all_side_compatible_type},
+    right{all_side_compatible_type},
+    bottom{all_side_compatible_type}
