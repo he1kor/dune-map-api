@@ -45,12 +45,13 @@ int Block::getHeight() const{
     return height;
 }
 
+BlockSet::BlockSet(const std::map<std::string, std::vector<Block>> &block_groups, CompatibleChecker *compatible_checker) : block_groups{block_groups}, compatible_checker{compatible_checker}{}
 
-BlockSet::BlockSet(const std::map<std::string, std::vector<Block>> &block_groups) : block_groups{block_groups}{}
+BlockSet::BlockSet(const std::map<std::string, std::vector<Block>> &block_groups) : block_groups{block_groups} {}
 
 BlockSet::BlockSet(){}
 
-void BlockSet::addCompatibleCheker(const CompatibleChecker *compatible_checker){
+void BlockSet::addCompatibleCheker(CompatibleChecker *compatible_checker){
     this->compatible_checker = compatible_checker;
 }
 
@@ -76,9 +77,13 @@ std::vector<std::string> BlockSet::getGroups(){
     return groups;
 }
 
+CompatibleChecker *BlockSet::getCompatibleChecker() const{
+    return compatible_checker;
+}
+
 std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string group_name){
     std::vector<Block> compatible_blocks;
-
+    std::vector<CompatibleType> compatible_types = compatible_checker->compatibleTypes(line);
     for (Block block : block_groups.at(group_name)){
         std::vector<uint16_t> compare_blocks;
         switch(line.getNormalDirection()){
@@ -95,7 +100,8 @@ std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::
                 compare_blocks = block.getTopTiles();
                 break;
         }
-        if (d2kmapapi::isSubarray(line.getTiles(), compare_blocks))
+        std::vector<CompatibleType> compatible_types_check = compatible_checker->compatibleTypes(DirectionalLine(compare_blocks, d2kmapapi::reverse(line.getNormalDirection())));
+        if (d2kmapapi::isSubarray(compatible_types_check, compatible_types))
             compatible_blocks.push_back(block);
     }
     return compatible_blocks;

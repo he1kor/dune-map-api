@@ -79,6 +79,13 @@ class Block{
 class BlockSet{
     public:
         /**
+         * \brief Constructor, setting block_groups field and compatible_checker pointer.
+         * \param block_groups map of string to array of blocks.
+         * \param compatible_checker CompatibleChecker pointer.
+        */
+        BlockSet(const std::map<std::string, std::vector<Block>>& block_groups, CompatibleChecker* compatible_checker);
+
+        /**
          * \brief Constructor, setting block_groups field.
          * \param block_groups map of string to array of blocks.
         */
@@ -91,7 +98,7 @@ class BlockSet{
          * \brief Sets active compatible checker for compatible operations.
          * \param compatible_checker compatible_checker pointer to be set as field
         */
-        void addCompatibleCheker(const CompatibleChecker* compatible_checker);
+        void addCompatibleCheker(CompatibleChecker* compatible_checker);
         /**
          * \brief Adds new block group to block grouops.
          * \param group block group to be added.
@@ -114,6 +121,12 @@ class BlockSet{
          * \return array of all group names
         */
         std::vector<std::string> getGroups();
+
+        /**
+         * \brief compatible_checker getter.
+         * \return Pointer to CompatibleChecker.
+        */
+        CompatibleChecker* getCompatibleChecker() const;
         /**
          * \brief Calculates all blocks of given group compatible to given line from its direction.
          * \param line line to which all returned blocks should be compatible
@@ -121,6 +134,6 @@ class BlockSet{
         */
         std::vector<Block> compatibleBlocks(const DirectionalLine& line, std::string group);
     private:
-        const CompatibleChecker* compatible_checker;
+        CompatibleChecker* compatible_checker;
         std::map<std::string, std::vector<Block>> block_groups;
 };
