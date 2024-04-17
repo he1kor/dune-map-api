@@ -4,6 +4,7 @@
 #include "block_placer.h"
 #include <nlohmann/json.hpp>
 #include <set>
+#include <iostream>
 
 constexpr char JSON_EXTENSION[] = ".json";
 
@@ -23,7 +24,7 @@ namespace {
         return compatible_types;
     }
 
-    static Palette readPalette(nlohmann::json& json_properties, CompatibleChecker& compatible_checker){
+    static Palette readPalette(nlohmann::json& json_properties, CompatibleChecker* compatible_checker){
         Palette palette;
         std::vector<CompatibleType> compatible_types;
         
@@ -37,16 +38,16 @@ namespace {
                 json_material.at("y"),
                 json_material.at("width"),
                 json_material.at("height"));
-            CompatibleType cmpt_tp(json_material.at("compatibility"));
+            CompatibleType compatible_type(json_material.at("compatibility"));
             for (int i = 0; i < material.size(); i++){
-                compatible_checker.putCompatible(CompatibleTile{material[i], cmpt_tp, cmpt_tp, cmpt_tp, cmpt_tp});
+                compatible_checker->putCompatible(CompatibleTile{material[i], compatible_type});
             }
 
             palette.addMaterial(it.key(), material);
         }
         return palette;
     }
-    static BlockSet readBlocks(nlohmann::json& json_properties, CompatibleChecker& compatible_checker){
+    static BlockSet readBlocks(nlohmann::json& json_properties, CompatibleChecker* compatible_checker){
         std::map<std::string, std::vector<Block>> blocks;
         nlohmann::json json_blocks = json_properties.at("blocks");         
         for (auto it = json_blocks.begin(); it != json_blocks.end(); it++){
@@ -59,10 +60,39 @@ namespace {
                     json_block.at("width"),
                     json_block.at("height")
                 ));
+                std::vector<std::string> compatibility_up = json_block.at("compatibility_up");
+                std::vector<std::string> compatibility_left = json_block.at("compatibility_left");
+                std::vector<std::string> compatibility_right = json_block.at("compatibility_right");
+                std::vector<std::string> compatibility_bottom = json_block.at("compatibility_bottom");
+                Block& block = temp_blocks[temp_blocks.size()-1];
+                if (block.getWidth() != compatibility_up.size() || block.getWidth() != compatibility_bottom.size())
+                    throw std::runtime_error("Block size doesn't fit its compatible_type size!");
+                for (int y = 0; y < block.getHeight(); y++){
+                    for (int x = 0; x < block.getWidth(); x++){
+                        CompatibleTile temp_compatible(block.getMatrix()[y][x], CompatibleType::null);
+                        if (y != 0 && x != 0 && y != block.getHeight()-1 && x != block.getWidth()-1){
+                            continue;
+                        }
+                        if (y == 0)
+                            temp_compatible.top = compatibility_up[x];
+                        if (y == block.getHeight()-1)
+                            temp_compatible.bottom = compatibility_bottom[x];
+                        if (x == 0)
+                            temp_compatible.left = compatibility_left[y];
+                        if (x == block.getWidth()-1)
+                            temp_compatible.right = compatibility_right[y];
+                        compatible_checker->putCompatible(temp_compatible);
+                        std::cout << "TILE: " << temp_compatible.tile_id << "\n";
+                        std::cout << compatible_checker->compatibleType(temp_compatible.tile_id, d2kmapapi::Direction::UP).name() << "\n";
+                        std::cout << compatible_checker->compatibleType(temp_compatible.tile_id, d2kmapapi::Direction::LEFT).name() << "\n";
+                        std::cout << compatible_checker->compatibleType(temp_compatible.tile_id, d2kmapapi::Direction::RIGHT).name() << "\n";
+                        std::cout << compatible_checker->compatibleType(temp_compatible.tile_id, d2kmapapi::Direction::DOWN).name() << "\n";
+                    }
+                }
             }
             blocks[it.key()] = temp_blocks;
         }
-        return BlockSet(blocks);
+        return BlockSet(blocks, compatible_checker);
     }
 }
 
@@ -78,10 +108,10 @@ TilesetProperties load(const char filename[])
     int size = readSize(json_properties);
     std::set<CompatibleType> compatible_types = readCompatibleTypes(json_properties);
 
-    CompatibleChecker compatible_cheker(size, compatible_types);
-    Palette palette = readPalette(json_properties, compatible_cheker);
-    BlockSet blocks_set = readBlocks(json_properties, compatible_cheker);
+    CompatibleChecker* compatible_checker = new CompatibleChecker(size);
+    Palette palette = readPalette(json_properties, compatible_checker);
+    BlockSet blocks_set = readBlocks(json_properties, compatible_checker);
     file.close();
 
-    return TilesetProperties{palette, compatible_cheker, blocks_set};
+    return TilesetProperties{palette, *compatible_checker, blocks_set};
 }
