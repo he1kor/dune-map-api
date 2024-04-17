@@ -8,6 +8,8 @@ add_library(Dune2kMapApi
     file/map_bin_file_io.cpp
     file/tileset_json_i.cpp
 
+    tileset/tileset_properties.cpp
+
     tileset/palette/material.cpp
     tileset/palette/palette.cpp
 
