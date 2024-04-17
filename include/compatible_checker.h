@@ -13,6 +13,7 @@
 */
 class CompatibleType{
     public:
+        static const CompatibleType null;
         /**
          * \brief Default constructor, assumes "" as the type_name.
         */
