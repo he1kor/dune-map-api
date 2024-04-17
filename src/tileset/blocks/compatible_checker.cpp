@@ -1,6 +1,5 @@
 #include "compatible_checker.h"
 #include <stdexcept>
-#include <iostream>
 
 CompatibleType::CompatibleType() : type_name(""){}
 CompatibleType::CompatibleType(std::string type_name) :type_name(type_name){}
@@ -8,6 +7,8 @@ CompatibleType::CompatibleType(std::string type_name) :type_name(type_name){}
 CompatibleType::CompatibleType(const CompatibleType &compatible_type){
     type_name = compatible_type.type_name;
 }
+
+const CompatibleType CompatibleType::null = CompatibleType("");
 
 std::string CompatibleType::name() const{
     return type_name;
@@ -49,7 +50,6 @@ void CompatibleChecker::putCompatible(CompatibleTile cmptbl_tl)
     compatibility[cmptbl_tl.tile_id] = std::array{cmptbl_tl.top, cmptbl_tl.left, cmptbl_tl.right, cmptbl_tl.bottom};
 }
 CompatibleType CompatibleChecker::compatibleType(uint16_t tile, d2kmapapi::Direction direction) const{
-    std::cout << tile << "\n";
     return compatibility.at(tile)[direction];
 }
 
