@@ -13,8 +13,8 @@ namespace d2kmapapi{
     enum Direction {
         UP = 0,
         LEFT = 1,
-        DOWN = 2,
-        RIGHT = 3
+        RIGHT = 2,
+        DOWN = 3
     };
     /**
      * \brief Returns reversed given direction.
@@ -29,6 +29,8 @@ namespace d2kmapapi{
      * \return True if subarray is actually subarray of array, else False
     */
     template <typename T> bool isSubarray(std::vector<T> array, std::vector<T> subarray){
+        if (array.size() < subarray.size())
+            return false;
         for (int i = 0; i <= array.size()-subarray.size(); i++) {
             int j;
             for (j = 0; j < subarray.size(); j++) {
