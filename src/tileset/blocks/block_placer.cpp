@@ -48,9 +48,9 @@ bool BlockPlacer::fit(const Edge &edge) const
         auto [x1, y1] = coords1[i];
         auto [x2, y2] = coords2[i];
         if (!compatible_checker->areCompatible(
-            (*map)[y1][y2].tileID,
+            (*map)[y1][x1].tileID,
             direction,
-            (*map)[y1][y2].tileID))
+            (*map)[y2][x2].tileID))
             return false;
     }
     return true;
