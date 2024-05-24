@@ -10,6 +10,8 @@ add_library(Dune2kMapApi
 
     tileset/tileset_properties.cpp
 
+    tileset/algorithm/history_stack.cpp
+
     tileset/palette/material.cpp
     tileset/palette/palette.cpp
 
