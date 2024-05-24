@@ -2,6 +2,7 @@ project(Dune2kMapApi)
 add_library(Dune2kMapApi
 
     structures/map.cpp
+    structures/located_tile.cpp
 
     file/file_reader.cpp
     file/file_checks.cpp
