@@ -14,6 +14,7 @@ Material::Material(int x, int y, int width, int height){
         }
     }
 }
+
 bool Material::containsTile(uint16_t unknown_tile) const{
     return set_tiles.find(unknown_tile) != set_tiles.end();
 }
