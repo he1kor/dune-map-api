@@ -2,6 +2,7 @@
 #include <string>
 #include "map.h"
 #include "palette.h"
+#include "history_stack.h"
 
 /*!
 	\brief Class containing Map pointer, Palette pointer and methods for ease of use. Used for smart change of map tiles. 
@@ -52,6 +53,8 @@ class Painter{
         */
         void setPalette(Palette* palette);
 
+        void setHistoryStack(HistoryStack* history_stack);
+
         /**
          * \brief Sets at provided coords a random tile of provided material.
          * \param x X coord of the tile to paint.
@@ -68,6 +71,10 @@ class Painter{
         */
         void paint(int x, int y, const std::string& material_name);
 
+
+        bool holdPaint(int x, int y, const Material& material);
+        bool holdPaint(int x, int y, const std::string& material_name);
+        bool release();
         /**
          * \brief Flood fill of the provided replaced_material, started at provided coords, replaced with provided fill_material.
          * \param x X coord of the tile to start filling.
@@ -107,6 +114,8 @@ class Painter{
         bool isOutOfBounds(int x, int y);
         bool checkMapSet();
         bool checkPaletteSet();
+        bool checkHistoryStack();
+        HistoryStack* history_stack;
         Map* map;
         Palette* palette;
 };
