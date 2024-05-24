@@ -25,7 +25,7 @@ bool HistoryStack::commit(){
 
 void HistoryStack::quickCommit(std::set<LocatedTile> located_tiles){
     trackChange(located_tiles);
-    commit;
+    commit();
 }
 
 void HistoryStack::quickCommit(LocatedTile located_tile){
