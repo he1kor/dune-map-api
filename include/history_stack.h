@@ -17,4 +17,4 @@ class HistoryStack{
         Map* map;
         std::set<LocatedTile> tracked_changes;
         std::stack<std::set<LocatedTile>> history_stack;
-}
+};
