@@ -4,7 +4,11 @@
 #include <utility>
 #include <iostream>
 
-void BlockPlacer::place(int x, int y, const Block& block){
+BlockPlacer::BlockPlacer(){}
+
+BlockPlacer::BlockPlacer(BlockSet *block_set) : block_set{block_set}{}
+
+void BlockPlacer::place(int x, int y, const Block &block){
     std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
     for (int r = 0; r < tiles.size(); r++){
         for (int c = 0; c < tiles.size(); c++){

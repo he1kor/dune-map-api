@@ -21,7 +21,7 @@ class BlockPlacer{
          * \brief Constructor with BlockSet* given, need to manually initialize Map later.
          * \param block_set pointer to BlockSet which will be used by BlockPlacer.
         */
-        BlockPlacer(const BlockSet* block_set);
+        BlockPlacer(BlockSet* block_set);
 
         /**
          * \brief Places provided block on the map. Top-left corner of the block is located at [x, y].
