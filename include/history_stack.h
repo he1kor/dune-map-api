@@ -11,7 +11,7 @@ class HistoryStack{
         void trackChange(LocatedTile located_tile);
         void quickCommit(std::set<LocatedTile> located_tiles);
         void quickCommit(LocatedTile located_tile);
-        void commit();
+        bool commit();
         void undo();
     private:
         Map* map;

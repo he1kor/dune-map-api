@@ -15,9 +15,12 @@ void HistoryStack::trackChange(LocatedTile located_tile){
     (*map)[y][x] = located_tile;
 }
 
-void HistoryStack::commit(){
+bool HistoryStack::commit(){
+    if (tracked_changes.empty())
+        return false;
     history_stack.push(tracked_changes);
     tracked_changes.clear();
+    return true;
 }
 
 void HistoryStack::quickCommit(std::set<LocatedTile> located_tiles){
