@@ -3,6 +3,7 @@
 #include <vector>
 #include <utility>
 #include <iostream>
+#include <util.h>
 
 BlockPlacer::BlockPlacer(){}
 
@@ -32,6 +33,30 @@ void BlockPlacer::place(int x, int y, const Block &block){
         }
     }
     history_stack->commit();
+}
+
+bool BlockPlacer::placeEdge(const Edge &edge, const d2kmapapi::Direction& direction, const Block &block){
+    int block_length = block.getHeight();
+    if (block_length != edge.getSize()){
+        throw std::runtime_error("Sizes don't fit!");
+        return false;
+    }
+    auto [x, y] = edge.onAfter()[0];
+    switch (direction){
+        case d2kmapapi::Direction::DOWN:
+            place(x, y, block);
+            break;
+        case d2kmapapi::Direction::LEFT:
+            place(x-block.getWidth(), y, block);
+            break;
+        case d2kmapapi::Direction::UP:
+            place(x, y-block.getHeight(), block);
+            break;
+        case d2kmapapi::Direction::RIGHT:
+            place(x, y, block);
+            break;
+    }
+    return true;
 }
 
 bool BlockPlacer::fit(const Edge &edge) const

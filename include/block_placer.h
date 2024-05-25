@@ -5,6 +5,7 @@
 #include "block_set.h"
 #include "map.h"
 #include "edge.h"
+#include "util.h"
 #include "compatible_checker.h"
 #include "history_stack.h"
 /*!
@@ -37,6 +38,7 @@ class BlockPlacer{
          * \brief Determines do adjacent tiles to the given edge fit each other (According to built-in internal BlockSet CompatibleChecker).
          * \param edge edge, next to which tiles are checked for compatibility.
         */
+        bool placeEdge(const Edge& edge, const d2kmapapi::Direction& direction, const Block& block);
         bool fit(const Edge& edge) const;
     private:
         CompatibleChecker* compatible_checker;
