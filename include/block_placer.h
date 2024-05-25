@@ -26,6 +26,8 @@ class BlockPlacer{
         BlockPlacer(BlockSet* block_set);
 
         void setHistoryStack(HistoryStack* history_stack);
+        void setMap(Map* map);
+        void setBlockSet(BlockSet* block_set);
 
         /**
          * \brief Places provided block on the map. Top-left corner of the block is located at [x, y].
@@ -38,7 +40,14 @@ class BlockPlacer{
          * \brief Determines do adjacent tiles to the given edge fit each other (According to built-in internal BlockSet CompatibleChecker).
          * \param edge edge, next to which tiles are checked for compatibility.
         */
-        bool placeEdge(const Edge& edge, const d2kmapapi::Direction& direction, const Block& block);
+        //void findNextPlace(const Edge& edge);
+        DirectionalLine edgeLine(const Edge& edge, const d2kmapapi::Direction &direction);
+        std::vector<CompatibleType> edgeCompatible(const Edge& edge, const d2kmapapi::Direction &direction);
+        int getShift(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block);
+        int nextBlockScore(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next);
+        void loopPlace(const Edge& edge, const d2kmapapi::Direction& direction, std::vector<std::vector<CompatibleType>> next_edges);
+        bool smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
+        bool placeEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         bool fit(const Edge& edge) const;
     private:
         CompatibleChecker* compatible_checker;

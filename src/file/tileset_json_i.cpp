@@ -4,7 +4,6 @@
 #include "block_placer.h"
 #include <nlohmann/json.hpp>
 #include <set>
-#include <iostream>
 
 constexpr char JSON_EXTENSION[] = ".json";
 
@@ -82,11 +81,6 @@ namespace {
                         if (x == block.getWidth()-1)
                             temp_compatible.right = compatibility_right[y];
                         compatible_checker->putCompatible(temp_compatible);
-                        std::cout << "TILE: " << temp_compatible.tile_id << "\n";
-                        std::cout << compatible_checker->compatibleType(temp_compatible.tile_id, d2kmapapi::Direction::UP).name() << "\n";
-                        std::cout << compatible_checker->compatibleType(temp_compatible.tile_id, d2kmapapi::Direction::LEFT).name() << "\n";
-                        std::cout << compatible_checker->compatibleType(temp_compatible.tile_id, d2kmapapi::Direction::RIGHT).name() << "\n";
-                        std::cout << compatible_checker->compatibleType(temp_compatible.tile_id, d2kmapapi::Direction::DOWN).name() << "\n";
                     }
                 }
             }

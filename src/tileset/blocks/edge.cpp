@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <format>
 #include "global.h"
+#include <iostream>
 
 //horizontal line is above the same Y tile      (top  tile is Y-1, bottom tile is Y)
 //vertical   line is on left of the same X tile (left tile is X-1, right  tile is X)
@@ -17,7 +18,7 @@ Edge::Edge(int x, int y, int size, Orientation orientation) : x{x}, y{y}, size{s
 };
 
 std::vector<std::pair<int, int>> Edge::onBefore() const{
-    std::vector<std::pair<int, int>> tiles(size);
+    std::vector<std::pair<int, int>> tiles;
     if (orientation == Orientation::horizontal){
         checkTopBounds(y);
         for (int i_x = x; i_x < x+size; i_x++){
@@ -45,7 +46,7 @@ std::pair<int, int> Edge::onBefore(int i) const{
     }
 }
 std::vector<std::pair<int, int>> Edge::onAfter() const{
-    std::vector<std::pair<int, int>> tiles(size);
+    std::vector<std::pair<int, int>> tiles;
     if (orientation == Orientation::horizontal){
         checkBottomBounds(y);
         for (int i_x = x; i_x < x+size; i_x++){
