@@ -27,16 +27,12 @@ int main() {
     block_placer.setMap(&map);
 
 
-    Horizontal horizontal = Horizontal::fromBottom(5,6,5);
-    auto coords = horizontal.onTop();
-    std::vector<uint16_t> tiles;
-    for (auto [x, y] : coords){
-        tiles.push_back(map[y][x].tileID);
-    }
-    DirectionalLine line(tiles, d2kmapapi::Direction::DOWN);
+    Horizontal horizontal = Horizontal::fromBottom(5, 6, 5); 
+    DirectionalLine line(d2kmapapi::getTilesbyCoords(map, horizontal.onTop()), d2kmapapi::Direction::DOWN);
     std::vector<Block> blocks = tileset_properties.block_set.compatibleBlocks(line, "rock_cliffs");
     std::cout << blocks.size() << "\n\n";
     block_placer.placeEdge(horizontal, d2kmapapi::Direction::DOWN, blocks[3]);
+    std::cout << "placed!" << "\n";
     for (auto block : blocks){
         std::cout << block_placer.getShift(horizontal, d2kmapapi::Direction::DOWN, block) << "\n";
     }

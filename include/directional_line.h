@@ -41,4 +41,4 @@ class DirectionalLine{
     private:
         std::vector<uint16_t> tiles;
         d2kmapapi::Direction normal_direction;
-};
+};  

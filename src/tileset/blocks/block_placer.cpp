@@ -2,7 +2,7 @@
 #include "global.h"
 #include <vector>
 #include <utility>
-#include <iostream>
+#include <stdexcept>
 #include <util.h>
 
 BlockPlacer::BlockPlacer(){}
@@ -25,6 +25,7 @@ void BlockPlacer::setBlockSet(BlockSet *block_set){
 void BlockPlacer::place(int x, int y, const Block &block){
     std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
     if (!history_stack){
+        
         for (int r = 0; r < block.getHeight(); r++){
             for (int c = 0; c < block.getWidth(); c++){
                 (*map)[y+r][x+c].tileID = tiles[r][c];
