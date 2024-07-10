@@ -50,8 +50,8 @@ class BlockPlacer{
         bool placeEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         bool fit(const Edge& edge) const;
     private:
-        CompatibleChecker* compatible_checker;
-        BlockSet* block_set;
-        HistoryStack* history_stack;
-        Map* map;
+        CompatibleChecker* compatible_checker = nullptr;
+        BlockSet* block_set = nullptr;
+        HistoryStack* history_stack = nullptr;
+        Map* map = nullptr;
 };
