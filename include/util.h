@@ -5,6 +5,7 @@
 */
 #pragma once
 #include <vector>
+#include "map.h"
 
 namespace d2kmapapi{
     /**
@@ -16,12 +17,15 @@ namespace d2kmapapi{
         RIGHT = 2,
         DOWN = 3
     };
+    std::vector<uint16_t> getTilesbyCoords(Map& map, std::vector<std::pair<int, int>> coords);
+    
     /**
      * \brief Returns reversed given direction.
      * \param direction Direction to be reversed.
      * \return Reversed direction.
     */
     Direction reverse(Direction direction);
+    
     /**
      * \brief returns True if subarray is contigous array contained in array, else returns False.
      * \param array Array which possibly contains subarray
