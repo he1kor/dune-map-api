@@ -84,6 +84,8 @@ CompatibleChecker *BlockSet::getCompatibleChecker() const{
 std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string group_name){
     std::vector<Block> compatible_blocks;
     std::vector<CompatibleType> compatible_types = compatible_checker->compatibleTypes(line);
+    if (!block_groups.count(group_name))
+        throw std::invalid_argument("Block group " + group_name + " doesn't exists!");
     for (Block block : block_groups.at(group_name)){
         std::vector<uint16_t> compare_blocks;
         switch(line.getNormalDirection()){
