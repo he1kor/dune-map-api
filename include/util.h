@@ -21,7 +21,6 @@ namespace d2kmapapi{
         BEFORE = 0,
         AFTER = 1
     };
-    std::vector<uint16_t> getTilesbyCoords(Map& map, std::vector<std::pair<int, int>> coords);
     
     /**
      * \brief Returns reversed given direction.
@@ -29,7 +28,12 @@ namespace d2kmapapi{
      * \return Reversed direction.
     */
     Direction reverse(Direction direction);
-    
+
+    int getRandomNumber(int begin, int end);
+    int getRandomNumberOld(int begin, int end);
+
+    std::vector<uint16_t> getTilesbyCoords(Map &map, std::vector<std::pair<int, int>> coords);
+
     /**
      * \brief returns True if subarray is contigous array contained in array, else returns False.
      * \param array Array which possibly contains subarray
