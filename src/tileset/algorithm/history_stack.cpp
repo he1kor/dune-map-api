@@ -2,7 +2,7 @@
 
 HistoryStack::HistoryStack(Map *map) : map{map}{}
 
-void HistoryStack::trackChange(std::set<LocatedTile> located_tiles){
+void HistoryStack::trackChange(const std::set<LocatedTile>& located_tiles){
     for (auto lt : located_tiles){
         trackChange(lt);
     }
@@ -23,7 +23,7 @@ bool HistoryStack::commit(){
     return true;
 }
 
-void HistoryStack::quickCommit(std::set<LocatedTile> located_tiles){
+void HistoryStack::quickCommit(const std::set<LocatedTile>& located_tiles){
     trackChange(located_tiles);
     commit();
 }

@@ -4,12 +4,13 @@
 #include "located_tile.h"
 #include "map.h"
 
+//Todo: container for map with history stack to instantly track all changes on it.
 class HistoryStack{
     public:
         HistoryStack(Map* map);
-        void trackChange(std::set<LocatedTile> located_tiles);
+        void trackChange(const std::set<LocatedTile>& located_tiles);
         void trackChange(LocatedTile located_tile);
-        void quickCommit(std::set<LocatedTile> located_tiles);
+        void quickCommit(const std::set<LocatedTile>& located_tiles);
         void quickCommit(LocatedTile located_tile);
         bool commit();
         void undo();
