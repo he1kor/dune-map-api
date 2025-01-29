@@ -35,21 +35,22 @@ class BlockPlacer{
          * \param x y position of top-left block corner on the map
          * \param Block block to be placed.
         */
-        void place(int x, int y, const Block& block);
+        void place(int x, int y, const Block &block);
         /**
          * \brief Determines do adjacent tiles to the given edge fit each other (According to built-in internal BlockSet CompatibleChecker).
          * \param edge edge, next to which tiles are checked for compatibility.
         */
         //void findNextPlace(const Edge& edge);
-        DirectionalLine edgeLine(const Edge& edge, const d2kmapapi::Direction &direction);
-        std::vector<CompatibleType> edgeCompatible(const Edge& edge, const d2kmapapi::Direction &direction);
+        DirectionalLine getLineFacingEdge(const Edge& edge, const d2kmapapi::Direction &facingDirection);
+        std::vector<CompatibleType> getCompatibleTypesFacingEdge(const Edge& edge, const d2kmapapi::Direction &facingDirection);
         int getShift(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block);
         int nextBlockScore(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next);
         void loopPlace(const Edge& edge, const d2kmapapi::Direction& direction, std::vector<std::vector<CompatibleType>> next_edges);
         bool smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         bool placeEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
-        bool fit(const Edge& edge) const;
+        bool isEdgeCompatible(const Edge& edge) const;
     private:
+        void placeUntracked(int x, int y, const Block &block);
         CompatibleChecker* compatible_checker = nullptr;
         BlockSet* block_set = nullptr;
         HistoryStack* history_stack = nullptr;

@@ -22,15 +22,18 @@ void BlockPlacer::setBlockSet(BlockSet *block_set){
     this->compatible_checker = block_set->getCompatibleChecker();
 }
 
+void BlockPlacer::placeUntracked(int x, int y, const Block &block){
+    std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
+    for (int r = 0; r < block.getHeight(); r++){
+        for (int c = 0; c < block.getWidth(); c++){
+            (*map)[y+r][x+c].tileID = tiles[r][c];
+        }
+    }
+}
 void BlockPlacer::place(int x, int y, const Block &block){
     std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
     if (!history_stack){
-        
-        for (int r = 0; r < block.getHeight(); r++){
-            for (int c = 0; c < block.getWidth(); c++){
-                (*map)[y+r][x+c].tileID = tiles[r][c];
-            }
-        }
+        placeUntracked(x, y, block);
         return;
     }
     for (int r = 0; r < block.getHeight(); r++){
@@ -45,23 +48,22 @@ void BlockPlacer::place(int x, int y, const Block &block){
     history_stack->commit();
 }
 
-DirectionalLine BlockPlacer::edgeLine(const Edge &edge, const d2kmapapi::Direction &direction)
-{
+//TODO:: make container for edge with map to instantly get such DirectionalLine
+DirectionalLine BlockPlacer::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection){
     std::vector<uint16_t> edge_tiles;
-    for (auto [x, y] : direction == d2kmapapi::Direction::RIGHT || direction == d2kmapapi::Direction::DOWN ? edge.onAfter() : edge.onBefore()){
+    for (auto [x, y] : facingDirection == d2kmapapi::Direction::RIGHT || facingDirection == d2kmapapi::Direction::DOWN ? edge.onAfter() : edge.onBefore()){
         edge_tiles.push_back((*map)[y][x].tileID);
     }
-    return DirectionalLine(edge_tiles, d2kmapapi::reverse(direction));
+    return DirectionalLine(edge_tiles, facingDirection);
 }
 
-std::vector<CompatibleType> BlockPlacer::edgeCompatible(const Edge &edge, const d2kmapapi::Direction &direction){
-    DirectionalLine line = edgeLine(edge, direction);
-    line.reverse();
+//TODO:: smth is wrong (why reverse?)
+std::vector<CompatibleType> BlockPlacer::getCompatibleTypesFacingEdge(const Edge &edge, const d2kmapapi::Direction &direction){
+    DirectionalLine line = getLineFacingEdge(edge, direction);
     return compatible_checker->compatibleTypes(line);
 }
 
-int BlockPlacer::getShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block)
-{
+int BlockPlacer::getShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
     std::vector<uint16_t> block_tiles;
     std::vector<std::pair<int, int>> edge_coords;
     switch (direction){
@@ -101,6 +103,7 @@ int BlockPlacer::getShift(const Edge &edge, const d2kmapapi::Direction &directio
     return -1;
 }
 
+//TODO:: DO
 int BlockPlacer::nextBlockScore(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next){
     int shift = getShift(edge, direction, block);
     std::vector<CompatibleType> block_bottom = compatible_checker->compatibleTypes(DirectionalLine(block.getBottomTiles(), d2kmapapi::Direction::DOWN));
@@ -147,6 +150,7 @@ void BlockPlacer::loopPlace(const Edge &edge, const d2kmapapi::Direction &direct
     HistoryStack loop_stack(map);
 }
 
+//TODO:: Places even if size don't fit, determines shift, extends edge
 bool BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
     int block_length = block.getHeight();
     std::vector<uint16_t> block_tiles;
@@ -170,7 +174,7 @@ bool BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &d
             break;
     }
 
-    
+    return false;
 }
 
 bool BlockPlacer::placeEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block)
@@ -200,7 +204,7 @@ bool BlockPlacer::placeEdge(const Edge &edge, const d2kmapapi::Direction &direct
     return true;
 }
 
-bool BlockPlacer::fit(const Edge &edge) const{
+bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
     d2kmapapi::Direction direction;
     if (edge.getOrientation() == Orientation::horizontal)
         direction = d2kmapapi::Direction::RIGHT;
