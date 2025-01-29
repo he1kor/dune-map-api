@@ -95,6 +95,7 @@ CompatibleChecker *BlockSet::getCompatibleChecker() const{
     return compatible_checker;
 }
 
+//TODO: add cache for already used blocks on such compatible types in such direction
 std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string group_name){
     std::vector<Block> compatible_blocks;
     std::vector<CompatibleType> compatible_types = compatible_checker->compatibleTypes(line);

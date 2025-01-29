@@ -66,8 +66,7 @@ bool Painter::release(){
     return history_stack->commit();
 }
 
-bool Painter::isOutOfBounds(int x, int y)
-{
+bool Painter::isOutOfBounds(int x, int y){
     return 
         x < 0 ||
         y < 0 || 
@@ -113,14 +112,12 @@ void Painter::fill(int x, int y, const Material& fill_material, bool use_palette
     }
 }
 
-void Painter::fill(int x, int y, const std::string& fill_material_name, bool use_palette)
-{
+void Painter::fill(int x, int y, const std::string& fill_material_name, bool use_palette){
     checkPaletteSet();
     fill(x, y, (*palette)[fill_material_name], use_palette);
 }
 
-bool Painter::checkMapSet()
-{
+bool Painter::checkMapSet(){
     if (!map){
         throw std::runtime_error("Map is not set");
         return false;

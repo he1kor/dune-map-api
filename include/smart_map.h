@@ -6,7 +6,7 @@
 #include "edge.h"
 
 class SmartMap : public Map{
-public:
+public: 
     SmartMap(const SmartMap& map);
     SmartMap(uint16_t width, uint16_t height);
     static SmartMap fromMap(const Map& map);
