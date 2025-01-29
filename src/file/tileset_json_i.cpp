@@ -2,8 +2,10 @@
 #include "compatible_checker.h"
 #include "tileset_json_i.h"
 #include "block_placer.h"
+#include <windows.h>
 #include <nlohmann/json.hpp>
 #include <set>
+#include <iostream>
 
 constexpr char JSON_EXTENSION[] = ".json";
 
@@ -49,9 +51,11 @@ namespace {
     static BlockSet readBlocks(nlohmann::json& json_properties, CompatibleChecker* compatible_checker){
         std::map<std::string, std::vector<Block>> blocks;
         nlohmann::json json_blocks = json_properties.at("blocks");         
+
         for (auto it = json_blocks.begin(); it != json_blocks.end(); it++){
             std::vector<Block> temp_blocks;
             nlohmann::json json_block_type = it.value();
+
             for (auto json_block : json_block_type){
                 temp_blocks.push_back(Block(
                     json_block.at("x"),
@@ -64,8 +68,10 @@ namespace {
                 std::vector<std::string> compatibility_right = json_block.at("compatibility_right");
                 std::vector<std::string> compatibility_bottom = json_block.at("compatibility_bottom");
                 Block& block = temp_blocks[temp_blocks.size()-1];
+
                 if (block.getWidth() != compatibility_up.size() || block.getWidth() != compatibility_bottom.size())
                     throw std::runtime_error("Block size doesn't fit its compatible_type size!");
+                    
                 for (int y = 0; y < block.getHeight(); y++){
                     for (int x = 0; x < block.getWidth(); x++){
                         CompatibleTile temp_compatible(block.getMatrix()[y][x], CompatibleType::null);
@@ -96,7 +102,6 @@ TilesetProperties load(const char filename[])
 
     std::ifstream file(filename);
     checkFileIssues(file);
-
     nlohmann::json json_properties = nlohmann::json::parse(file);
 
     int size = readSize(json_properties);
@@ -108,4 +113,9 @@ TilesetProperties load(const char filename[])
     file.close();
 
     return TilesetProperties{palette, *compatible_checker, blocks_set};
+}
+void logExecutablePath() {
+    char path[MAX_PATH];
+    GetModuleFileNameA(NULL, path, MAX_PATH);
+    std::cout << "Executable Path: " << path << std::endl;
 }

@@ -10,3 +10,4 @@
 	\brief Function which loads .json tileset properties to TilesetProperties.
 */
 TilesetProperties load(const char filename[]);
+void logExecutablePath();
