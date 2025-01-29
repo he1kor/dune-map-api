@@ -78,7 +78,7 @@ class CompatibleChecker{
         */
         void putCompatible(CompatibleTile compatible_tile);
         /**
-         * \brief returns compatibleType of some of tile's side.
+         * \brief returns compatibleType of the provided tile's side.
          * \param tile tile id
          * \param direction direction, from what tile side that CompatibleSide
          * \return CompatibleType of the given tile's side

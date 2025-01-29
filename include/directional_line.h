@@ -14,7 +14,7 @@ class DirectionalLine{
         */
         DirectionalLine(const std::vector<uint16_t>& tiles, d2kmapapi::Direction normal_direction);
         /**
-         * \brief Reverses normal direction to opposite.
+         * \brief Reverses normal direction to the opposite.
         */
         void reverse();
         /**

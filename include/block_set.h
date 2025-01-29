@@ -11,7 +11,7 @@
 #include "compatible_checker.h"
 
 /*!
-	\brief Class, which contains very related tiles in the one matrix.
+	\brief Class, which contains inseparable tiles in the one matrix.
 */
 class Block{
     public:
@@ -106,12 +106,12 @@ class BlockSet{
         */
         void addCompatibleCheker(CompatibleChecker* compatible_checker);
         /**
-         * \brief Adds new block group to block grouops.
+         * \brief Adds a new block group to block grouops.
          * \param group block group to be added.
         */
         void addGroup(const std::string& group);
         /**
-         * \brief Adds new block to certain block group.
+         * \brief Adds a new block to certain block group.
          * \param block block to be added
          * \param group target group
         */
