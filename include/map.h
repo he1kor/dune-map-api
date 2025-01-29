@@ -49,20 +49,20 @@ class Map{
          * \brief Width getter.
          * \return Width of the map
         */
-        uint16_t width();
+        uint16_t width() const;
         
         /**
          * \brief Height getter.
          * \return Height of the map
         */
-        uint16_t height();
+        uint16_t height() const;
         
         /**
          * \brief Accesses i-th row of the map. If out of size, it throws an exception.
          * \param index Index of the row in the map.
          * \return Row reference.
         */
-        Row& operator[](uint16_t index);
+        virtual Row& operator[](uint16_t index);
         static const uint16_t MAX_WIDTH;
         static const uint16_t MAX_HEIGHT;
 
