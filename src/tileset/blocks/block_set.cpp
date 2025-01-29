@@ -25,6 +25,20 @@ std::vector<std::vector<uint16_t>> Block::getMatrix() const{
     return tiles;
 }
 
+DirectionalLine Block::getDirectionalOutLine(d2kmapapi::Direction direction) const{
+    switch(direction){
+        case d2kmapapi::Direction::UP:
+            return DirectionalLine(this->getTopTiles(), direction);
+        case d2kmapapi::Direction::LEFT:
+            return DirectionalLine(this->getLeftTiles(), direction);
+        case d2kmapapi::Direction::RIGHT:
+            return DirectionalLine(this->getBottomTiles(), direction);
+        case d2kmapapi::Direction::DOWN:
+            return DirectionalLine(this->getBottomTiles(), direction);
+    }
+    throw std::invalid_argument("Unknown direction " + direction);
+}
+
 std::vector<uint16_t> Block::getTopTiles() const{
     return tiles[0];
 }
@@ -84,23 +98,10 @@ CompatibleChecker *BlockSet::getCompatibleChecker() const{
 std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string group_name){
     std::vector<Block> compatible_blocks;
     std::vector<CompatibleType> compatible_types = compatible_checker->compatibleTypes(line);
+    if (!block_groups.count(group_name))
+        throw std::invalid_argument("Block group " + group_name + " doesn't exists!");
     for (Block block : block_groups.at(group_name)){
-        std::vector<uint16_t> compare_blocks;
-        switch(line.getNormalDirection()){
-            case d2kmapapi::Direction::UP:
-                compare_blocks = block.getBottomTiles();
-                break;
-            case d2kmapapi::Direction::LEFT:
-                compare_blocks = block.getRightTiles();
-                break;
-            case d2kmapapi::Direction::RIGHT:
-                compare_blocks = block.getLeftTiles();
-                break;
-            case d2kmapapi::Direction::DOWN:
-                compare_blocks = block.getTopTiles();
-                break;
-        }
-        std::vector<CompatibleType> compatible_types_check = compatible_checker->compatibleTypes(DirectionalLine(compare_blocks, d2kmapapi::reverse(line.getNormalDirection())));
+        std::vector<CompatibleType> compatible_types_check = compatible_checker->compatibleTypes(block.getDirectionalOutLine(d2kmapapi::reverse(line.getNormalDirection())));
         if (d2kmapapi::isSubarray(compatible_types_check, compatible_types))
             compatible_blocks.push_back(block);
     }

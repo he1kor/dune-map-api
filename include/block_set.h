@@ -37,6 +37,12 @@ class Block{
          * \brief Getter of top side of the matrix.
          * \return vector of tiles
         */
+        DirectionalLine getDirectionalOutLine(d2kmapapi::Direction direction) const;
+
+        /**
+         * \brief Getter of top side of the matrix.
+         * \return vector of tiles
+        */
         std::vector<uint16_t> getTopTiles() const;
         
         /**

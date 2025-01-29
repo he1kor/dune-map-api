@@ -17,6 +17,10 @@ namespace d2kmapapi{
         RIGHT = 2,
         DOWN = 3
     };
+    enum EdgeDirection {
+        BEFORE = 0,
+        AFTER = 1
+    };
     std::vector<uint16_t> getTilesbyCoords(Map& map, std::vector<std::pair<int, int>> coords);
     
     /**

@@ -50,6 +50,8 @@ void CompatibleChecker::putCompatible(CompatibleTile cmptbl_tl)
     compatibility[cmptbl_tl.tile_id] = std::array{cmptbl_tl.top, cmptbl_tl.left, cmptbl_tl.right, cmptbl_tl.bottom};
 }
 CompatibleType CompatibleChecker::compatibleType(uint16_t tile, d2kmapapi::Direction direction) const{
+    if (!compatibility.count(tile))
+        throw std::invalid_argument("Tile " + std::to_string(tile) + " has no compatible types!");
     return compatibility.at(tile)[direction];
 }
 
