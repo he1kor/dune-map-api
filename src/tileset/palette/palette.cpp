@@ -1,12 +1,11 @@
 #include "palette.h"
+#include "util.h"
 #include <random>
 #include <time.h>
 #include <stdexcept>
 
 
-Palette::Palette(){
-    srand(time(0));
-}
+Palette::Palette(){}
 
 Palette::Palette(const std::map<std::string, Material>& materials) : materials(materials){
     srand(time(0));
@@ -33,8 +32,7 @@ const Material& Palette::operator[](const std::string& material_name){
     return materials.at(material_name);
 }
 
-Material Palette::findMaterial(uint16_t id)
-{
+Material Palette::findMaterial(uint16_t id){
     for (auto &material_pair : materials)
     {
         if (material_pair.second.containsTile(id))
@@ -47,7 +45,7 @@ void Palette::removeMaterial(const std::string& material_name){
     materials.erase(materials.find(material_name));
 }
 uint16_t Palette::pick(const Material& material){
-    int ranged_rand = std::rand() % material.size();
+    int ranged_rand = d2kmapapi::getRandomNumber(0, material.size()-1);
     return material[ranged_rand];
 }
 uint16_t Palette::pick(const std::string& material_name){
