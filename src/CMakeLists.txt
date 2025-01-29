@@ -1,32 +1,8 @@
 project(Dune2kMapApi)
-add_library(Dune2kMapApi
 
-    structures/map.cpp
-    structures/located_tile.cpp
-
-    file/file_reader.cpp
-    file/file_checks.cpp
-    file/map_bin_file_io.cpp
-    file/tileset_json_i.cpp
-
-    tileset/tileset_properties.cpp
-
-    tileset/algorithm/history_stack.cpp
-
-    tileset/palette/material.cpp
-    tileset/palette/palette.cpp
-
-    tileset/blocks/compatible_checker.cpp
-    tileset/blocks/block_placer.cpp
-    tileset/blocks/block_set.cpp
-    tileset/blocks/edge.cpp
-    tileset/blocks/directional_line.cpp
-
-    paint/painter.cpp
-
-    global/global.cpp
-    global/util.cpp
-    )
+set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+file(GLOB_RECURSE SOURCE_FILES "${SOURCE_DIR}/*.cpp")
+add_library(Dune2kMapApi ${SOURCE_FILES})
 
 target_link_libraries(Dune2kMapApi PRIVATE nlohmann_json::nlohmann_json)
 
