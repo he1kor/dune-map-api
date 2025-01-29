@@ -115,7 +115,7 @@ class Painter{
         bool checkMapSet();
         bool checkPaletteSet();
         bool checkHistoryStack();
-        HistoryStack* history_stack;
-        Map* map;
-        Palette* palette;
+        HistoryStack* history_stack = nullptr;
+        Map* map = nullptr;
+        Palette* palette = nullptr;
 };
