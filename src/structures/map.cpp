@@ -43,11 +43,11 @@ Row& Map::operator[](uint16_t index){
     return matrix[index];
 };
 
-uint16_t Map::width(){
+uint16_t Map::width() const{
     return _width;
 }
 
-uint16_t Map::height(){
+uint16_t Map::height() const{
     return _height;
 }
 
