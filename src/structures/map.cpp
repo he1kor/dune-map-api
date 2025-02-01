@@ -8,14 +8,11 @@ const uint16_t Map::MAX_HEIGHT = 128;
 Row::Row(){}
 Row::Row(uint16_t size) : 
     _size(size),
-    tiles(new Tile[size]){
+    tiles(size){
     };
 
 Tile& Row::operator[](uint16_t index){
-    if (index < 0 || index >= _size){
-        throw std::out_of_range(index + " is out of " + _size);
-    } 
-    return tiles[index];
+    return this->tiles.at(index);
 }
 
 uint16_t Row::size(){

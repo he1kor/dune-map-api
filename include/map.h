@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 #include "tile.h"
 
 /*!
@@ -30,7 +31,7 @@ class Row{
         uint16_t size();
     private:
         uint16_t _size;
-        Tile * tiles;
+        std::vector<Tile> tiles;
 };
 
 /*!
