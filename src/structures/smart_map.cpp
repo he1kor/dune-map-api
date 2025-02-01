@@ -1,4 +1,5 @@
 #include "smart_map.h"
+#include <stdexcept>
 
 SmartMap::SmartMap(const SmartMap &map) : Map(map){}
 
@@ -12,14 +13,20 @@ void SmartMap::setHistoryStack(HistoryStack *history_stack){
     this->history_stack = history_stack;
 }
 
-DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection){
+bool SmartMap::commit(){
+    if (!history_stack)
+        throw std::runtime_error("History stack is not initialized.");
+    return this->history_stack->commit();
+}
+
+DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection)
+{
     std::vector<uint16_t> edge_tiles;
     for (auto [x, y] : facingDirection == d2kmapapi::Direction::RIGHT || facingDirection == d2kmapapi::Direction::DOWN ? edge.onAfter() : edge.onBefore()){
         edge_tiles.push_back((*this)[y][x].tileID);
     }
     return DirectionalLine(edge_tiles, facingDirection);
 }
-
 
 Tile SmartMap::getTileByCoords(std::pair<int, int> coords){
     return (*this)[coords.first][coords.second];
