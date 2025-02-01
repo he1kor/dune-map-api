@@ -16,11 +16,3 @@ int d2kmapapi::getRandomNumberOld(int begin, int end){
     int range = end - begin + 1;
     return rand() % range + begin;
 }
-std::vector<uint16_t> d2kmapapi::getTilesbyCoords(Map &map, std::vector<std::pair<int, int>> coords)
-{
-    std::vector<uint16_t> tiles;
-    for (auto [x, y] : coords){
-        tiles.push_back(map[y][x].tileID);
-    }
-    return tiles;
-}

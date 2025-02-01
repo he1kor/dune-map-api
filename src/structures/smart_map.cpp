@@ -19,3 +19,28 @@ DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::D
     }
     return DirectionalLine(edge_tiles, facingDirection);
 }
+
+
+Tile SmartMap::getTileByCoords(std::pair<int, int> coords){
+    return (*this)[coords.first][coords.second];
+}
+
+std::vector<Tile> SmartMap::getTilesByCoords(std::vector<std::pair<int, int>> coords){
+    std::vector<Tile> tiles;
+    for (auto [x, y] : coords){
+        tiles.push_back((*this)[y][x]);
+    }
+    return tiles;
+}
+
+uint16_t SmartMap::getTileIDByCoords(std::pair<int, int> coords){
+    return getTileByCoords(coords).tileID;
+}
+
+std::vector<uint16_t> SmartMap::getTileIDsByCoords(std::vector<std::pair<int, int>> coords){
+    std::vector<uint16_t> tiles;
+    for (auto [x, y] : coords){
+        tiles.push_back((*this)[y][x].tileID);
+    }
+    return tiles;
+}
