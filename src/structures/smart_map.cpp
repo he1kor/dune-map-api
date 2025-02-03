@@ -19,8 +19,7 @@ bool SmartMap::commit(){
     return this->history_stack->commit();
 }
 
-DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection)
-{
+DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection){
     std::vector<uint16_t> edge_tiles;
     for (auto [x, y] : facingDirection == d2kmapapi::Direction::RIGHT || facingDirection == d2kmapapi::Direction::DOWN ? edge.onAfter() : edge.onBefore()){
         edge_tiles.push_back((*this)[y][x].tileID);
