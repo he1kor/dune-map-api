@@ -37,7 +37,7 @@ class Row{
         */
         uint16_t size();
     private:
-        uint16_t _size = -1;
+        uint16_t _size = 0;
         std::vector<std::unique_ptr<Tile>> tiles;
 };
 
@@ -46,6 +46,10 @@ class Row{
 */
 class Map{
     public:
+        /**
+         * \brief Default constructor. Size is 0, rows are undefined.
+        */
+        Map();
         /**
          * \brief Constructor of the map with given width and height.
          * \param width Sets width of the map.

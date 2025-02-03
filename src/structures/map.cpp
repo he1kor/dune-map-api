@@ -26,9 +26,10 @@ uint16_t Row::size(){
     return _size;
 }
 
-Map::Map(uint16_t width, uint16_t height) : 
-    _width(width),
-    _height(height)
+Map::Map(){}
+
+Map::Map(uint16_t width, uint16_t height) : _width(width),
+                                            _height(height)
 {
     validateSize(width, height);
     matrix = new Row[height];
