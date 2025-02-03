@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <vector>
 #include "tile.h"
+#include <memory>
 
 /*!
 	\brief Class wrapping a row of the map.
@@ -25,13 +26,19 @@ class Row{
         */
         Tile& operator[](uint16_t index);
         /**
+         * \brief Accesses i-th tile of the row constantly. If out of size, it throws an exception.
+         * \param index Index of the tile in the row.
+         * \return Const tile reference.
+        */
+        const Tile& operator[](uint16_t index) const;
+        /**
          * \brief Size getter.
          * \return Size of the row.
         */
         uint16_t size();
     private:
-        uint16_t _size;
-        std::vector<Tile> tiles;
+        uint16_t _size = -1;
+        std::vector<std::unique_ptr<Tile>> tiles;
 };
 
 /*!

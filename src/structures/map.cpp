@@ -1,26 +1,30 @@
 #include "map.h"
 #include <stdexcept>
-#include <iostream>
+#include <algorithm>
 
 const uint16_t Map::MAX_WIDTH = 128;
 const uint16_t Map::MAX_HEIGHT = 128;
 
 Row::Row(){}
 Row::Row(uint16_t size) : 
-    _size(size),
-    tiles(size){
-    };
+    _size(size){
+    tiles.reserve(size);
+    std::generate_n(std::back_inserter(tiles), size, [] {
+        return std::make_unique<Tile>();
+    });  
+};
 
 Tile& Row::operator[](uint16_t index){
-    return this->tiles.at(index);
+    return *(this->tiles.at(index));
+}
+
+const Tile &Row::operator[](uint16_t index) const{
+    return *(this->tiles.at(index));
 }
 
 uint16_t Row::size(){
     return _size;
 }
-
-
-
 
 Map::Map(uint16_t width, uint16_t height) : 
     _width(width),
