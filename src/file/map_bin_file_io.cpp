@@ -3,7 +3,6 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
-#include <iostream>
 
 MapBinFileIO::MapBinFileIO(){
     FILE_EXTENSION = ".map";
