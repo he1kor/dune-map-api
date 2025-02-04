@@ -13,6 +13,19 @@ Row::Row(uint16_t size) :
         return std::make_unique<Tile>();
     });  
 };
+Row::Row(const Row& row) : _size(row._size){
+    tiles.reserve(row.tiles.size());
+    for (auto& tile_ptr : row.tiles){
+        tiles.push_back(std::make_unique<Tile>(*tile_ptr));
+    }
+}
+
+Row& Row::operator=(Row row){
+    std::swap(this->_size, row._size);
+    std::swap(this->tiles, row.tiles);
+    return *this;
+}
+
 
 Tile& Row::operator[](uint16_t index){
     return *(this->tiles.at(index));
@@ -22,27 +35,40 @@ const Tile &Row::operator[](uint16_t index) const{
     return *(this->tiles.at(index));
 }
 
-uint16_t Row::size(){
+uint16_t Row::size() const{
     return _size;
 }
 
 Map::Map(){}
 
-Map::Map(uint16_t width, uint16_t height) : _width(width),
-                                            _height(height)
-{
+Map::Map(uint16_t width, uint16_t height) : 
+    _width(width),
+    _height(height){
     validateSize(width, height);
-    matrix = new Row[height];
-    for (int i = 0; i < height; i++) {
-        matrix[i] = Row(width);
+    matrix.reserve(height);
+    std::generate_n(std::back_inserter(matrix), height, [width] {
+        return std::make_unique<Row>(width);
+    });
+}
+
+Map::Map(const Map &map) : _width(map._width), _height(map._height){
+    matrix.reserve(map.matrix.size());
+    for (auto& row_ptr : map.matrix){
+        matrix.push_back(std::make_unique<Row>(*row_ptr));
     }
+}
+
+Map &Map::operator=(Map map){
+    std::swap(this->_width, map._width);
+    std::swap(this->_height, map._height);
+    return *this;
 }
 
 Row& Map::operator[](uint16_t index){
     if (index < 0 || index >= _height){
         throw std::out_of_range(index + " is out of " + _height);
     } 
-    return matrix[index];
+    return *(matrix[index]);
 };
 
 uint16_t Map::width() const{

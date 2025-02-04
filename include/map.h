@@ -19,11 +19,13 @@ class Row{
          * \param size Sets size and initializes with it array.
         */
         Row(uint16_t size);
+        Row(const Row &row);
+        Row &operator=(Row row);
         /**
          * \brief Accesses i-th tile of the row. If out of size, it throws an exception.
          * \param index Index of the tile in the row.
          * \return Tile reference.
-        */
+         */
         Tile& operator[](uint16_t index);
         /**
          * \brief Accesses i-th tile of the row constantly. If out of size, it throws an exception.
@@ -35,7 +37,7 @@ class Row{
          * \brief Size getter.
          * \return Size of the row.
         */
-        uint16_t size();
+        uint16_t size() const;
     private:
         uint16_t _size = 0;
         std::vector<std::unique_ptr<Tile>> tiles;
@@ -56,6 +58,8 @@ class Map{
          * \param height Sets height of the map.
         */
         Map(uint16_t width, uint16_t height);
+        Map(const Map& map);
+        Map &operator=(Map row);
         
         /**
          * \brief Width getter.
@@ -78,9 +82,10 @@ class Map{
         static const uint16_t MAX_WIDTH;
         static const uint16_t MAX_HEIGHT;
 
-    private:
+    protected:
+        std::vector<std::unique_ptr<Row>> matrix;
         bool validateSize(uint16_t width, uint16_t height);
+    private:
         uint16_t _width;
         uint16_t _height;
-        Row* matrix;
 };
