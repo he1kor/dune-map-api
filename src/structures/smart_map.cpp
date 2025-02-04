@@ -1,12 +1,18 @@
 #include "smart_map.h"
 #include <stdexcept>
+#include <memory>
 
-SmartMap::SmartMap(const SmartMap &map) : Map(map){}
+SmartMap::SmartMap(const SmartMap &map) :
+    Map(map){}
 
-SmartMap::SmartMap(uint16_t width, uint16_t height) : Map(width, height) {}
+SmartMap::SmartMap(const Map &map) :
+    Map(map){}
+
+SmartMap::SmartMap(uint16_t width, uint16_t height) :
+    Map(width, height){}
 
 SmartMap SmartMap::fromMap(const Map &map){
-    return SmartMap(map.width(), map.height());
+    return SmartMap(map);
 }
 
 void SmartMap::setHistoryStack(HistoryStack *history_stack){

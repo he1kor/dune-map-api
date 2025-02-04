@@ -29,5 +29,7 @@ public:
     uint16_t getTileIDByCoords(std::pair<int, int> coords);
     std::vector<uint16_t> getTileIDsByCoords(std::vector<std::pair<int, int>> coords);
 private:
+    SmartMap(const Map& map);
     HistoryStack* history_stack = nullptr;
+
 };
