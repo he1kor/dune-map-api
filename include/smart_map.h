@@ -5,11 +5,7 @@
 #include "directional_line.h"
 #include "edge.h"
 
-class SmartRow : public Row{
-    
-};
-
-class SmartMap : public Map{
+class SmartMap : protected Map{
 public: 
     SmartMap(const SmartMap& map);
     SmartMap(uint16_t width, uint16_t height);
@@ -17,9 +13,13 @@ public:
     static SmartMap fromMap(const Map& map);
 
     void setHistoryStack(HistoryStack* history_stack);
+    HistoryStack* getHistoryStack();
 
     //void apply(Tile tile, int x, int y);
     bool commit();
+    void commitTile(int x, int y, Tile tile);
+    void addTile(int x, int y, Tile tile);
+    void setUntrackedTile(int x, int y, Tile tile);
 
     DirectionalLine getLineFacingEdge(const Edge& edge, const d2kmapapi::Direction& facingDirection);
 
