@@ -2,6 +2,10 @@
 
 HistoryStack::HistoryStack(Map *map) : map{map}{}
 
+Map* HistoryStack::getMap(){
+    return map;
+}
+
 void HistoryStack::trackChange(const std::set<LocatedTile>& located_tiles){
     for (auto lt : located_tiles){
         trackChange(lt);

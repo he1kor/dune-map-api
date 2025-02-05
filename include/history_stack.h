@@ -7,6 +7,7 @@
 class HistoryStack{
     public:
         HistoryStack(Map* map);
+        Map* getMap();
         void trackChange(const std::set<LocatedTile>& located_tiles);
         void trackChange(LocatedTile located_tile);
         void quickCommit(const std::set<LocatedTile>& located_tiles);
