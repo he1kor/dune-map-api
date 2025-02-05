@@ -19,11 +19,6 @@ SmartMap SmartMap::fromMap(const Map &map){
     return SmartMap(map);
 }
 
-void SmartMap::setHistoryStack(HistoryStack *history_stack){
-    checkHistoryStackMap(history_stack);
-    this->history_stack = history_stack;
-}
-
 HistoryStack* SmartMap::getHistoryStack(){
     return history_stack;
 }
