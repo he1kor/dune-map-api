@@ -23,7 +23,7 @@ HistoryStack* SmartMap::getHistoryStack(){
     return history_stack;
 }
 
-void SmartMap::initializeNewHistoryStack(){
+void SmartMap::initHistoryStack(){
     history_stack = new HistoryStack(this);
 }
 

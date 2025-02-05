@@ -12,10 +12,9 @@ public:
 
     static SmartMap fromMap(const Map& map);
 
-    void setHistoryStack(HistoryStack* history_stack);
     HistoryStack* getHistoryStack();
 
-    void initializeNewHistoryStack();
+    void initHistoryStack();
     bool commit();
     void commitTile(int x, int y, Tile tile);
     void commitTileID(int x, int y, uint16_t tile_id);
