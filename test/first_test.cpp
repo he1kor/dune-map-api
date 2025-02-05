@@ -37,8 +37,7 @@ int main(){
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << elapsed.count() << '\n';
     SmartMap map_2(128, 128);
-    auto history_stack = new HistoryStack(&map_2);
-    map_2.setHistoryStack(history_stack);
+    map_2.initHistoryStack();
     Painter painter(&map_2, &tileset_properties.palette);
     for (int i = 0; i < 128; i++){
         for (int j = 0; j < 128; j++){

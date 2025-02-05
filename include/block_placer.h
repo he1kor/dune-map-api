@@ -3,7 +3,7 @@
 #include <vector>
 #include <cstdint>
 #include "block_set.h"
-#include "map.h"
+#include "smart_map.h"
 #include "edge.h"
 #include "util.h"
 #include "compatible_checker.h"
@@ -25,8 +25,7 @@ class BlockPlacer{
         */
         BlockPlacer(BlockSet* block_set);
 
-        void setHistoryStack(HistoryStack* history_stack);
-        void setMap(Map* map);
+        void setMap(SmartMap* map);
         void setBlockSet(BlockSet* block_set);
 
         /**
@@ -50,9 +49,7 @@ class BlockPlacer{
         bool placeEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         bool isEdgeCompatible(const Edge& edge) const;
     private:
-        void placeUntracked(int x, int y, const Block &block);
         CompatibleChecker* compatible_checker = nullptr;
         BlockSet* block_set = nullptr;
-        HistoryStack* history_stack = nullptr;
-        Map* map = nullptr;
+        SmartMap* map = nullptr;
 };

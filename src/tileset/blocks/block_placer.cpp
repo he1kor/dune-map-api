@@ -9,11 +9,7 @@ BlockPlacer::BlockPlacer(){}
 
 BlockPlacer::BlockPlacer(BlockSet *block_set) : block_set{block_set}, compatible_checker{block_set->getCompatibleChecker()}{}
 
-void BlockPlacer::setHistoryStack(HistoryStack *history_stack){
-    this->history_stack = history_stack;
-}
-
-void BlockPlacer::setMap(Map *map){
+void BlockPlacer::setMap(SmartMap *map){
     this->map = map;
 }
 
@@ -22,37 +18,21 @@ void BlockPlacer::setBlockSet(BlockSet *block_set){
     this->compatible_checker = block_set->getCompatibleChecker();
 }
 
-void BlockPlacer::placeUntracked(int x, int y, const Block &block){
-    std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
-    for (int r = 0; r < block.getHeight(); r++){
-        for (int c = 0; c < block.getWidth(); c++){
-            (*map)[y+r][x+c].tileID = tiles[r][c];
-        }
-    }
-}
 void BlockPlacer::place(int x, int y, const Block &block){
     std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
-    if (!history_stack){
-        placeUntracked(x, y, block);
-        return;
-    }
     for (int r = 0; r < block.getHeight(); r++){
         for (int c = 0; c < block.getWidth(); c++){
-            map[y+r][x+c] = tiles[r][c];
-            history_stack->trackChange({
-                {tiles[r][c], (*map)[r][c].entityID},
-                x+c, y+r
-            });
+            map->addTileID(x+c, y+r, tiles[r][c]);
         }
     }
-    history_stack->commit();
+    map->commit();
 }
 
 //TODO:: make container for edge with map to instantly get such DirectionalLine
 DirectionalLine BlockPlacer::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection){
     std::vector<uint16_t> edge_tiles;
     for (auto [x, y] : facingDirection == d2kmapapi::Direction::RIGHT || facingDirection == d2kmapapi::Direction::DOWN ? edge.onAfter() : edge.onBefore()){
-        edge_tiles.push_back((*map)[y][x].tileID);
+        edge_tiles.push_back(map->getTileID(y, x));
     }
     return DirectionalLine(edge_tiles, facingDirection);
 }
@@ -86,7 +66,7 @@ int BlockPlacer::getShift(const Edge &edge, const d2kmapapi::Direction &directio
     }
     std::vector<uint16_t> edge_tiles;
     for (auto [x, y] : edge_coords){
-        edge_tiles.push_back((*map)[y][x].tileID);
+        edge_tiles.push_back(map->getTileID(y, x));
     }
     auto block_compatibles = compatible_checker->compatibleTypes(DirectionalLine(block_tiles, d2kmapapi::reverse(direction)));
     auto edge_compatibles = compatible_checker->compatibleTypes(DirectionalLine(edge_tiles, direction));
@@ -140,8 +120,8 @@ int BlockPlacer::nextBlockScore(const Edge &edge, const d2kmapapi::Direction &di
     std::vector<CompatibleType> out_right;
     std::vector<CompatibleType> out_top;
     for (int x_i = x+1; x_i <= x+block.getWidth(); x_i++){
-        out_tiles_top.push_back((*map)[x_i][y].tileID);
-        out_tiles_bottom.push_back((*map)[x_i][y+block.getHeight()].tileID);
+        out_tiles_top.push_back(map->getTileID(x_i, y));
+        out_tiles_bottom.push_back(map->getTileID(x, y + block.getHeight()));
     }
     return 0;
 }
@@ -217,9 +197,9 @@ bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
         auto [x1, y1] = coords1[i];
         auto [x2, y2] = coords2[i];
         if (!compatible_checker->areCompatible(
-            (*map)[y1][x1].tileID,
+            map->getTileID(x1, y1),
             direction,
-            (*map)[y2][x2].tileID))
+            map->getTileID(x2, y2)))
             return false;
     }
     return true;
