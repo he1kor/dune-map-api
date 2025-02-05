@@ -5,8 +5,12 @@
 SmartMap::SmartMap(const SmartMap &map) :
     Map(map){}
 
-SmartMap::SmartMap(const Map &map) :
-    Map(map){}
+void SmartMap::checkHistoryStackMap(HistoryStack* history_stack){
+    if (this != history_stack->getMap())
+        throw std::runtime_error("Error: HistoryStack::commit() - Map mismatch.");
+}
+
+SmartMap::SmartMap(const Map &map) : Map(map) {}
 
 SmartMap::SmartMap(uint16_t width, uint16_t height) :
     Map(width, height){}
@@ -16,6 +20,7 @@ SmartMap SmartMap::fromMap(const Map &map){
 }
 
 void SmartMap::setHistoryStack(HistoryStack *history_stack){
+    checkHistoryStackMap(history_stack);
     this->history_stack = history_stack;
 }
 
@@ -27,8 +32,7 @@ void SmartMap::initializeNewHistoryStack(){
     history_stack = new HistoryStack(this);
 }
 
-bool SmartMap::commit()
-{
+bool SmartMap::commit(){
     if (!history_stack)
         return false;
     return this->history_stack->commit();

@@ -31,6 +31,7 @@ public:
     void setUntrackedTileID(int x, int y, uint16_t tile_id);
     void setUntrackedEntityID(int x, int y, uint16_t entity_id);
     void setUntrackedTile(LocatedTile located_tile);
+
     Tile getTile(int x, int y);
     uint16_t getTileID(int x, int y);
     uint16_t getEntityD(int x, int y);
@@ -43,6 +44,7 @@ public:
     uint16_t getTileIDByCoords(std::pair<int, int> coords);
     std::vector<uint16_t> getTileIDsByCoords(std::vector<std::pair<int, int>> coords);
 private:
+    void checkHistoryStackMap(HistoryStack* history_stack);
     SmartMap(const Map& map);
     HistoryStack* history_stack = nullptr;
     using Map::operator[];
