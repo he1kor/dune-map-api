@@ -5,37 +5,28 @@
 
 Painter::Painter() : map{nullptr}, palette{nullptr}{}
 
-Painter::Painter(Map* map) : map{map}, palette{nullptr}{}
+Painter::Painter(SmartMap* map) : map{map}, palette{nullptr}{}
 
-Painter::Painter(Map* map, Palette* palette) : map{map}, palette{palette}{}
+Painter::Painter(SmartMap* map, Palette* palette) : map{map}, palette{palette}{}
 
 bool Painter::isMaterial(int x, int y, const Material &material){
-    return (material.containsTile((*map)[y][x].tileID));;
+    return (material.containsTile(map->getTile(x, y).tileID));
 }
 bool Painter::isMaterial(int x, int y, const std::string& material_name){
     return isMaterial(x, y, (*palette)[material_name]);
 }
 
 
-void Painter::setMap(Map* map){
+void Painter::setMap(SmartMap* map){
     this->map = map;
 }
 void Painter::setPalette(Palette* palette){
     this->palette = palette;
 }
 
-void Painter::setHistoryStack(HistoryStack *history_stack){
-    this->history_stack = history_stack;
-}
-
 void Painter::paint(int x, int y, const Material& material){
-    if (!history_stack){
-        (*map)[y][x].tileID = Palette::pick(material);
-        return;
-    }
-    release();
     holdPaint(x, y, material);
-    release();
+    map->commit();
 }
 
 void Painter::paint(int x, int y, const std::string& material_name){
@@ -43,27 +34,13 @@ void Painter::paint(int x, int y, const std::string& material_name){
     paint(x, y, (*palette)[material_name]);
 }
 
-bool Painter::holdPaint(int x, int y, const Material &material){
-    if (!history_stack){
-        paint(x, y, material);
-        return false;
-    }
-    history_stack->trackChange({
-        {Palette::pick(material), (*map)[y][x].entityID},
-        x, y
-    });
-    return true;
+void Painter::holdPaint(int x, int y, const Material &material){
+    map->addTile(x, y, {Palette::pick(material)});
 }
 
-bool Painter::holdPaint(int x, int y, const std::string &material_name){
+void Painter::holdPaint(int x, int y, const std::string &material_name){
     checkPaletteSet();
     return holdPaint(x, y, (*palette)[material_name]);
-}
-
-bool Painter::release(){
-    if (!history_stack)
-        return false;
-    return history_stack->commit();
 }
 
 bool Painter::isOutOfBounds(int x, int y){
@@ -82,7 +59,6 @@ void Painter::fill(int x, int y, const Material& fill_material, const Material& 
     std::queue<std::pair<int, int>> queue;
     queue.push(std::make_pair(x, y));
 
-    release();
     while (!queue.empty()){
         std::pair<int, int> coords = queue.front();
         int x = coords.first;
@@ -97,7 +73,7 @@ void Painter::fill(int x, int y, const Material& fill_material, const Material& 
         queue.push(std::make_pair(x, y+1));
         queue.push(std::make_pair(x, y-1));
     }
-    release();
+    map->commit();
 }
 void Painter::fill(int x, int y, const std::string& fill_material_name, const std::string& replaced_material_name){
     checkPaletteSet();
@@ -106,9 +82,9 @@ void Painter::fill(int x, int y, const std::string& fill_material_name, const st
 
 void Painter::fill(int x, int y, const Material& fill_material, bool use_palette){
     if (use_palette){
-        fill(x, y, fill_material, palette->findMaterial((*map)[y][x].tileID));
+        fill(x, y, fill_material, palette->findMaterial(map->getTileID(x, y)));
     } else {
-        fill(x, y, fill_material, Material((*map)[y][x].tileID));
+        fill(x, y, fill_material, Material(map->getTileID(x, y)));
     }
 }
 
@@ -129,13 +105,5 @@ bool Painter::checkPaletteSet(){
         throw std::runtime_error("Palette is not set");
         return false;
     };
-    return true;
-}
-
-bool Painter::checkHistoryStack(){
-    if (!history_stack){
-        throw std::runtime_error("History stack is not set");
-        return false;
-    }
     return true;
 }

@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include "map.h"
 #include "palette.h"
 #include "history_stack.h"
+#include "smart_map.h"
 
 /*!
 	\brief Class containing Map pointer, Palette pointer and methods for ease of use. Used for smart change of map tiles. 
@@ -17,13 +17,13 @@ class Painter{
          * \brief Constructor with late Palette initialization.
          * \param map Pointer to the map that should be painted.
         */
-        Painter(Map* map);
+        Painter(SmartMap* map);
         /**
          * \brief Constructor with no late initialization fields.
          * \param map Pointer to the map that should be painted.
          * \param palette Pointer to the palette which materials should be used.
         */
-        Painter(Map* map, Palette* palette);
+        Painter(SmartMap* map, Palette* palette);
 
         /**
          * \brief Determines whether tile at provided coords consists of provided material.
@@ -45,15 +45,13 @@ class Painter{
          * \brief Map pointer setter. Changes what map to paint.
          * \param map The new map to paint.
         */
-        void setMap(Map* map);
+        void setMap(SmartMap* map);
 
         /**
          * \brief Palette pointer setter. Changes from what palette pick materials.
          * \param palette The new palette to use.
         */
         void setPalette(Palette* palette);
-
-        void setHistoryStack(HistoryStack* history_stack);
 
         /**
          * \brief Sets at provided coords a random tile of provided material.
@@ -72,9 +70,8 @@ class Painter{
         void paint(int x, int y, const std::string& material_name);
 
 
-        bool holdPaint(int x, int y, const Material& material);
-        bool holdPaint(int x, int y, const std::string& material_name);
-        bool release();
+        void holdPaint(int x, int y, const Material& material);
+        void holdPaint(int x, int y, const std::string& material_name);
         /**
          * \brief Flood fill of the provided replaced_material, started at provided coords, replaced with provided fill_material.
          * \param x X coord of the tile to start filling.
@@ -114,8 +111,6 @@ class Painter{
         bool isOutOfBounds(int x, int y);
         bool checkMapSet();
         bool checkPaletteSet();
-        bool checkHistoryStack();
-        HistoryStack* history_stack = nullptr;
-        Map* map = nullptr;
+        SmartMap* map = nullptr;
         Palette* palette = nullptr;
 };
