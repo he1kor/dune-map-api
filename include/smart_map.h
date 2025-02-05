@@ -15,6 +15,7 @@ public:
     void setHistoryStack(HistoryStack* history_stack);
     HistoryStack* getHistoryStack();
 
+    void initializeNewHistoryStack();
     bool commit();
     void commitTile(int x, int y, Tile tile);
     void commitTileID(int x, int y, uint16_t tile_id);

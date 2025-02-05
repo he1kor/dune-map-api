@@ -23,7 +23,12 @@ HistoryStack* SmartMap::getHistoryStack(){
     return history_stack;
 }
 
-bool SmartMap::commit(){
+void SmartMap::initializeNewHistoryStack(){
+    history_stack = new HistoryStack(this);
+}
+
+bool SmartMap::commit()
+{
     if (!history_stack)
         return false;
     return this->history_stack->commit();
