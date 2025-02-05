@@ -19,10 +19,32 @@ void SmartMap::setHistoryStack(HistoryStack *history_stack){
     this->history_stack = history_stack;
 }
 
+HistoryStack* SmartMap::getHistoryStack(){
+    return history_stack;
+}
+
 bool SmartMap::commit(){
     if (!history_stack)
         throw std::runtime_error("History stack is not initialized.");
     return this->history_stack->commit();
+}
+void SmartMap::setUntrackedTile(int x, int y, Tile tile){
+    matrix[y][x] = tile;
+}
+
+void SmartMap::commitTile(int x, int y, Tile tile){
+    if (!history_stack){
+        setUntrackedTile(x, y, tile);
+        return;
+    }
+    history_stack->quickCommit({tile, x, y});
+}
+void SmartMap::addTile(int x, int y, Tile tile){
+    if (!history_stack){
+        setUntrackedTile(x, y, tile);
+        return;
+    }
+    history_stack->trackChange({tile, x, y});
 }
 
 DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection){
