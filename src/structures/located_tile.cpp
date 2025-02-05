@@ -1,5 +1,11 @@
 #include "located_tile.h"
 
+LocatedTile::LocatedTile(uint16_t tileID, uint16_t entityID, int x, int y) :
+    Tile(tileID, entityID),
+    x{x},
+    y{y}
+    {};
+
 LocatedTile::LocatedTile(Tile tile, int x, int y) : x{x}, y{y}{
     tileID = tile.tileID;
     entityID = tile.entityID;
