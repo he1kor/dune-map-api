@@ -40,7 +40,6 @@ class BlockPlacer{
          * \param edge edge, next to which tiles are checked for compatibility.
         */
         //void findNextPlace(const Edge& edge);
-        DirectionalLine getLineFacingEdge(const Edge& edge, const d2kmapapi::Direction &facingDirection);
         std::vector<CompatibleType> getCompatibleTypesFacingEdge(const Edge& edge, const d2kmapapi::Direction &facingDirection);
         int getShift(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block);
         int nextBlockScore(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next);

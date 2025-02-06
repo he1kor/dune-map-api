@@ -28,18 +28,8 @@ void BlockPlacer::place(int x, int y, const Block &block){
     map->commit();
 }
 
-//TODO:: make container for edge with map to instantly get such DirectionalLine
-DirectionalLine BlockPlacer::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection){
-    std::vector<uint16_t> edge_tiles;
-    for (auto [x, y] : facingDirection == d2kmapapi::Direction::RIGHT || facingDirection == d2kmapapi::Direction::DOWN ? edge.onAfter() : edge.onBefore()){
-        edge_tiles.push_back(map->getTileID(y, x));
-    }
-    return DirectionalLine(edge_tiles, facingDirection);
-}
-
-//TODO:: smth is wrong (why reverse?)
 std::vector<CompatibleType> BlockPlacer::getCompatibleTypesFacingEdge(const Edge &edge, const d2kmapapi::Direction &direction){
-    DirectionalLine line = getLineFacingEdge(edge, direction);
+    DirectionalLine line = map->getLineFacingEdge(edge, direction);
     return compatible_checker->compatibleTypes(line);
 }
 
