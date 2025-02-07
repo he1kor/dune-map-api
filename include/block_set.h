@@ -113,6 +113,7 @@ class BlockSet{
        /**
         * \brief Determines gap in the block before the first occurrence of compatible type for the provided line.
         * Helps to determine how much block should be shifted to properly connect with the line.
+        * Optimized to not check any match if sizes fit, so will need to UB if provide wrong block.
         * Optimized to check only first tile match instead of the whole vector, so will lead to UB if try with complicated blocks.
         * \param directional_line Line to connect block with.
         * \param block Block to check the gap.

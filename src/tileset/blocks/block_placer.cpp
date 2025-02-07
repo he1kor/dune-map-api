@@ -33,49 +33,14 @@ std::vector<CompatibleType> BlockPlacer::getCompatibleTypesFacingEdge(const Edge
     return compatible_checker->compatibleTypes(line);
 }
 
-int BlockPlacer::getShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
-    std::vector<uint16_t> block_tiles;
-    std::vector<std::pair<int, int>> edge_coords;
-    switch (direction){
-        case d2kmapapi::Direction::DOWN:
-            block_tiles = block.getTopTiles();
-            edge_coords = edge.onBefore();
-            break;
-        case d2kmapapi::Direction::LEFT:
-            block_tiles = block.getRightTiles();
-            edge_coords = edge.onAfter();
-            break;
-        case d2kmapapi::Direction::RIGHT:
-            block_tiles = block.getLeftTiles();
-            edge_coords = edge.onBefore();
-            break;
-        case d2kmapapi::Direction::UP:
-            block_tiles = block.getBottomTiles();
-            edge_coords = edge.onAfter();
-            break;
-    }
-    std::vector<uint16_t> edge_tiles;
-    for (auto [x, y] : edge_coords){
-        edge_tiles.push_back(map->getTileID(y, x));
-    }
-    auto block_compatibles = compatible_checker->compatibleTypes(DirectionalLine(block_tiles, d2kmapapi::reverse(direction)));
-    auto edge_compatibles = compatible_checker->compatibleTypes(DirectionalLine(edge_tiles, direction));
-
-    for (int i = 0; i <= block_compatibles.size() - edge_compatibles.size(); i++){
-        for (int j = 0; j < edge_compatibles.size(); j++){
-            if (block_compatibles[i+j] != edge_compatibles[j]){
-                break;
-            }
-            if (j == edge_compatibles.size()-1)
-                return i;
-        }
-    }
-    return -1;
+//done
+int BlockPlacer::getQuickShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
+    return block_set->getQuickShift(map->getLineFacingEdge(edge, direction), block);
 }
 
 //TODO:: DO
 int BlockPlacer::nextBlockScore(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next){
-    int shift = getShift(edge, direction, block);
+    int shift = getQuickShift(edge, direction, block);
     std::vector<CompatibleType> block_bottom = compatible_checker->compatibleTypes(DirectionalLine(block.getBottomTiles(), d2kmapapi::Direction::DOWN));
     std::vector<CompatibleType> block_left = compatible_checker->compatibleTypes(DirectionalLine(block.getLeftTiles(), d2kmapapi::Direction::LEFT));
     std::vector<CompatibleType> block_right = compatible_checker->compatibleTypes(DirectionalLine(block.getRightTiles(), d2kmapapi::Direction::RIGHT));

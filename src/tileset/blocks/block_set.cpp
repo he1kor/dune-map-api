@@ -85,7 +85,6 @@ int BlockSet::getQuickShift(const CompatibleType &compatible_type, d2kmapapi::Di
     return -1;
 }
 
-
 int BlockSet::getQuickShift(const DirectionalLine &line, const Block &block) const{
     if (block.getSizeAlongDirection(line.getNormalDirection()) == line.size())
         return 0;
