@@ -23,26 +23,19 @@ int main(){
     TilesetProperties tileset_properties = load("data/tileset.json");
     MapBinFileIO map_bin_file;
     map_bin_file.open("test.map");
-    Map* map = new Map(map_bin_file.load());
-    SmartMap::fromMap(map_bin_file.load());
-    //BlockPlacer block_placer(&tileset_properties.block_set);h
-    //block_placer.setMap(&map);
-    srand(time(NULL));
-    auto start = std::chrono::high_resolution_clock::now();
-    int n = 0;
-    for (int i = 0; i < 1000000; i++){
-        d2kmapapi::getRandomNumberOld(0, 1000000);
-    }
-    auto end = std::chrono::high_resolution_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    std::cout << elapsed.count() << '\n';
-    SmartMap map_2(128, 128);
-    map_2.initHistoryStack();
-    Painter painter(&map_2, &tileset_properties.palette);
-    for (int i = 0; i < 128; i++){
-        for (int j = 0; j < 128; j++){
-            painter.paint(i, j, "rock");
-        }
+    auto map = SmartMap::fromMap(map_bin_file.load());
+    BlockPlacer block_placer(&tileset_properties.block_set);
+    block_placer.setMap(&map);
+    map.initHistoryStack();
+    Painter painter(&map, &tileset_properties.palette);
+
+    auto edge = Horizontal::fromTop(2, 3, 2);
+
+    auto blocks = block_placer.compatibleBlocks(edge, d2kmapapi::Direction::DOWN, "rock_cliffs");
+    std::cout << blocks.size() << '\n';
+    for (int i = 0; i < blocks.size(); i++){
+        auto edge = Horizontal::fromTop(2 + i*4, 3 + i*4, 2);
+        block_placer.smartEdgePlace(edge, d2kmapapi::Direction::DOWN, blocks[i]);
     }
     
     //Horizontal horizontal = Horizontal::fromBottom(5, 6, 5); 
@@ -52,7 +45,7 @@ int main(){
     //for (auto block : blocks){
     //    std::cout << block_placer.getShift(horizontal, d2kmapapi::Direction::DOWN, block) << "\n";
     //}
-    map_bin_file.save(map_2);
+    map_bin_file.save(map);
     std::cout << "done!";
     return 0;
 }
