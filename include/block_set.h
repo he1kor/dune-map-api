@@ -83,8 +83,8 @@ class Block{
     /*!
 	\brief Container of block groups. All groups can be accesed by corresponding string name. CompatibleChecker is included for determing compatibility of different blocks.
     */
-   class BlockSet{
-       public:
+class BlockSet{
+    public:
        /**
         * \brief Constructor, setting block_groups field and compatible_checker pointer.
         * \param block_groups map of string to array of blocks.
@@ -142,8 +142,9 @@ class Block{
         */
         std::vector<Block> compatibleBlocks(const std::vector<CompatibleType> &compatible_types, d2kmapapi::Direction direction, std::string group_name);
         std::vector<Block> compatibleBlocks(const DirectionalLine &line, std::string group);
-
+        
     private:
+        bool checkGroupExists(std::string group_name);
         CompatibleChecker* compatible_checker;
         std::map<std::string, std::vector<Block>> block_groups;
 };
