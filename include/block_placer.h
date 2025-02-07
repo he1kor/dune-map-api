@@ -7,7 +7,6 @@
 #include "edge.h"
 #include "util.h"
 #include "compatible_checker.h"
-#include "history_stack.h"
 /*!
 	\brief Class allows to work with BlockSet on certain map. For that, it contains BlockSet* and Map*.
 */
@@ -48,6 +47,7 @@ class BlockPlacer{
         bool placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift);
         bool placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         bool isEdgeCompatible(const Edge& edge) const;
+        std::vector<Block> compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group);
     private:
         bool checkPerpendicularToEdge(const Edge& edge, const d2kmapapi::Direction &direction);
         CompatibleChecker* compatible_checker = nullptr;

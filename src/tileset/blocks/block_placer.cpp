@@ -87,7 +87,7 @@ void BlockPlacer::loopPlace(const Edge &edge, const d2kmapapi::Direction &direct
 
 //Done
 bool BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
-    placeOnEdgeShifted(edge, direction, block, getQuickShift(edge, direction, block));
+    return placeOnEdgeShifted(edge, direction, block, getQuickShift(edge, direction, block));
 }
 //done
 bool BlockPlacer::placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift){
@@ -139,8 +139,12 @@ bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
     return true;
 }
 
+std::vector<Block> BlockPlacer::compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group){
+    return block_set->compatibleBlocks(map->getLineFacingEdge(edge, direction), group);
+}
+
 bool BlockPlacer::checkPerpendicularToEdge(const Edge &edge, const d2kmapapi::Direction &direction){
-    if (edge.isAlong(direction))
+    if (!edge.isAlong(direction))
         return true;
     throw std::invalid_argument("Direction is not perpendicular to the edge!");
     return false;
