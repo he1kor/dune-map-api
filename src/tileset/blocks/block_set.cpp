@@ -74,9 +74,15 @@ BlockSet::BlockSet(const std::map<std::string, std::vector<Block>> &block_groups
 
 BlockSet::BlockSet(){}
 
-//TODO: finish
 int BlockSet::getQuickShift(const CompatibleType &compatible_type, d2kmapapi::Direction direction, const Block &block) const{
-    return 0;
+    auto reversed = d2kmapapi::reverse(direction);
+    
+    for (int i = 0; i < block.getDirectionalOutLine(reversed).size(); i++){
+        if (compatible_checker->compatibleType(block.getDirectionalOutLine(reversed)[i], reversed) == compatible_type)
+            return i;
+    }
+    throw std::invalid_argument("Block is not compatible to the provided compatible type!");
+    return -1;
 }
 
 
