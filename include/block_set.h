@@ -33,86 +33,88 @@ class Block{
         */
         std::vector<std::vector<uint16_t>> getMatrix() const;
         
+        
         /**
          * \brief Getter of top side of the matrix.
          * \return vector of tiles
-        */
+         */
         DirectionalLine getDirectionalOutLine(d2kmapapi::Direction direction) const;
-
+        
         /**
          * \brief Getter of top side of the matrix.
          * \return vector of tiles
-        */
+         */
         std::vector<uint16_t> getTopTiles() const;
         
         /**
          * \brief Getter of left side of the matrix.
          * \return vector of tiles
-        */
+         */
         std::vector<uint16_t> getLeftTiles() const;
         
         /**
          * \brief Getter of right side of the matrix.
          * \return vector of tiles
-        */
+         */
         std::vector<uint16_t> getRightTiles() const;
-
+        
         /**
          * \brief Getter of bottom side of the matrix.
          * \return vector of tiles
-        */
+         */
         std::vector<uint16_t> getBottomTiles() const;
         /**
          * \brief Getter of width of the matrix.
          * \return width integer
-        */
+         */
         int getWidth() const;
         /**
          * \brief Getter of height of the matrix.
          * \return width integer
-        */
+         */
         int getHeight() const;
-    private:    
+        private:    
         std::vector<uint16_t> left;
         std::vector<uint16_t> right;
         int width;
         int height;
         std::vector<std::vector<uint16_t>> tiles;
-};
-/*!
+    };
+    /*!
 	\brief Container of block groups. All groups can be accesed by corresponding string name. CompatibleChecker is included for determing compatibility of different blocks.
-*/
-class BlockSet{
-    public:
-        /**
-         * \brief Constructor, setting block_groups field and compatible_checker pointer.
-         * \param block_groups map of string to array of blocks.
-         * \param compatible_checker CompatibleChecker pointer.
+    */
+   class BlockSet{
+       public:
+       /**
+        * \brief Constructor, setting block_groups field and compatible_checker pointer.
+        * \param block_groups map of string to array of blocks.
+        * \param compatible_checker CompatibleChecker pointer.
         */
-        BlockSet(const std::map<std::string, std::vector<Block>>& block_groups, CompatibleChecker* compatible_checker);
-
-        /**
-         * \brief Constructor, setting block_groups field.
-         * \param block_groups map of string to array of blocks.
+       BlockSet(const std::map<std::string, std::vector<Block>>& block_groups, CompatibleChecker* compatible_checker);
+       
+       /**
+        * \brief Constructor, setting block_groups field.
+        * \param block_groups map of string to array of blocks.
         */
-        BlockSet(const std::map<std::string, std::vector<Block>>& block_groups);
-        /**
-         * \brief Constructor with late block_groups initialization.
+       BlockSet(const std::map<std::string, std::vector<Block>>& block_groups);
+       /**
+        * \brief Constructor with late block_groups initialization.
         */
-        BlockSet();
-        /**
-         * \brief Sets active compatible checker for compatible operations.
-         * \param compatible_checker compatible_checker pointer to be set as field
+       BlockSet();
+       /**
+        * \brief Sets active compatible checker for compatible operations.
+        * \param compatible_checker compatible_checker pointer to be set as field
         */
-        void addCompatibleCheker(CompatibleChecker* compatible_checker);
-        /**
-         * \brief Adds a new block group to block grouops.
-         * \param group block group to be added.
+       int getShift(const DirectionalLine& directional_line, const Block& block) const;
+       void addCompatibleCheker(CompatibleChecker* compatible_checker);
+       /**
+        * \brief Adds a new block group to block grouops.
+        * \param group block group to be added.
         */
-        void addGroup(const std::string& group);
-        /**
-         * \brief Adds a new block to certain block group.
-         * \param block block to be added
+       void addGroup(const std::string& group);
+       /**
+        * \brief Adds a new block to certain block group.
+        * \param block block to be added
          * \param group target group
         */
         void addBlock(const Block& block, const std::string& group);
@@ -138,7 +140,9 @@ class BlockSet{
          * \param line line to which all returned blocks should be compatible
          * \param group name of group in which compatible blocks are searched.
         */
-        std::vector<Block> compatibleBlocks(const DirectionalLine& line, std::string group);
+        std::vector<Block> compatibleBlocks(const std::vector<CompatibleType> &compatible_types, d2kmapapi::Direction direction, std::string group_name);
+        std::vector<Block> compatibleBlocks(const DirectionalLine &line, std::string group);
+
     private:
         CompatibleChecker* compatible_checker;
         std::map<std::string, std::vector<Block>> block_groups;

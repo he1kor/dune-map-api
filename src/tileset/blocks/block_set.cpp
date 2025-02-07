@@ -65,6 +65,11 @@ BlockSet::BlockSet(const std::map<std::string, std::vector<Block>> &block_groups
 
 BlockSet::BlockSet(){}
 
+int BlockSet::getShift(const DirectionalLine &directional_line, const Block &block) const{
+    
+    return 0;
+}
+
 void BlockSet::addCompatibleCheker(CompatibleChecker *compatible_checker){
     this->compatible_checker = compatible_checker;
 }
@@ -96,15 +101,19 @@ CompatibleChecker *BlockSet::getCompatibleChecker() const{
 }
 
 //TODO: add cache for already used blocks on such compatible types in such direction
-std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string group_name){
+std::vector<Block> BlockSet::compatibleBlocks(const std::vector<CompatibleType>& compatible_types, d2kmapapi::Direction direction, std::string group_name){
     std::vector<Block> compatible_blocks;
-    std::vector<CompatibleType> compatible_types = compatible_checker->compatibleTypes(line);
     if (!block_groups.count(group_name))
         throw std::invalid_argument("Block group " + group_name + " doesn't exists!");
     for (Block block : block_groups.at(group_name)){
-        std::vector<CompatibleType> compatible_types_check = compatible_checker->compatibleTypes(block.getDirectionalOutLine(d2kmapapi::reverse(line.getNormalDirection())));
+        std::vector<CompatibleType> compatible_types_check = compatible_checker->compatibleTypes(block.getDirectionalOutLine(direction));
         if (d2kmapapi::isSubarray(compatible_types_check, compatible_types))
             compatible_blocks.push_back(block);
     }
     return compatible_blocks;
+}
+
+std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string group_name){
+    std::vector<CompatibleType> compatible_types = compatible_checker->compatibleTypes(line);
+    return compatibleBlocks(compatible_types, d2kmapapi::reverse(line.getNormalDirection()), group_name);
 }
