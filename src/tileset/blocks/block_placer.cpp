@@ -87,56 +87,37 @@ void BlockPlacer::loopPlace(const Edge &edge, const d2kmapapi::Direction &direct
 
 //TODO:: Places even if size don't fit, determines shift, extends edge
 bool BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
-    int block_length = block.getHeight();
-    std::vector<uint16_t> block_tiles;
-    std::vector<std::pair<int, int>> edge_line;
-    switch (direction){
-        case d2kmapapi::Direction::DOWN:
-            block_tiles = block.getTopTiles();
-            edge_line = edge.onBefore();
-            break;
-        case d2kmapapi::Direction::LEFT:
-            block_tiles = block.getRightTiles();
-            edge_line = edge.onAfter();
-            break;
-        case d2kmapapi::Direction::RIGHT:
-            block_tiles = block.getLeftTiles();
-            edge_line = edge.onBefore();
-            break;
-        case d2kmapapi::Direction::UP:
-            block_tiles = block.getBottomTiles();
-            edge_line = edge.onAfter();
-            break;
-    }
+    
 
     return false;
 }
 //done
-bool BlockPlacer::placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
-    checkPerpendicularToEdge(edge, direction);
-    int block_length = block.getHeight();
-    if (edge.getOrientation() == Orientation::horizontal)
-        block_length = block.getWidth();
-    if (block_length != edge.getSize()){
-        throw std::invalid_argument("Sizes don't fit!");
+bool BlockPlacer::placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift){
+    if (!checkPerpendicularToEdge(edge, direction))
         return false;
-    }
     auto [x, y] = edge.onAfter()[0];
     switch (direction){
         case d2kmapapi::Direction::DOWN:
-            place(x, y, block);
+            place(x-shift, y, block);
             break;
         case d2kmapapi::Direction::LEFT:
-            place(x-block.getWidth(), y, block);
+            place(x-block.getWidth(), y-shift, block);
             break;
         case d2kmapapi::Direction::UP:
-            place(x, y-block.getHeight(), block);
+            place(x-shift, y-block.getHeight(), block);
             break;
         case d2kmapapi::Direction::RIGHT:
-            place(x, y, block);
+            place(x, y-shift, block);
             break;
     }
     return true;
+}
+bool BlockPlacer::placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
+    if (block.getSizeAlongDirection(direction) != edge.getSize()){
+        throw std::invalid_argument("Sizes don't fit!");
+        return false;
+    }
+    return placeOnEdgeShifted(edge, direction, block, 0);
 }
 //done
 bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{

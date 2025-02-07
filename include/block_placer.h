@@ -45,6 +45,7 @@ class BlockPlacer{
         int nextBlockScore(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next);
         void loopPlace(const Edge& edge, const d2kmapapi::Direction& direction, std::vector<std::vector<CompatibleType>> next_edges);
         bool smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
+        bool placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift);
         bool placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         bool isEdgeCompatible(const Edge& edge) const;
     private:
