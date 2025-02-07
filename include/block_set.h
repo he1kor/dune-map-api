@@ -73,7 +73,7 @@ class Block{
          * \return width integer
          */
         int getHeight() const;
-        int getSizeAlongDirection(d2kmapapi::Direction direction);
+        int getSizeAlongDirection(d2kmapapi::Direction direction) const;
         private:    
         std::vector<uint16_t> left;
         std::vector<uint16_t> right;
