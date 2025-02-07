@@ -96,8 +96,7 @@ namespace {
     }
 }
 
-TilesetProperties load(const char filename[])
-{
+TilesetProperties load(const char filename[]){
     checkFileExtensionError(filename, JSON_EXTENSION);
 
     std::ifstream file(filename);

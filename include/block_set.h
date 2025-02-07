@@ -102,6 +102,13 @@ class BlockSet{
         * \brief Constructor with late block_groups initialization.
         */
        BlockSet();
+       /**
+        * \brief Determines gap in the block before the first occurrence of provided compatible type.
+        * Helps to determine how much block should be shifted to properly connect with the line.
+        * \param directional_line Line to connect block with.
+        * \param block Block to check the gap.
+        * \return The number of tiles before block from required side get same compatible type as directional_line.
+        */
        int getQuickShift(const CompatibleType &compatible_types, d2kmapapi::Direction direction, const Block &block) const;
        /**
         * \brief Determines gap in the block before the first occurrence of compatible type for the provided line.
