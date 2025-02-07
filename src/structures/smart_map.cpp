@@ -91,8 +91,7 @@ void SmartMap::commitEntityID(int x, int y, uint16_t entity_id){
         y
     ));
 }
-void SmartMap::commitTile(LocatedTile located_tile)
-{
+void SmartMap::commitTile(LocatedTile located_tile){
     if (!history_stack){
         setUntrackedTile(located_tile);
         return;
@@ -144,7 +143,7 @@ void SmartMap::addTile(LocatedTile located_tile){
 
 DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection){
     std::vector<uint16_t> edge_tiles;
-    for (auto [x, y] : facingDirection == d2kmapapi::Direction::RIGHT || facingDirection == d2kmapapi::Direction::DOWN ? edge.onAfter() : edge.onBefore()){
+    for (auto [x, y] : facingDirection == d2kmapapi::Direction::RIGHT || facingDirection == d2kmapapi::Direction::DOWN ? edge.onBefore() : edge.onAfter()){
         edge_tiles.push_back((*this)[y][x].tileID);
     }
     return DirectionalLine(edge_tiles, facingDirection);
