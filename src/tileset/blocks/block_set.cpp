@@ -67,6 +67,14 @@ int Block::getSizeAlongDirection(d2kmapapi::Direction direction) const{
     }
     return getHeight();
 }
+int Block::getSizePerpendicularToDirection(d2kmapapi::Direction direction) const{
+    switch (direction){
+        case d2kmapapi::Direction::LEFT:
+        case d2kmapapi::Direction::RIGHT:
+            return getHeight();
+    }
+    return getWidth();
+}
 
 BlockSet::BlockSet(const std::map<std::string, std::vector<Block>> &block_groups, CompatibleChecker *compatible_checker) : block_groups{block_groups}, compatible_checker{compatible_checker}{}
 
@@ -86,7 +94,7 @@ int BlockSet::getQuickShift(const CompatibleType &compatible_type, d2kmapapi::Di
 }
 
 int BlockSet::getQuickShift(const DirectionalLine &line, const Block &block) const{
-    if (block.getSizeAlongDirection(line.getNormalDirection()) == line.size())
+    if (block.getSizePerpendicularToDirection(line.getNormalDirection()) == line.size())
         return 0;
     auto compatible_type = compatible_checker->compatibleType(line[0], line.getNormalDirection());
     return getQuickShift(compatible_type, line.getNormalDirection(), block);
