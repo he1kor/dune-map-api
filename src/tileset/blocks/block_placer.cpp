@@ -85,11 +85,9 @@ void BlockPlacer::loopPlace(const Edge &edge, const d2kmapapi::Direction &direct
     HistoryStack loop_stack(map);
 }
 
-//TODO:: Places even if size don't fit, determines shift, extends edge
+//Done
 bool BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
-    
-
-    return false;
+    placeOnEdgeShifted(edge, direction, block, getQuickShift(edge, direction, block));
 }
 //done
 bool BlockPlacer::placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift){
