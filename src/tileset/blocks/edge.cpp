@@ -17,20 +17,22 @@ Edge::Edge(int x, int y, int size, Orientation orientation) : x{x}, y{y}, size{s
         throw std::out_of_range(std::format("The coords ({}-{},{}-{}) are out of map bounds ({})!", x, x+size-1, y, y+size-1, d2kmapapi::max_map_size));
 };
 
+//TODO: cache the results
+//TODO: Why not check bounds at edge initialization?
 std::vector<std::pair<int, int>> Edge::onBefore() const{
-    std::vector<std::pair<int, int>> tiles;
+    std::vector<std::pair<int, int>> coords;
     if (orientation == Orientation::horizontal){
         checkTopBounds(y);
         for (int i_x = x; i_x < x+size; i_x++){
-            tiles.push_back({i_x, y-1});
+            coords.push_back({i_x, y-1});
         }
     } else {
         checkLeftBounds(x);
         for (int i_y = y; i_y < y+size; i_y++){
-            tiles.push_back({x-1, i_y});
+            coords.push_back({x-1, i_y});
         }
     }
-    return tiles;
+    return coords;
 }
 std::pair<int, int> Edge::onBefore(int i) const{
     if (orientation == Orientation::horizontal){
@@ -46,19 +48,19 @@ std::pair<int, int> Edge::onBefore(int i) const{
     }
 }
 std::vector<std::pair<int, int>> Edge::onAfter() const{
-    std::vector<std::pair<int, int>> tiles;
+    std::vector<std::pair<int, int>> coords;
     if (orientation == Orientation::horizontal){
         checkBottomBounds(y);
         for (int i_x = x; i_x < x+size; i_x++){
-            tiles.push_back({i_x, y});
+            coords.push_back({i_x, y});
         }
     } else {
         checkRightBounds(x);
         for (int i_y = y; i_y < y+size; i_y++){
-            tiles.push_back({x, i_y});
+            coords.push_back({x, i_y});
         }
     }
-    return tiles;
+    return coords;
 }
 std::pair<int, int> Edge::onAfter(int i) const{
     if (orientation == Orientation::horizontal){
@@ -87,6 +89,15 @@ Orientation Edge::getOrientation() const{
     return orientation;
 }
 
+bool Edge::isAlong(d2kmapapi::Direction direction){
+    bool result = true;
+    switch (direction){
+        case d2kmapapi::LEFT:
+        case d2kmapapi::RIGHT:        
+            return getOrientation() == horizontal;
+    }
+    return getOrientation() == vertical;
+}
 
 bool Edge::checkLeftBounds(int edge_x){
     if (edge_x <= 0){

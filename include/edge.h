@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <utility>
+#include "util.h"
 
 /*!
 	\brief Orientation of an edge
@@ -58,6 +59,7 @@ class Edge{
          * \return this orientation.
         */
         Orientation getOrientation() const;
+        bool isAlong(d2kmapapi::Direction direction);
     protected:
         Edge(int x, int y, int size, Orientation orientation);
         int x;
