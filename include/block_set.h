@@ -73,6 +73,7 @@ class Block{
          * \return width integer
          */
         int getHeight() const;
+        int getSizeAlongDirection(d2kmapapi::Direction direction);
         private:    
         std::vector<uint16_t> left;
         std::vector<uint16_t> right;
@@ -101,11 +102,20 @@ class BlockSet{
         * \brief Constructor with late block_groups initialization.
         */
        BlockSet();
+       int getQuickShift(const CompatibleType &compatible_types, d2kmapapi::Direction direction, const Block &block) const;
+       /**
+        * \brief Determines gap in the block before the first occurrence of compatible type for the provided line.
+        * Helps to determine how much block should be shifted to properly connect with the line.
+        * Optimized to check only first tile match instead of the whole vector, so will lead to UB if try with complicated blocks.
+        * \param directional_line Line to connect block with.
+        * \param block Block to check the gap.
+        * \return The number of tiles before block from required side get same compatible type as directional_line.
+        */
+       int getQuickShift(const DirectionalLine& directional_line, const Block& block) const;
        /**
         * \brief Sets active compatible checker for compatible operations.
         * \param compatible_checker compatible_checker pointer to be set as field
         */
-       int getShift(const DirectionalLine& directional_line, const Block& block) const;
        void addCompatibleCheker(CompatibleChecker* compatible_checker);
        /**
         * \brief Adds a new block group to block grouops.

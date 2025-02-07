@@ -59,15 +59,30 @@ int Block::getHeight() const{
     return height;
 }
 
+int Block::getSizeAlongDirection(d2kmapapi::Direction direction){
+    switch (direction){
+        case d2kmapapi::Direction::LEFT:
+        case d2kmapapi::Direction::RIGHT:
+            return getWidth();
+    }
+    return getHeight();
+}
+
 BlockSet::BlockSet(const std::map<std::string, std::vector<Block>> &block_groups, CompatibleChecker *compatible_checker) : block_groups{block_groups}, compatible_checker{compatible_checker}{}
 
 BlockSet::BlockSet(const std::map<std::string, std::vector<Block>> &block_groups) : block_groups{block_groups} {}
 
 BlockSet::BlockSet(){}
 
-int BlockSet::getShift(const DirectionalLine &directional_line, const Block &block) const{
-    
+//TODO: finish
+int BlockSet::getQuickShift(const CompatibleType &compatible_type, d2kmapapi::Direction direction, const Block &block) const{
     return 0;
+}
+
+
+int BlockSet::getQuickShift(const DirectionalLine &line, const Block &block) const{
+    auto compatible_type = compatible_checker->compatibleType(line[0], line.getNormalDirection());
+    return getQuickShift(compatible_type, line.getNormalDirection(), block);
 }
 
 void BlockSet::addCompatibleCheker(CompatibleChecker *compatible_checker){
@@ -106,8 +121,8 @@ std::vector<Block> BlockSet::compatibleBlocks(const std::vector<CompatibleType>&
 
     std::vector<Block> compatible_blocks;
     for (Block block : block_groups.at(group_name)){
-        
-        std::vector<CompatibleType> compatible_types_check = compatible_checker->compatibleTypes(block.getDirectionalOutLine(direction));
+
+        auto compatible_types_check = compatible_checker->compatibleTypes(block.getDirectionalOutLine(direction));
 
         if (d2kmapapi::isSubarray(compatible_types_check, compatible_types))
             compatible_blocks.push_back(block);
@@ -117,7 +132,7 @@ std::vector<Block> BlockSet::compatibleBlocks(const std::vector<CompatibleType>&
 
 std::vector<Block> BlockSet::compatibleBlocks(const DirectionalLine& line, std::string group_name){
     checkGroupExists(group_name);
-    std::vector<CompatibleType> compatible_types = compatible_checker->compatibleTypes(line);
+    auto compatible_types = compatible_checker->compatibleTypes(line);
     return compatibleBlocks(compatible_types, d2kmapapi::reverse(line.getNormalDirection()), group_name);
 }
 
