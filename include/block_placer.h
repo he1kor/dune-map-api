@@ -45,9 +45,10 @@ class BlockPlacer{
         int nextBlockScore(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next);
         void loopPlace(const Edge& edge, const d2kmapapi::Direction& direction, std::vector<std::vector<CompatibleType>> next_edges);
         bool smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
-        bool placeEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
+        bool placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         bool isEdgeCompatible(const Edge& edge) const;
     private:
+        bool checkPerpendicularToEdge(const Edge& edge, const d2kmapapi::Direction &direction);
         CompatibleChecker* compatible_checker = nullptr;
         BlockSet* block_set = nullptr;
         SmartMap* map = nullptr;

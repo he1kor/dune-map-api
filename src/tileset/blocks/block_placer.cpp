@@ -17,7 +17,7 @@ void BlockPlacer::setBlockSet(BlockSet *block_set){
     this->block_set = block_set;
     this->compatible_checker = block_set->getCompatibleChecker();
 }
-
+//done
 void BlockPlacer::place(int x, int y, const Block &block){
     std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
     for (int r = 0; r < block.getHeight(); r++){
@@ -27,7 +27,7 @@ void BlockPlacer::place(int x, int y, const Block &block){
     }
     map->commit();
 }
-
+//done
 std::vector<CompatibleType> BlockPlacer::getCompatibleTypesFacingEdge(const Edge &edge, const d2kmapapi::Direction &direction){
     DirectionalLine line = map->getLineFacingEdge(edge, direction);
     return compatible_checker->compatibleTypes(line);
@@ -146,14 +146,14 @@ bool BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &d
 
     return false;
 }
-
-bool BlockPlacer::placeEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block)
-{
+//done
+bool BlockPlacer::placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
+    checkPerpendicularToEdge(edge, direction);
     int block_length = block.getHeight();
     if (edge.getOrientation() == Orientation::horizontal)
         block_length = block.getWidth();
     if (block_length != edge.getSize()){
-        throw std::runtime_error("Sizes don't fit!");
+        throw std::invalid_argument("Sizes don't fit!");
         return false;
     }
     auto [x, y] = edge.onAfter()[0];
@@ -173,7 +173,7 @@ bool BlockPlacer::placeEdge(const Edge &edge, const d2kmapapi::Direction &direct
     }
     return true;
 }
-
+//done
 bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
     d2kmapapi::Direction direction;
     if (edge.getOrientation() == Orientation::horizontal)
@@ -193,4 +193,11 @@ bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
             return false;
     }
     return true;
+}
+
+bool BlockPlacer::checkPerpendicularToEdge(const Edge &edge, const d2kmapapi::Direction &direction){
+    if (edge.isAlong(direction))
+        return true;
+    throw std::invalid_argument("Direction is not perpendicular to the edge!");
+    return false;
 }
