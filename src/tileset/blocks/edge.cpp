@@ -89,7 +89,7 @@ Orientation Edge::getOrientation() const{
     return orientation;
 }
 
-bool Edge::isAlong(d2kmapapi::Direction direction){
+bool Edge::isAlong(d2kmapapi::Direction direction) const{
     bool result = true;
     switch (direction){
         case d2kmapapi::LEFT:

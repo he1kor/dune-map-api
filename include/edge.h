@@ -59,7 +59,7 @@ class Edge{
          * \return this orientation.
         */
         Orientation getOrientation() const;
-        bool isAlong(d2kmapapi::Direction direction);
+        bool isAlong(d2kmapapi::Direction direction) const;
     protected:
         Edge(int x, int y, int size, Orientation orientation);
         int x;
