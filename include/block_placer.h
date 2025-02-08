@@ -45,6 +45,7 @@ class BlockPlacer{
         std::pair<int, int> placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift);
         std::pair<int, int> placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         Edge getSideEdge(const Block &block, const d2kmapapi::Direction &direction, int x, int y, int offset, int size);
+        Edge smartPlaceNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes);
         Edge placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> next_edge_types);
         Edge findNextEdgeOnBlock(const Block& block, int x, int y, const d2kmapapi::Direction& placement_direction, const std::set<CompatibleType>& edge_types);
         bool isEdgeCompatible(const Edge& edge) const;

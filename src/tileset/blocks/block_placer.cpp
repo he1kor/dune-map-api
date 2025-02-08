@@ -80,6 +80,10 @@ Edge BlockPlacer::getSideEdge(const Block &block, const d2kmapapi::Direction &di
             return Horizontal::fromBottom(x+offset, x+offset+size, y+block.getHeight());
     }
 }
+Edge BlockPlacer::smartPlaceNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
+    auto [x, y] = smartEdgePlace(edge, direction, block);
+    return findNextEdgeOnBlock(block, x, y, d2kmapapi::reverse(direction), nextEdgeTypes);
+}
 Edge BlockPlacer::placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
     auto [x, y] = placeOnEdge(edge, direction, block);
     return findNextEdgeOnBlock(block, x, y, d2kmapapi::reverse(direction), nextEdgeTypes);
