@@ -82,8 +82,7 @@ Edge BlockPlacer::getSideEdge(const Block &block, const d2kmapapi::Direction &di
 }
 Edge BlockPlacer::placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
     auto [x, y] = placeOnEdge(edge, direction, block);
-
-    return Edge();
+    return findNextEdgeOnBlock(block, x, y, d2kmapapi::reverse(direction), nextEdgeTypes);
 }
 //todo: cache next edge offset of block
 Edge BlockPlacer::findNextEdgeOnBlock(const Block &block, int x, int y, const d2kmapapi::Direction &excluded_direction, const std::set<CompatibleType> &edge_types){
@@ -97,9 +96,11 @@ Edge BlockPlacer::findNextEdgeOnBlock(const Block &block, int x, int y, const d2
                 size++;
                 i++;
             }
+            if (size)
+                return getSideEdge(block, direction, x, y, i, size);
         }
     }
-    return Edge();
+    throw std::runtime_error("No next edge on block found");
 }
 bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
     d2kmapapi::Direction direction;
