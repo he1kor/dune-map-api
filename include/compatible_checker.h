@@ -18,10 +18,11 @@ class CompatibleType{
          * \brief Default constructor, assumes "" as the type_name.
         */
         CompatibleType();
+        CompatibleType(const char *str);
         /**
          * \brief Common constructor, takes string as the type_name.
          * \param type_name sets the type_name
-        */
+         */
         CompatibleType(std::string type_name);
         /**
          * \brief Copy constructor

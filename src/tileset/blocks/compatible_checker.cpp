@@ -2,7 +2,8 @@
 #include <stdexcept>
 
 CompatibleType::CompatibleType() : type_name(""){}
-CompatibleType::CompatibleType(std::string type_name) :type_name(type_name){}
+CompatibleType::CompatibleType(const char* str) : type_name(str){}
+CompatibleType::CompatibleType(std::string type_name) : type_name(type_name) {}
 
 CompatibleType::CompatibleType(const CompatibleType &compatible_type){
     type_name = compatible_type.type_name;
