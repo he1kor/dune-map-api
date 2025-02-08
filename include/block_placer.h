@@ -39,13 +39,14 @@ class BlockPlacer{
          * \param edge edge, next to which tiles are checked for compatibility.
         */
         //void findNextPlace(const Edge& edge);
-        std::vector<CompatibleType> getCompatibleTypesFacingEdge(const Edge& edge, const d2kmapapi::Direction &facingDirection);
+        std::vector<CompatibleType> getCompatibleTypesFacingEdge(const Edge& edge, const d2kmapapi::Direction &facing_direction);
         int getQuickShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
-        int nextBlockScore(const Edge& edge, const d2kmapapi::Direction &direction, const Block& block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next);
-        void loopPlace(const Edge& edge, const d2kmapapi::Direction& direction, std::vector<std::vector<CompatibleType>> next_edges);
-        bool smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
-        bool placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift);
-        bool placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
+        std::pair<int, int> smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
+        std::pair<int, int> placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift);
+        std::pair<int, int> placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
+        Edge getSideEdge(const Block &block, const d2kmapapi::Direction &direction, int x, int y, int offset, int size);
+        Edge placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> next_edge_types);
+        Edge findNextEdgeOnBlock(const Block& block, int x, int y, const d2kmapapi::Direction& placement_direction, const std::set<CompatibleType>& edge_types);
         bool isEdgeCompatible(const Edge& edge) const;
         std::vector<Block> compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group);
     private:

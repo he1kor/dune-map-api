@@ -17,7 +17,7 @@ void BlockPlacer::setBlockSet(BlockSet *block_set){
     this->block_set = block_set;
     this->compatible_checker = block_set->getCompatibleChecker();
 }
-//done
+        //TODO: add out of map support
 void BlockPlacer::place(int x, int y, const Block &block){
     std::vector<std::vector<uint16_t>> tiles = block.getMatrix();
     for (int r = 0; r < block.getHeight(); r++){
@@ -27,97 +27,80 @@ void BlockPlacer::place(int x, int y, const Block &block){
     }
     map->commit();
 }
-//done
 std::vector<CompatibleType> BlockPlacer::getCompatibleTypesFacingEdge(const Edge &edge, const d2kmapapi::Direction &direction){
     DirectionalLine line = map->getLineFacingEdge(edge, direction);
     return compatible_checker->compatibleTypes(line);
 }
 
-//done
 int BlockPlacer::getQuickShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
     return block_set->getQuickShift(map->getLineFacingEdge(edge, direction), block);
 }
 
-//TODO:: DO
-int BlockPlacer::nextBlockScore(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::vector<CompatibleType> block_next_compatible, std::vector<CompatibleType> temp_next){
-    int shift = getQuickShift(edge, direction, block);
-    std::vector<CompatibleType> block_bottom = compatible_checker->compatibleTypes(DirectionalLine(block.getBottomTiles(), d2kmapapi::Direction::DOWN));
-    std::vector<CompatibleType> block_left = compatible_checker->compatibleTypes(DirectionalLine(block.getLeftTiles(), d2kmapapi::Direction::LEFT));
-    std::vector<CompatibleType> block_right = compatible_checker->compatibleTypes(DirectionalLine(block.getRightTiles(), d2kmapapi::Direction::RIGHT));
-    std::vector<CompatibleType> block_top = compatible_checker->compatibleTypes(DirectionalLine(block.getTopTiles(), d2kmapapi::Direction::UP));
-    int x;
-    int y;
-    switch (direction){
-        case d2kmapapi::Direction::DOWN:
-            x = edge.onBefore()[0].first-shift-1;
-            y = edge.onBefore()[0].second;
-            break;
-        case d2kmapapi::Direction::LEFT:
-            x = edge.onBefore()[0].first-block.getWidth();
-            y = edge.onBefore()[0].second-shift-1;
-            break;
-        case d2kmapapi::Direction::RIGHT:
-            x = edge.onBefore()[0].first;
-            y = edge.onBefore()[0].second-shift-1;
-            break;
-        case d2kmapapi::Direction::UP:
-            x = edge.onBefore()[0].first-shift-1;
-            y = edge.onBefore()[0].second-block.getHeight();
-            break;
-    }
-
-    std::vector<uint16_t> out_tiles_bottom;
-    std::vector<uint16_t> out_tiles_left;
-    std::vector<uint16_t> out_tiles_right;
-    std::vector<uint16_t> out_tiles_top;
-    std::vector<CompatibleType> out_bottom;
-    std::vector<CompatibleType> out_left;
-    std::vector<CompatibleType> out_right;
-    std::vector<CompatibleType> out_top;
-    for (int x_i = x+1; x_i <= x+block.getWidth(); x_i++){
-        out_tiles_top.push_back(map->getTileID(x_i, y));
-        out_tiles_bottom.push_back(map->getTileID(x, y + block.getHeight()));
-    }
-    return 0;
-}
-
-void BlockPlacer::loopPlace(const Edge &edge, const d2kmapapi::Direction &direction, std::vector<std::vector<CompatibleType>> next_edges){
-    HistoryStack loop_stack(map);
-}
-
-//Done
-bool BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
+std::pair<int, int> BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
     return placeOnEdgeShifted(edge, direction, block, getQuickShift(edge, direction, block));
 }
-//done
-bool BlockPlacer::placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift){
-    if (!checkPerpendicularToEdge(edge, direction))
-        return false;
+std::pair<int, int> BlockPlacer::placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift){
+    checkPerpendicularToEdge(edge, direction);
     auto [x, y] = edge.onAfter()[0];
+    
     switch (direction){
         case d2kmapapi::Direction::DOWN:
-            place(x-shift, y, block);
+            x -= shift;
             break;
         case d2kmapapi::Direction::LEFT:
-            place(x-block.getWidth(), y-shift, block);
+            x -= block.getWidth();
+            y -= shift;
             break;
         case d2kmapapi::Direction::UP:
-            place(x-shift, y-block.getHeight(), block);
+            x -= shift;
+            y -= block.getHeight();
             break;
         case d2kmapapi::Direction::RIGHT:
-            place(x, y-shift, block);
+            y -= shift;
             break;
     }
-    return true;
+    place(x, y, block);
+    return {x, y};
 }
-bool BlockPlacer::placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
-    if (block.getSizeAlongDirection(direction) != edge.getSize()){
+std::pair<int, int> BlockPlacer::placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
+    if (block.getSizeAlongDirection(direction) != edge.getSize())
         throw std::invalid_argument("Sizes don't fit!");
-        return false;
-    }
     return placeOnEdgeShifted(edge, direction, block, 0);
 }
-//done
+Edge BlockPlacer::getSideEdge(const Block &block, const d2kmapapi::Direction &direction, int x, int y, int offset, int size){
+    size--;
+    switch (direction){
+        case d2kmapapi::Direction::UP:
+            return Horizontal::fromBottom(x+offset, x+offset+size, y);
+        case d2kmapapi::Direction::LEFT:
+            return Vertical::fromRight(y+offset, y+offset+size, x);
+        case d2kmapapi::Direction::RIGHT:
+            return Vertical::fromRight(y+offset, y+offset+size, x+block.getWidth());
+        case d2kmapapi::Direction::DOWN:
+            return Horizontal::fromBottom(x+offset, x+offset+size, y+block.getHeight());
+    }
+}
+Edge BlockPlacer::placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
+    auto [x, y] = placeOnEdge(edge, direction, block);
+
+    return Edge();
+}
+//todo: cache next edge offset of block
+Edge BlockPlacer::findNextEdgeOnBlock(const Block &block, int x, int y, const d2kmapapi::Direction &excluded_direction, const std::set<CompatibleType> &edge_types){
+    std::set<d2kmapapi::Direction> directions = {d2kmapapi::Direction::DOWN, d2kmapapi::Direction::LEFT, d2kmapapi::Direction::RIGHT, d2kmapapi::Direction::UP};
+    directions.erase(excluded_direction);
+    for (auto direction : directions){  
+        auto line = compatible_checker->compatibleTypes(block.getDirectionalOutLine(direction));
+        int size = 0;
+        for (int i = 0; i < line.size(); i++){
+            while (i < line.size() && edge_types.count(line[i])){
+                size++;
+                i++;
+            }
+        }
+    }
+    return Edge();
+}
 bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
     d2kmapapi::Direction direction;
     if (edge.getOrientation() == Orientation::horizontal)
