@@ -6,6 +6,7 @@
 #include "smart_map.h"
 #include "edge.h"
 #include "util.h"
+#include "directed_edge.h"
 #include "compatible_checker.h"
 /*!
 	\brief Class allows to work with BlockSet on certain map. For that, it contains BlockSet* and Map*.
@@ -44,10 +45,10 @@ class BlockPlacer{
         std::pair<int, int> smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         std::pair<int, int> placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift);
         std::pair<int, int> placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
-        Edge getSideEdge(const Block &block, const d2kmapapi::Direction &direction, int x, int y, int offset, int size);
-        Edge smartPlaceNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes);
-        Edge placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> next_edge_types);
-        Edge findNextEdgeOnBlock(const Block& block, int x, int y, const d2kmapapi::Direction& placement_direction, const std::set<CompatibleType>& edge_types);
+        DirectedEdge getSideEdge(const Block &block, const d2kmapapi::Direction &direction, int x, int y, int offset, int size);
+        DirectedEdge smartPlaceNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes);
+        DirectedEdge placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> next_edge_types);
+        DirectedEdge findNextEdgeOnBlock(const Block& block, int x, int y, const d2kmapapi::Direction& placement_direction, const std::set<CompatibleType>& edge_types);
         bool isEdgeCompatible(const Edge& edge) const;
         std::vector<Block> compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group);
     private:

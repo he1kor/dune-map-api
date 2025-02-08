@@ -67,31 +67,31 @@ std::pair<int, int> BlockPlacer::placeOnEdge(const Edge &edge, const d2kmapapi::
         throw std::invalid_argument("Sizes don't fit!");
     return placeOnEdgeShifted(edge, direction, block, 0);
 }
-Edge BlockPlacer::getSideEdge(const Block &block, const d2kmapapi::Direction &direction, int x, int y, int offset, int size){
+DirectedEdge BlockPlacer::getSideEdge(const Block &block, const d2kmapapi::Direction &direction, int x, int y, int offset, int size){
     size--;
     switch (direction){
         case d2kmapapi::Direction::UP:
-            return Horizontal::fromBottom(x+offset, x+offset+size, y);
+            return DirectedEdge(Horizontal::fromBottom(x+offset, x+offset+size, y), direction);
         case d2kmapapi::Direction::LEFT:
-            return Vertical::fromRight(y+offset, y+offset+size, x);
+            return DirectedEdge(Vertical::fromRight(y+offset, y+offset+size, x), direction);
         case d2kmapapi::Direction::RIGHT:
-            return Vertical::fromRight(y+offset, y+offset+size, x+block.getWidth());
+            return DirectedEdge(Vertical::fromRight(y+offset, y+offset+size, x+block.getWidth()), direction);
         case d2kmapapi::Direction::DOWN:
-            return Horizontal::fromBottom(x+offset, x+offset+size, y+block.getHeight());
+            return DirectedEdge(Horizontal::fromBottom(x+offset, x+offset+size, y+block.getHeight()), direction);
         default:
             throw std::invalid_argument("Unknown direction " + direction);
     }
 }
-Edge BlockPlacer::smartPlaceNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
+DirectedEdge BlockPlacer::smartPlaceNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
     auto [x, y] = smartEdgePlace(edge, direction, block);
     return findNextEdgeOnBlock(block, x, y, d2kmapapi::reverse(direction), nextEdgeTypes);
 }
-Edge BlockPlacer::placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
+DirectedEdge BlockPlacer::placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
     auto [x, y] = placeOnEdge(edge, direction, block);
     return findNextEdgeOnBlock(block, x, y, d2kmapapi::reverse(direction), nextEdgeTypes);
 }
 //todo: cache next edge offset of block
-Edge BlockPlacer::findNextEdgeOnBlock(const Block &block, int x, int y, const d2kmapapi::Direction &excluded_direction, const std::set<CompatibleType> &edge_types){
+DirectedEdge BlockPlacer::findNextEdgeOnBlock(const Block &block, int x, int y, const d2kmapapi::Direction &excluded_direction, const std::set<CompatibleType> &edge_types){
     std::set<d2kmapapi::Direction> directions = {d2kmapapi::Direction::DOWN, d2kmapapi::Direction::LEFT, d2kmapapi::Direction::RIGHT, d2kmapapi::Direction::UP};
     directions.erase(excluded_direction);
     for (auto direction : directions){  
