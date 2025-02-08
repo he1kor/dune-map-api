@@ -32,7 +32,7 @@ DirectionalLine Block::getDirectionalOutLine(d2kmapapi::Direction direction) con
         case d2kmapapi::Direction::LEFT:
             return DirectionalLine(this->getLeftTiles(), direction);
         case d2kmapapi::Direction::RIGHT:
-            return DirectionalLine(this->getBottomTiles(), direction);
+            return DirectionalLine(this->getRightTiles(), direction);
         case d2kmapapi::Direction::DOWN:
             return DirectionalLine(this->getBottomTiles(), direction);
     }
