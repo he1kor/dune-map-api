@@ -78,6 +78,8 @@ Edge BlockPlacer::getSideEdge(const Block &block, const d2kmapapi::Direction &di
             return Vertical::fromRight(y+offset, y+offset+size, x+block.getWidth());
         case d2kmapapi::Direction::DOWN:
             return Horizontal::fromBottom(x+offset, x+offset+size, y+block.getHeight());
+        default:
+            throw std::invalid_argument("Unknown direction " + direction);
     }
 }
 Edge BlockPlacer::smartPlaceNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> nextEdgeTypes){
