@@ -94,7 +94,7 @@ DirectedEdge BlockPlacer::placeNextOnEdge(const Edge &edge, const d2kmapapi::Dir
 DirectedEdge BlockPlacer::findNextEdgeOnBlock(const Block &block, int x, int y, const d2kmapapi::Direction &excluded_direction, const std::set<CompatibleType> &edge_types){
     std::set<d2kmapapi::Direction> directions = {d2kmapapi::Direction::DOWN, d2kmapapi::Direction::LEFT, d2kmapapi::Direction::RIGHT, d2kmapapi::Direction::UP};
     directions.erase(excluded_direction);
-    for (auto direction : directions){  
+    for (auto direction : directions){ 
         auto line = compatible_checker->compatibleTypes(block.getDirectionalOutLine(direction));
         int size = 0;
         for (int i = 0; i < line.size(); i++){
@@ -102,8 +102,9 @@ DirectedEdge BlockPlacer::findNextEdgeOnBlock(const Block &block, int x, int y, 
                 size++;
                 i++;
             }
-            if (size)
-                return getSideEdge(block, direction, x, y, i, size);
+            if (size){
+                return getSideEdge(block, direction, x, y, i-size, size);
+            }
         }
     }
     throw std::runtime_error("No next edge on block found");

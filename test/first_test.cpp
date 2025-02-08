@@ -6,6 +6,7 @@
 #include "util.h"
 #include "tileset_json_i.h"
 #include "smart_map.h"
+#include "directed_edge.h"
 #include <iostream>
 #include <chrono>
 
@@ -29,84 +30,36 @@ int main(){
     map.initHistoryStack();
     Painter painter(&map, &tileset_properties.palette);
 
-    auto edge = Horizontal::fromTop(2, 3, 2);
+    /*TODO: fix not placed:
 
-    auto blocks = block_placer.compatibleBlocks(edge, d2kmapapi::Direction::DOWN, "rock_cliffs");
-    std::cout << blocks.size() << '\n';
-    for (int i = 0; i < blocks.size(); i++){
-        auto edge = Horizontal::fromTop(2 + i*4, 3 + i*4, 2);
-        block_placer.smartEdgePlace(edge, d2kmapapi::Direction::DOWN, blocks[i]);
-    }
-    
-    //Horizontal horizontal = Horizontal::fromBottom(5, 6, 5); 
-    //DirectionalLine line(d2kmapapi::getTilesbyCoords(map, horizontal.onTop()), d2kmapapi::Direction::DOWN);
-    //std::vector<Block> blocks = tileset_properties.block_set.compatibleBlocks(line, "rock_cliffs");
-    //block_placer.placeEdge(horizontal, d2kmapapi::Direction::DOWN, blocks[5]);
-    //for (auto block : blocks){
-    //    std::cout << block_placer.getShift(horizontal, d2kmapapi::Direction::DOWN, block) << "\n";
+                "x": 16,
+                "y": 33,
+                "width": 1,
+                "height": 2,
+                "compatibility_up": ["rock_plain"],
+                "compatibility_left": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_right": ["forward_rock_cliff", "forward_rock_cliff"],
+                "compatibility_bottom": ["sand"]
+    */
+
+    Edge edge = Horizontal::fromTop(63, 64, 46);
+    DirectedEdge directed_edge(edge, d2kmapapi::Direction::DOWN);
+
+    //for (int i = 0; i < blocks.size(); i++){
+    //    std::cout << i << "\n";
+    //    Edge edge = Vertical::fromLeft(18 + i * 4, 19 + i * 4, 6);
+    //    block_placer.smartEdgePlace(edge, d2kmapapi::Direction::RIGHT, blocks[i]);
     //}
+    for (int i = 0; i < 120; i++){
+        std::cout << i << "\t";
+        auto blocks = block_placer.compatibleBlocks(directed_edge.getEdge(), directed_edge.getDirection(), "rock_cliffs");
+        std::cout << blocks.size() << "\nDirection: ";
+        std::cout << directed_edge.getDirection() << "\tX: " << directed_edge.getEdge().getX() << "\tY: " << directed_edge.getEdge().getY() << "\tSize: " << "\t" << directed_edge.getEdge().getSize() << '\n';
+        directed_edge = block_placer.smartPlaceNextOnEdge(directed_edge.getEdge(), directed_edge.getDirection(), blocks[d2kmapapi::getRandomNumber(0, blocks.size()-1)], {"backward_rock_cliff", "forward_rock_cliff"});
+
+        map_bin_file.save(map);
+    }
     map_bin_file.save(map);
     std::cout << "done!";
     return 0;
 }
-
-//TilesetProperties tilesetProperties = load("data/tileset.json");
-    //MapBinFileIO map_bin_file;
-    //map_bin_file.open("temp.map");
-    //Map map = map_bin_file.load();
-    //Painter painter(&map, &tilesetProperties.palette);
-    //painter.fill(40, 23, "sand", true);
-    //painter.fill(0, 0, "rock", true);
-    //painter.fill(40, 0, "rock", true);
-    //uint16_t tile = tilesetProperties.palette.pick("rock");
-    //tilesetProperties.compatible_checker.areCompatible(tile, d2kmapapi::Direction::RIGHT, tile);
-    //Vertical vert = Vertical::fromLeft(0, 0);
-    //auto groups = tilesetProperties.block_set.getGroups();
-    //for (auto group : groups){
-    //    std::cout << group << ":\n";
-    //    for (Block block : tilesetProperties.block_set[group]){
-    //        auto m = block.getMatrix();
-    //        for (auto v : m){
-    //            for (uint16_t t : v){
-    //                std::cout << t << "\t";
-    //            }
-    //            std::cout << "\n";
-    //        }
-    //        std::cout << "\n";
-    //    }
-    //    std::cout << "\n------------------------\n";
-    //}
-    //std::cout << "\n<<------------------------>>\n";
-    //auto block = tilesetProperties.block_set["rock_cliffs"][1];
-    //auto m = block.getMatrix();
-    //auto t = block.getRightTiles();
-    //for (auto t1 : t){
-    //    std::cout << t1 << "\t";
-    //}
-    //std::cout << "\n\n";
-    //for (auto v : m){
-    //    for (uint16_t t : v){
-    //        std::cout << t << "\t";
-    //    }
-    //    std::cout << "\n";
-    //}
-    //std::cout << "\n\n";
-    //auto start = std::chrono::high_resolution_clock::now();
-    //auto blocks = tilesetProperties.block_set.compatibleBlocks(DirectionalLine(tilesetProperties.block_set["rock_cliffs"][1].getRightTiles(), d2kmapapi::Direction::RIGHT), "rock_cliffs");
-    //auto stop = std::chrono::high_resolution_clock::now();
-    //auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    //
-    //for (auto block : blocks){
-    //    auto m = block.getMatrix();
-    //        for (auto v : m){
-    //            for (uint16_t t : v){
-    //                std::cout << t << "\t";
-    //            }
-    //            std::cout << "\n";
-    //        }
-    //        std::cout << "\n";
-    //}
-    //map_bin_file.save(map);
-    //map_bin_file.close();
-    //std::cout << "passed in " << duration.count() << " microsecs";
-    //return 0;
