@@ -45,9 +45,9 @@ public:
     uint16_t getTileIDByCoords(std::pair<int, int> coords) const;
     std::vector<uint16_t> getTileIDsByCoords(std::vector<std::pair<int, int>> coords) const;
 
+private:
     LocatedTile getOldState(const LocatedTile& changing_state) const override;
     void applyChange(LocatedTile change) override;
-private:
     SmartMap(const Map& map);
     HistoryStack<LocatedTile>* history_stack = nullptr;
     using Map::operator[];
