@@ -42,6 +42,14 @@ class BlockPlacer : ChangeTracker<BlockStamp> {
          * \param x y position of top-left block corner on the map
          * \param Block block to be placed.
         */
+        template <typename F, typename... Args>
+        void applyForEachCoords(F callable, BlockStamp bs, Args&&... args) {
+            for (int yi = bs.y; yi < bs.y + bs.height; yi++){
+                for (int xi = bs.x; xi < bs.x + bs.width; xi++){
+                    callable(xi, yi, std::forward<Args>(args)...);
+                }
+            }
+        }
         void place(int x, int y, const Block &block);
         std::vector<CompatibleType> getCompatibleTypesFacingEdge(const Edge& edge, const d2kmapapi::Direction &facing_direction);
         int getQuickShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
@@ -55,7 +63,7 @@ class BlockPlacer : ChangeTracker<BlockStamp> {
         bool isEdgeCompatible(const Edge& edge) const;
         std::vector<Block> compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group);
     private:
-    BlockStamp getOldState(const BlockStamp& changing_state) const override;
+        BlockStamp getOldState(const BlockStamp& changing_state) const override;
         void applyChange(BlockStamp change) override;
         bool checkPerpendicularToEdge(const Edge& edge, const d2kmapapi::Direction &direction);
         BlockStamp last_block_stamp;
