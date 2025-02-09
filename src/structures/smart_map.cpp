@@ -5,11 +5,6 @@
 SmartMap::SmartMap(const SmartMap &map) :
     Map(map){}
 
-void SmartMap::checkHistoryStackMap(HistoryStack* history_stack){
-    if (this != history_stack->getMap())
-        throw std::runtime_error("Error: HistoryStack::commit() - Map mismatch.");
-}
-
 SmartMap::SmartMap(const Map &map) : Map(map) {}
 
 SmartMap::SmartMap(uint16_t width, uint16_t height) :
@@ -19,12 +14,12 @@ SmartMap SmartMap::fromMap(const Map &map){
     return SmartMap(map);
 }
 
-HistoryStack* SmartMap::getHistoryStack(){
+AbstractHistoryStack<LocatedTile>* SmartMap::getHistoryStack(){
     return history_stack;
 }
 
 void SmartMap::initHistoryStack(){
-    history_stack = new HistoryStack(this);
+    history_stack = new AbstractHistoryStack<LocatedTile>(*this);
 }
 
 bool SmartMap::commit(){
@@ -48,15 +43,15 @@ void SmartMap::setUntrackedTile(LocatedTile located_tile){
     matrix[located_tile.y][located_tile.x] = located_tile;
 }
 
-Tile SmartMap::getTile(int x, int y){
+Tile SmartMap::getTile(int x, int y) const{
     return matrix[y][x];
 }
 
-uint16_t SmartMap::getTileID(int x, int y){
+uint16_t SmartMap::getTileID(int x, int y) const{
     return matrix[y][x].tileID;
 }
 
-uint16_t SmartMap::getEntityD(int x, int y){
+uint16_t SmartMap::getEntityID(int x, int y) const{
     return matrix[y][x].entityID;
 }
 
@@ -141,34 +136,47 @@ void SmartMap::addTile(LocatedTile located_tile){
     history_stack->trackChange(located_tile);
 }
 
-DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection){
+DirectionalLine SmartMap::getLineFacingEdge(const Edge &edge, const d2kmapapi::Direction &facingDirection) const{
     std::vector<uint16_t> edge_tiles;
     for (auto [x, y] : facingDirection == d2kmapapi::Direction::RIGHT || facingDirection == d2kmapapi::Direction::DOWN ? edge.onBefore() : edge.onAfter()){
-        edge_tiles.push_back((*this)[y][x].tileID);
+        edge_tiles.push_back(getTileID(x, y));
     }
     return DirectionalLine(edge_tiles, facingDirection);
 }
 
-Tile SmartMap::getTileByCoords(std::pair<int, int> coords){
-    return (*this)[coords.first][coords.second];
+Tile SmartMap::getTileByCoords(std::pair<int, int> coords) const{
+    return getTile(coords.first, coords.second);
 }
 
-std::vector<Tile> SmartMap::getTilesByCoords(std::vector<std::pair<int, int>> coords){
+std::vector<Tile> SmartMap::getTilesByCoords(std::vector<std::pair<int, int>> coords) const{
     std::vector<Tile> tiles;
     for (auto [x, y] : coords){
-        tiles.push_back((*this)[y][x]);
+        tiles.push_back(getTile(x, y));
     }
     return tiles;
 }
 
-uint16_t SmartMap::getTileIDByCoords(std::pair<int, int> coords){
+uint16_t SmartMap::getTileIDByCoords(std::pair<int, int> coords) const{
     return getTileByCoords(coords).tileID;
 }
 
-std::vector<uint16_t> SmartMap::getTileIDsByCoords(std::vector<std::pair<int, int>> coords){
+std::vector<uint16_t> SmartMap::getTileIDsByCoords(std::vector<std::pair<int, int>> coords) const{
     std::vector<uint16_t> tiles;
     for (auto [x, y] : coords){
-        tiles.push_back((*this)[y][x].tileID);
+        tiles.push_back(getTileID(x, y));
     }
     return tiles;
+}
+
+LocatedTile SmartMap::getOldState(const LocatedTile& changing_state) const{
+    return {
+        getTileID(changing_state.x, changing_state.y),
+        getEntityID(changing_state.x, changing_state.y),
+        changing_state.x,
+        changing_state.y
+    };
+}
+
+void SmartMap::applyChange(LocatedTile change){
+    setUntrackedTile(change);
 }
