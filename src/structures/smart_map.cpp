@@ -14,12 +14,12 @@ SmartMap SmartMap::fromMap(const Map &map){
     return SmartMap(map);
 }
 
-AbstractHistoryStack<LocatedTile>* SmartMap::getHistoryStack(){
+HistoryStack<LocatedTile>* SmartMap::getHistoryStack(){
     return history_stack;
 }
 
 void SmartMap::initHistoryStack(){
-    history_stack = new AbstractHistoryStack<LocatedTile>(*this);
+    history_stack = new HistoryStack<LocatedTile>(*this);
 }
 
 bool SmartMap::commit(){

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "map.h"
-#include "abstract_history_stack.h"
+#include "history_stack.h"
 #include "directional_line.h"
 #include "edge.h"
 #include "change_tracker.h"
@@ -14,7 +14,7 @@ public:
 
     static SmartMap fromMap(const Map& map);
 
-    AbstractHistoryStack<LocatedTile>* getHistoryStack();
+    HistoryStack<LocatedTile>* getHistoryStack();
 
     void initHistoryStack();
     bool commit();
@@ -49,6 +49,6 @@ public:
     void applyChange(LocatedTile change) override;
 private:
     SmartMap(const Map& map);
-    AbstractHistoryStack<LocatedTile>* history_stack = nullptr;
+    HistoryStack<LocatedTile>* history_stack = nullptr;
     using Map::operator[];
 };

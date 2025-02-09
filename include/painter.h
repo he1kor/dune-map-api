@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include "palette.h"
-#include "history_stack.h"
 #include "smart_map.h"
 
 /*!
