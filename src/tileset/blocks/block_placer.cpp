@@ -5,9 +5,9 @@
 #include <stdexcept>
 #include <util.h>
 
-BlockPlacer::BlockPlacer(){}
+BlockPlacer::BlockPlacer() : placement_history{HistoryStack<BlockStamp>(*this)}{}
 
-BlockPlacer::BlockPlacer(BlockSet *block_set) : block_set{block_set}, compatible_checker{block_set->getCompatibleChecker()}{}
+BlockPlacer::BlockPlacer(BlockSet *block_set) : block_set{block_set}, compatible_checker{block_set->getCompatibleChecker()}, placement_history{HistoryStack<BlockStamp>(*this)}{}
 
 void BlockPlacer::setMap(SmartMap *map){
     this->map = map;
@@ -25,6 +25,7 @@ void BlockPlacer::place(int x, int y, const Block &block){
             map->addTileID(x+c, y+r, tiles[r][c]);
         }
     }
+    placement_history.quickCommit(BlockStamp{x, y, block.getWidth(), block.getHeight()});
     map->commit();
 }
 std::vector<CompatibleType> BlockPlacer::getCompatibleTypesFacingEdge(const Edge &edge, const d2kmapapi::Direction &direction){
@@ -132,6 +133,14 @@ bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
 
 std::vector<Block> BlockPlacer::compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group){
     return block_set->compatibleBlocks(map->getLineFacingEdge(edge, direction), group);
+}
+
+BlockStamp BlockPlacer::getOldState(const BlockStamp &changing_state) const{
+    return last_block_stamp;
+}
+
+void BlockPlacer::applyChange(BlockStamp change){
+    last_block_stamp = change;
 }
 
 bool BlockPlacer::checkPerpendicularToEdge(const Edge &edge, const d2kmapapi::Direction &direction){

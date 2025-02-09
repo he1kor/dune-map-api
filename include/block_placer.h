@@ -11,7 +11,15 @@
 /*!
 	\brief Class allows to work with BlockSet on certain map. For that, it contains BlockSet* and Map*.
 */
-class BlockPlacer{
+struct BlockStamp {
+    int x = UNSET;
+    int y = UNSET;
+    int width = UNSET;
+    int height = UNSET;
+    static const int UNSET = -1000;
+};
+
+class BlockPlacer : ChangeTracker<BlockStamp> {
     public:
     
         /**
@@ -35,11 +43,6 @@ class BlockPlacer{
          * \param Block block to be placed.
         */
         void place(int x, int y, const Block &block);
-        /**
-         * \brief Determines do adjacent tiles to the given edge fit each other (According to built-in internal BlockSet CompatibleChecker).
-         * \param edge edge, next to which tiles are checked for compatibility.
-        */
-        //void findNextPlace(const Edge& edge);
         std::vector<CompatibleType> getCompatibleTypesFacingEdge(const Edge& edge, const d2kmapapi::Direction &facing_direction);
         int getQuickShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         std::pair<int, int> smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
@@ -52,7 +55,11 @@ class BlockPlacer{
         bool isEdgeCompatible(const Edge& edge) const;
         std::vector<Block> compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group);
     private:
+    BlockStamp getOldState(const BlockStamp& changing_state) const override;
+        void applyChange(BlockStamp change) override;
         bool checkPerpendicularToEdge(const Edge& edge, const d2kmapapi::Direction &direction);
+        BlockStamp last_block_stamp;
+        HistoryStack<BlockStamp> placement_history;
         CompatibleChecker* compatible_checker = nullptr;
         BlockSet* block_set = nullptr;
         SmartMap* map = nullptr;

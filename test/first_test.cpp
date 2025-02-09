@@ -50,7 +50,7 @@ int main(){
     //    Edge edge = Vertical::fromLeft(18 + i * 4, 19 + i * 4, 6);
     //    block_placer.smartEdgePlace(edge, d2kmapapi::Direction::RIGHT, blocks[i]);
     //}
-    for (int i = 0; i < 120; i++){
+    for (int i = 0; i < 50; i++){
         std::cout << i << "\t";
         auto blocks = block_placer.compatibleBlocks(directed_edge.getEdge(), directed_edge.getDirection(), "rock_cliffs");
         std::cout << blocks.size() << "\nDirection: ";
