@@ -7,23 +7,23 @@ template<typename Change>
 class HistoryStack{
     public:
     HistoryStack(ChangeTracker<Change>& change_tracker);
-        void trackChange(const std::set<Change>& changes);
+        void trackChange(const std::vector<Change>& changes);
         void trackChange(Change change);
-        void quickCommit(const std::set<Change>& changes);
+        void quickCommit(const std::vector<Change>& changes);
         void quickCommit(Change change);
         bool commit();
         void undo();
     private:
         ChangeTracker<Change>& change_tracker;
-        std::set<Change> tracked_changes;
-        std::stack<std::set<Change>> history_stack;
+        std::vector<Change> tracked_changes;
+        std::stack<std::vector<Change>> history_stack;
 };
 
 template <typename Change>
 inline HistoryStack<Change>::HistoryStack(ChangeTracker<Change>& change_tracker) : change_tracker(change_tracker){}
 
 template <typename Change>
-inline void HistoryStack<Change>::trackChange(const std::set<Change> &changes){
+inline void HistoryStack<Change>::trackChange(const std::vector<Change> &changes){
     for (auto change : changes){
         trackChange(change);
     }
@@ -31,12 +31,12 @@ inline void HistoryStack<Change>::trackChange(const std::set<Change> &changes){
 
 template <typename Change>
 inline void HistoryStack<Change>::trackChange(Change change){
-    tracked_changes.insert(change_tracker.getOldState(change));
+    tracked_changes.push_back(change_tracker.getOldState(change));
     change_tracker.applyChange(change);
 }
 
 template <typename Change>
-inline void HistoryStack<Change>::quickCommit(const std::set<Change> &changes){
+inline void HistoryStack<Change>::quickCommit(const std::vector<Change> &changes){
     trackChange(changes);
     commit();
 }
