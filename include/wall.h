@@ -1,19 +1,18 @@
 #pragma once
+
 #include <vector>
+#include "priority_map.h"
 
-enum WallSegment {
-    NONE = 0,
-    REQUIRED = 1,
-    OPTIONAL = 2
-};
-
+template <typename T>
 class Wall{
     public:
         Wall();
         Wall(int width, int height);
+        
 
     private:
         int width = 0;
         int height = 0;
-        std::vector<std::vector<WallSegment>> segments;
+        PriorityMap<T> priority_map;
+        std::vector<std::vector<T>> segments;
 };
