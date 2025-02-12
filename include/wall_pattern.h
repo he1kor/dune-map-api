@@ -44,6 +44,12 @@ class WallPattern{
         int getHeight(){
             return height;
         }
+        int getXOffset(){
+            return x_offset;
+        }
+        int getYOffset(){
+            return y_offset;
+        }
     private:
         std::vector<std::vector<T>> pattern;
         int width = 0;
