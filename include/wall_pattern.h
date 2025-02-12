@@ -5,10 +5,10 @@
 template <typename T>
 class WallPattern{
     public:
-        WallPattern(int width, int height) : WallPattern(pattern(height, vector<T>(width))) {};
-        WallPattern(int width, int height, int x_offset, int y_offset) : pattern(height, vector<T>(width)), x_offset(x_offset), y_offset(y_offset) {};
+        WallPattern(int width, int height) : WallPattern(std::vector(height, std::vector<T>(width))) {};
+        WallPattern(int width, int height, int x_offset, int y_offset) : WallPattern(std::vector(height, std::vector<T>(width)), x_offset, y_offset){};
+        WallPattern(std::vector<std::vector<T>> pattern) : WallPattern(pattern, pattern.at(0).size() / 2, pattern.size() / 2) {};
         WallPattern(std::vector<std::vector<T>> pattern, int x_offset, int y_offset) : pattern(pattern), x_offset(x_offset), y_offset(y_offset) {};
-        WallPattern(std::vector<std::vector<T>> pattern) : pattern(pattern), x_offset(pattern.at(0).size() / 2), y_offset(pattern.size() / 2) {};
         void setSegment(int x, int y, T t){
             pattern.at(y).at(x) = t;
         }
