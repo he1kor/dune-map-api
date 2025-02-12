@@ -19,7 +19,7 @@ public:PriorityMap(){}
         return priority_map.at[value];
     }
 
-    bool isHigher(T old_value, T new_value){
+    bool isHigher(T new_value, T old_value){
         if (is_strict)
             return priority_map.at[new_value] > priority_map.at[old_value];
         return priority_map.at[new_value] >= priority_map.at[old_value];
