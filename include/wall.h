@@ -28,6 +28,13 @@ class Wall{
         void setPattern(WallPattern<T> pattern){
             this->pattern = pattern;
         }
+        int getWidth(){
+            return width;
+        };
+        int getHeight(){
+            return height;
+        }
+
         void join(int x, int y){
             if (pattern.size() == 0)
                 throw std::runtime_error("Segment is not set");
