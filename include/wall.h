@@ -34,10 +34,20 @@ class Wall{
         int getHeight(){
             return height;
         }
+        void place(int x, int y, T t){
+            if (priority_map.isHigher(segments[y][x], t))
+                segments[y][x] = t;
+        }
 
         void join(int x, int y){
             if (pattern.size() == 0)
                 throw std::runtime_error("Segment is not set");
+                
+            for (int yi = 0; yi < pattern.getHeight(); yi++){
+                for (int xi = 0; xi < pattern.getWidth(); xi++){
+                    place(x + xi, y + yi, pattern.getSegment(xi, yi));
+                }
+            }
         }
     private:
         int width = 0;
