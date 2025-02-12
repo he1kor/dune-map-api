@@ -16,7 +16,7 @@ class Wall{
                 priority_map,
                 WallPattern<T>(width, height),
                 std::vector(0, std::vector<int>(0), 0, 0))
-                {}
+            {}
         Wall(int width, int height, PriorityMap<T> priority_map, WallPattern<T> pattern, int x_offset, int y_offset) :
             width(width),
             height(height),
