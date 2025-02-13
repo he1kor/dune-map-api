@@ -13,7 +13,10 @@ class HistoryStack{
         void quickCommit(Change change);
         bool commit();
         void undo();
-    private:
+        bool discardChanges();
+        
+        private:
+        void undoChanges(const std::vector<Change>& changes);
         ChangeTracker<Change>& change_tracker;
         std::vector<Change> tracked_changes;
         std::stack<std::vector<Change>> history_stack;
@@ -58,6 +61,24 @@ inline bool HistoryStack<Change>::commit(){
 
 template <typename Change>
 inline void HistoryStack<Change>::undo(){
-    change_tracker.undoChange(history_stack.top());
+    undoChanges(history_stack.top())
     history_stack.pop();
+}
+
+template <typename Change>
+inline bool HistoryStack<Change>::discardChanges(){
+    if (tracked_changes.empty())
+        return false;
+    for (auto change : changes){
+        change_tracker.undoChange(Change);
+    }
+    tracked_changes.clear();
+    return true;
+}
+
+template <typename Change>
+inline void HistoryStack<Change>::undoChanges(const std::vector<Change> &changes){
+    for (auto change : changes){
+        change_tracker.undoChange(change);
+    }
 }
