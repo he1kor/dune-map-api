@@ -7,28 +7,32 @@
 #include "change_tracker.h"
 #include "located_state.h"
 #include "history_stack.h"
-
+#include "square_zone.h"
+#include "location.h"
 
 template <typename T>
-class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<LocatedState<T>>{
+class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<LocatedState<T>>, private ChangeTracker<Location>{
     static constexpr int NO_NUMBER = -1;
+    static constexpr int NO_COORDS = -1000;
     public:
-        Wall(int width, int height, PriorityMap<T> priority_map) :
+        Wall(int width, int height, PriorityMap<T> priority_map, int replacement_distance) :
             Wall(width,
                 height,
                 priority_map,
                 WallPattern<T>(width, height),
                 std::vector(0, std::vector<int>(0), 0, 0))
             {}
-        Wall(int width, int height, PriorityMap<T> priority_map, WallPattern<T> pattern, int x_offset, int y_offset) :
+        Wall(int width, int height, PriorityMap<T> priority_map, int replacement_distance, WallPattern<T> pattern, int x_offset, int y_offset) :
             width(width),
             height(height),
             priority_map{priority_map},
             pattern{pattern},
             numbering{std::vector(height, std::vector(width, NO_NUMBER))},
             segments{std::vector(height, std::vector<T>(height))},
+            replacement_area(replacement_distance, replacement_distance, NO_COORDS, NO_COORDS),
             segments_history(*this),
-            numbering_history(*this)
+            numbering_history(*this),
+            replacement_area_history(*this)
             {}
         void setPattern(WallPattern<T> pattern){
             this->pattern = pattern;
@@ -63,20 +67,28 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
         }
 
     private:
-        LocatedState<int> getOldState(const LocatedState<int>& changing_state) const override{
-            return LocatedState<int>(numbering[changing_state.y][changing_state.y], changing_state.x, changing_state.y);
+
+        LocatedState<int> getOldState(const LocatedState<int>& changing_number_state) const override{
+            return LocatedState<int>(
+                numbering[changing_number_state.y][changing_number_state.y],
+                changing_number_state.x,
+                changing_number_state.y);
         }
-        void applyChange(LocatedState<int> change) override{
+        void applyChange(LocatedState<int> changing_number_state) override{
             last_number++;
-            numbering[change.y][change.x] = last_number;
+            numbering[changing_number_state.y][changing_number_state.x] = last_number;
         }
-        void undoChange(LocatedState<int> old_state) override{
+        void undoChange(LocatedState<int> old_number_state) override{
             last_number--;
-            numbering[old_state.y][old_state.x] = old_state.state;
+            numbering[old_number_state.y][old_number_state.x] = old_number_state.state;
         }
 
-        LocatedState<T> getOldState(const LocatedState<T>& changing_state) const override{
-            return LocatedState<T>(segments[changing_state.y][changing_state.y], changing_state.x, changing_state.y);
+
+        LocatedState<T> getOldState(const LocatedState<T>& changing_segment) const override{
+            return LocatedState<T>(
+                segments[changing_segment.y][changing_segment.y],
+                changing_segment.x,
+                changing_segment.y);
         }
 
         void applyChange(LocatedState<T> change) override{
@@ -86,15 +98,29 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
             segments[old_state.y][old_state.x] = old_state.state;
         }
 
+        Location getOldState(const Location& new_replacement_area_location) const override{
+            return {replacement_area.getX(), replacement_area.getY()};
+        }
+        void applyChange(Location changing_replacement_area_location) override{
+            replacement_area.setPosition(changing_replacement_area_location.getX(), changing_replacement_area_location.getY());
+        }
+        void undoChange(Location old_replacement_area_location) override{
+            replacement_area.setPosition(old_replacement_area_location.getX(), old_replacement_area_location.getY());
+        }
+        
+
         int width = 0;
         int height = 0;
         PriorityMap<T> priority_map;
         WallPattern<T> pattern;
         int last_number = -1;
+
+        SquareZone replacement_area;
         
         std::vector<std::vector<int>> numbering;
         std::vector<std::vector<T>> segments;
 
+        HistoryStack<Location> replacement_area_history;
         HistoryStack<LocatedState<int>> numbering_history;
         HistoryStack<LocatedState<T>> segments_history;
     };
