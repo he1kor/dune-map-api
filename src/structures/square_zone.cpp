@@ -4,7 +4,7 @@ SquareZone::SquareZone(){}
 
 SquareZone::SquareZone(int width, int height, int left_x, int top_y) : width(width), height(height), left_x(left_x), top_y(top_y){}
 
-bool SquareZone::isCollided(int x, int y){
+bool SquareZone::isCollided(int x, int y) const{
     if (
         left_x <= x && x < left_x + width
         &
@@ -27,18 +27,23 @@ void SquareZone::move(int shift_x, int shift_y){
     this->top_y += shift_y;
 }
 
-int SquareZone::getWidth(){
+void SquareZone::setPosition(int x, int y){
+    this->left_x = x;
+    this->top_y = y;
+}
+
+int SquareZone::getWidth() const{
     return width;
 }
 
-int SquareZone::getHeight(){
+int SquareZone::getHeight() const{
     return height;
 }
 
-int SquareZone::getX(){
+int SquareZone::getX() const{
     return left_x;
 }
 
-int SquareZone::getY(){
+int SquareZone::getY() const{
     return top_y;
 }
