@@ -55,7 +55,6 @@ inline bool HistoryStack<Change>::commit(){
     tracked_changes.clear();
     return true;
 }
-//TODO: add undo of tracked changes
 
 template <typename Change>
 inline void HistoryStack<Change>::undo(){
