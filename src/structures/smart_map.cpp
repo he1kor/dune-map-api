@@ -180,3 +180,7 @@ LocatedTile SmartMap::getOldState(const LocatedTile& changing_state) const{
 void SmartMap::applyChange(LocatedTile change){
     setUntrackedTile(change);
 }
+
+void SmartMap::undoChange(LocatedTile backup_change){
+    setUntrackedTile(backup_change);
+}

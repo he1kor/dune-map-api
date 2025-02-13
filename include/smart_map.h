@@ -48,6 +48,7 @@ public:
 private:
     LocatedTile getOldState(const LocatedTile& changing_state) const override;
     void applyChange(LocatedTile change) override;
+    void undoChange(LocatedTile backup_change) override;
     SmartMap(const Map& map);
     HistoryStack<LocatedTile>* history_stack = nullptr;
     using Map::operator[];

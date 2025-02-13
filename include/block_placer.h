@@ -65,6 +65,7 @@ class BlockPlacer : ChangeTracker<BlockStamp> {
     private:
         BlockStamp getOldState(const BlockStamp& changing_state) const override;
         void applyChange(BlockStamp change) override;
+        void undoChange(BlockStamp old_state) override;
         bool checkPerpendicularToEdge(const Edge& edge, const d2kmapapi::Direction &direction);
         BlockStamp last_block_stamp;
         HistoryStack<BlockStamp> placement_history;

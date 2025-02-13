@@ -143,6 +143,10 @@ void BlockPlacer::applyChange(BlockStamp change){
     last_block_stamp = change;
 }
 
+void BlockPlacer::undoChange(BlockStamp old_state){
+    last_block_stamp = old_state;
+}
+
 bool BlockPlacer::checkPerpendicularToEdge(const Edge &edge, const d2kmapapi::Direction &direction){
     if (!edge.isAlong(direction))
         return true;
