@@ -39,27 +39,27 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
         int getHeight(){
             return height;
         }
-        void place(int x, int y, T t){
+        void addSegment(int x, int y, T t){
             if (priority_map.isHigher(segments[y][x], t))
-                segments[y][x] = t;
+                segments_history.trackChange({t, x, y});
         }
         void addNumber(int x, int y){
             if (numbering[y][x] != NO_NUMBER)
                 throw std::invalid_argument("Provided location already has a number");
-            last_number++;
-            numbering[y][x] = last_number;
+            numbering_history.quickCommit({NO_NUMBER, x, y});
         }
 
         void join(int x, int y){
             if (pattern.size() == 0)
-            throw std::runtime_error("Segment is not set");
+                throw std::runtime_error("Segment is not set");
             
             addNumber(x, y);
             for (int yi = 0; yi < pattern.getHeight(); yi++){
                 for (int xi = 0; xi < pattern.getWidth(); xi++){
-                    place(x + xi - pattern.getXOffset(), y + yi - pattern.getYOffset(), pattern.getSegment(xi, yi));
+                    addSegment(x + xi - pattern.getXOffset(), y + yi - pattern.getYOffset(), pattern.getSegment(xi, yi));
                 }
             }
+            segments_history.commit();
         }
 
     private:
