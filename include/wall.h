@@ -8,10 +8,10 @@
 #include "located_state.h"
 #include "history_stack.h"
 
-static const int NO_NUMBER = -1;
 
 template <typename T>
 class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<LocatedState<T>>{
+    static constexpr int NO_NUMBER = -1;
     public:
         Wall(int width, int height, PriorityMap<T> priority_map) :
             Wall(width,
@@ -26,7 +26,9 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
             priority_map{priority_map},
             pattern{pattern},
             numbering{std::vector(height, std::vector(width, NO_NUMBER))},
-            segments{std::vector(height, std::vector<T>(height))}
+            segments{std::vector(height, std::vector<T>(height))},
+            segments_history(*this),
+            numbering_history(*this)
             {}
         void setPattern(WallPattern<T> pattern){
             this->pattern = pattern;
@@ -61,21 +63,27 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
         }
 
     private:
-        LocatedState<int> getOldState(const LocatedState<int>& changing_state){
-            return LocatedState<int>(numbering[changing_state.y][changing_state.y], x, y);
+        LocatedState<int> getOldState(const LocatedState<int>& changing_state) const override{
+            return LocatedState<int>(numbering[changing_state.y][changing_state.y], changing_state.x, changing_state.y);
+        }
+        void applyChange(LocatedState<int> change) override{
+            last_number++;
+            numbering[change.y][change.x] = last_number;
+        }
+        void undoChange(LocatedState<int> old_state) override{
+            last_number--;
+            numbering[old_state.y][old_state.x] = old_state.state;
         }
 
-        void applyChange(LocatedState<int> change){
-            numbering[change.y][change.x] = change.state;
-            last_number = change.state;
+        LocatedState<T> getOldState(const LocatedState<T>& changing_state) const override{
+            return LocatedState<T>(segments[changing_state.y][changing_state.y], changing_state.x, changing_state.y);
         }
 
-        LocatedState<T> getOldState(const LocatedState<T>& changing_state){
-            return LocatedState<T>(segments[changing_state.y][changing_state.y], x, y);
-        }
-
-        void applyChange(LocatedState<T> change){
+        void applyChange(LocatedState<T> change) override{
             segments[change.y][change.x] = change.state;
+        }
+        void undoChange(LocatedState<T> old_state) override{
+            segments[old_state.y][old_state.x] = old_state.state;
         }
 
         int width = 0;
