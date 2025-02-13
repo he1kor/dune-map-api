@@ -61,7 +61,7 @@ inline bool HistoryStack<Change>::commit(){
 
 template <typename Change>
 inline void HistoryStack<Change>::undo(){
-    undoChanges(history_stack.top())
+    undoChanges(history_stack.top());
     history_stack.pop();
 }
 
@@ -69,8 +69,8 @@ template <typename Change>
 inline bool HistoryStack<Change>::discardChanges(){
     if (tracked_changes.empty())
         return false;
-    for (auto change : changes){
-        change_tracker.undoChange(Change);
+    for (auto change : tracked_changes){
+        change_tracker.undoChange(change);
     }
     tracked_changes.clear();
     return true;
