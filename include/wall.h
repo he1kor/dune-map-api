@@ -43,27 +43,42 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
         int getHeight(){
             return height;
         }
-        void addSegment(int x, int y, T t){
+        //todo:: make status enum for this function return
+        bool addSegment(int x, int y, T t){
+            if (!replacement_area.isCollided(x, y))
+                return false;
             if (priority_map.isHigher(segments[y][x], t))
                 segments_history.trackChange({t, x, y});
+            return true;
         }
         void addNumber(int x, int y){
             if (numbering[y][x] != NO_NUMBER)
                 throw std::invalid_argument("Provided location already has a number");
             numbering_history.quickCommit({NO_NUMBER, x, y});
         }
+        void moveReplacementArea(int x, int y){
+            replacement_area_history.quickCommit(
+                {x - (replacement_area.getWidth() / 2),
+                y - (replacement_area.getHeight() / 2)
+            });
+        }
 
-        void join(int x, int y){
+        bool join(int x, int y){
             if (pattern.size() == 0)
                 throw std::runtime_error("Segment is not set");
             
-            addNumber(x, y);
             for (int yi = 0; yi < pattern.getHeight(); yi++){
                 for (int xi = 0; xi < pattern.getWidth(); xi++){
-                    addSegment(x + xi - pattern.getXOffset(), y + yi - pattern.getYOffset(), pattern.getSegment(xi, yi));
+                    if (!addSegment(x + xi - pattern.getXOffset(), y + yi - pattern.getYOffset(), pattern.getSegment(xi, yi))){
+                        segments_history.discardChanges();
+                        return false;
+                    }
                 }
             }
+            addNumber(x, y);
+            moveReplacementArea(x, y);
             segments_history.commit();
+            return true;
         }
 
     private:
