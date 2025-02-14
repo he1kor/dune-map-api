@@ -80,6 +80,9 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
             segments_history.commit();
             return true;
         }
+        T getSegment(int x, int y){
+            return segments[y][x];
+        }
 
     private:
 
