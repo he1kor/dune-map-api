@@ -10,6 +10,12 @@
 #include "square_zone.h"
 #include "location.h"
 
+enum class ReplacementStatus{
+    PLACED,
+    LOW_PRIORITY,
+    NON_REPLACEABLE
+};
+
 template <typename T>
 class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<LocatedState<T>>, private ChangeTracker<Location>{
     static constexpr int NO_NUMBER = -1;
@@ -43,13 +49,16 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
         int getHeight(){
             return height;
         }
-        //todo:: make status enum for this function return
-        bool addSegment(int x, int y, T t){
-            if (!replacement_area.isCollided(x, y))
-                return false;
-            if (priority_map.isHigher(segments[y][x], t))
-                segments_history.trackChange({t, x, y});
-            return true;
+        void setMaxRepleceablePriority(int val){
+            this->max_replaceable_priority = val;
+        }
+        ReplacementStatus addSegment(int x, int y, T t){
+            if (!priority_map.isHigher(segments[y][x], t))
+                return ReplacementStatus::LOW_PRIORITY;
+            if (priority_map.getPriority(segments[y][x]) > max_replaceable_priority && !replacement_area.isCollided(x, y))
+                return ReplacementStatus::NON_REPLACEABLE;
+            segments_history.trackChange({t, x, y});
+            return ReplacementStatus::PLACED;
         }
         void addNumber(int x, int y){
             if (numbering[y][x] != NO_NUMBER)
@@ -130,6 +139,7 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
         int width = 0;
         int height = 0;
         PriorityMap<T> priority_map;
+        int max_replaceable_priority = 0;
         WallPattern<T> pattern;
         int last_number = -1;
 
