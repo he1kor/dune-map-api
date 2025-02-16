@@ -17,18 +17,18 @@ enum class ReplacementStatus{
 };
 
 template <typename T>
-class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<LocatedState<T>>, private ChangeTracker<Location>{
+class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker<LocatedState<T>>, private ChangeTracker<Location>{
     static constexpr int NO_NUMBER = -1;
     static constexpr int NO_COORDS = -1000;
     public:
-        Wall(int width, int height, PriorityMap<T> priority_map, int replacement_distance) :
-            Wall(width,
+        WallBase(int width, int height, PriorityMap<T> priority_map, int replacement_distance) :
+            WallBase(width,
                 height,
                 priority_map,
                 WallPattern<T>(width, height),
                 std::vector(0, std::vector<int>(0), 0, 0))
             {}
-        Wall(int width, int height, PriorityMap<T> priority_map, int replacement_distance, WallPattern<T> pattern, int x_offset, int y_offset) :
+        WallBase(int width, int height, PriorityMap<T> priority_map, int replacement_distance, WallPattern<T> pattern, int x_offset, int y_offset) :
             width(width),
             height(height),
             priority_map{priority_map},
@@ -55,6 +55,10 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
         int getMaxRepleceablePriority(){
             return max_replaceable_priority;
         }
+        T getSegment(int x, int y) const{
+            return segments[y][x];
+        }
+    protected:
         ReplacementStatus addSegment(int x, int y, T t){
             if (!priority_map.isHigher(segments[y][x], t))
                 return ReplacementStatus::LOW_PRIORITY;
@@ -92,10 +96,6 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
             segments_history.commit();
             return true;
         }
-        T getSegment(int x, int y) const{
-            return segments[y][x];
-        }
-
     private:
 
         LocatedState<int> getOldState(const LocatedState<int>& changing_number_state) const override{
