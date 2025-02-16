@@ -13,7 +13,8 @@
 enum class ReplacementStatus{
     PLACED,
     LOW_PRIORITY,
-    NON_REPLACEABLE
+    NON_REPLACEABLE,
+    OUT_OF_BOUNDS
 };
 
 template <typename T>
@@ -60,6 +61,10 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
         }
     protected:
         ReplacementStatus addSegment(int x, int y, T t){
+            if (y < 0 - pattern.getHeight() || y >= getHeight() + pattern.getHeight())
+                return ReplacementStatus::OUT_OF_BOUNDS;
+            if (x < 0 - pattern.getWidth() || x >= getWidth() + pattern.getWidth())
+                return ReplacementStatus::OUT_OF_BOUNDS;
             if (!priority_map.isHigher(segments[y][x], t))
                 return ReplacementStatus::LOW_PRIORITY;
             if (priority_map.getPriority(segments[y][x]) > max_replaceable_priority && !replacement_area.isCollided(x, y))
