@@ -52,6 +52,9 @@ class Wall : private ChangeTracker<LocatedState<int>>, private ChangeTracker<Loc
         void setMaxRepleceablePriority(int val){
             this->max_replaceable_priority = val;
         }
+        int getMaxRepleceablePriority(){
+            return max_replaceable_priority;
+        }
         ReplacementStatus addSegment(int x, int y, T t){
             if (!priority_map.isHigher(segments[y][x], t))
                 return ReplacementStatus::LOW_PRIORITY;
