@@ -101,6 +101,23 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
             segments_history.commit();
             return true;
         }
+
+        int width = 0;
+        int height = 0;
+        PriorityMap<T> priority_map;
+        int max_replaceable_priority = 0;
+        WallPattern<T> pattern;
+        int last_number = -1;
+        Location last_position = {NO_COORDS, NO_COORDS};
+
+        SquareZone replacement_area;
+        
+        std::vector<std::vector<int>> numbering;
+        std::vector<std::vector<T>> segments;
+
+        HistoryStack<Location> replacement_area_history;
+        HistoryStack<LocatedState<int>> numbering_history;
+        HistoryStack<LocatedState<T>> segments_history;
     private:
 
         LocatedState<int> getOldState(const LocatedState<int>& changing_number_state) const override{
@@ -144,21 +161,5 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
         void undoChange(Location old_replacement_area_location) override{
             replacement_area.setPosition(old_replacement_area_location.getX(), old_replacement_area_location.getY());
         }
-        
-        int width = 0;
-        int height = 0;
-        PriorityMap<T> priority_map;
-        int max_replaceable_priority = 0;
-        WallPattern<T> pattern;
-        int last_number = -1;
-        Location last_position = {NO_COORDS, NO_COORDS};
-
-        SquareZone replacement_area;
-        
-        std::vector<std::vector<int>> numbering;
-        std::vector<std::vector<T>> segments;
-
-        HistoryStack<Location> replacement_area_history;
-        HistoryStack<LocatedState<int>> numbering_history;
-        HistoryStack<LocatedState<T>> segments_history;
+    
     };
