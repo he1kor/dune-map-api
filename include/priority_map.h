@@ -4,6 +4,7 @@
 template <typename T>
 class PriorityMap{
 public:PriorityMap(){}
+    static constexpr int HIGHEST_PRIORITY = 10000;
 
     PriorityMap(bool is_strict) : is_strict{is_strict}{}
 
