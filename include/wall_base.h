@@ -23,11 +23,16 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
     static constexpr int NO_COORDS = -1000;
     public:
         WallBase(int width, int height, PriorityMap<T> priority_map, int replacement_distance) :
-            WallBase(width,
+            WallBase(
+                width,
                 height,
                 priority_map,
                 WallPattern<T>(width, height),
-                std::vector(0, std::vector<int>(0), 0, 0))
+                std::vector(0, std::vector<int>(0),
+                0,
+                0
+            )
+        )
             {}
         WallBase(int width, int height, PriorityMap<T> priority_map, int replacement_distance, WallPattern<T> pattern, int x_offset, int y_offset) :
             width(width),
@@ -84,13 +89,10 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
             });
         }
 
-        bool join(int x, int y){
-            if (pattern.size() == 0)
-                throw std::runtime_error("Segment is not set");
-            
+        bool virtual join(int x, int y){
             for (int yi = 0; yi < pattern.getHeight(); yi++){
                 for (int xi = 0; xi < pattern.getWidth(); xi++){
-                    if (!addSegment(x + xi - pattern.getXOffset(), y + yi - pattern.getYOffset(), pattern.getSegment(xi, yi))){
+                    if (addSegment(x + xi - pattern.getXOffset(), y + yi - pattern.getYOffset(), pattern.getSegment(xi, yi)) != ReplacementStatus::PLACED){
                         segments_history.discardChanges();
                         return false;
                     }
