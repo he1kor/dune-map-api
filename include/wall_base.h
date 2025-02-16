@@ -64,6 +64,12 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
         T getSegment(int x, int y) const{
             return segments[y][x];
         }
+        void setJoinEndsMaxDistance(int value){
+            join_ends_max_distance = value;
+        }
+        int getJoinEndsMaxDistance(){
+            return join_ends_max_distance;
+        }
     protected:
         ReplacementStatus addSegment(int x, int y, T t){
             if (y < 0 - pattern.getHeight() || y >= getHeight() + pattern.getHeight())
@@ -88,7 +94,9 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
                 y - (replacement_area.getHeight() / 2)
             });
         }
-
+        //bool virtual joinEnds(){
+        //    
+        //}
         bool virtual join(int x, int y){
             for (int yi = 0; yi < pattern.getHeight(); yi++){
                 for (int xi = 0; xi < pattern.getWidth(); xi++){
@@ -104,6 +112,7 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
             return true;
         }
 
+        int join_ends_max_distance = 0;
         int width = 0;
         int height = 0;
         PriorityMap<T> priority_map;
