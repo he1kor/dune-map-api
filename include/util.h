@@ -31,6 +31,7 @@ namespace d2kmapapi{
 
     int getRandomNumber(int begin, int end);
     int getRandomNumberOld(int begin, int end);
+    int getManhattanDistance(int x1, int y1, int x2, int y2);
 
     /**
      * \brief returns True if subarray is contigous array contained in array, else returns False.

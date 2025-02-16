@@ -1,5 +1,6 @@
 #include "util.h"
 #include <random>
+#include <cmath>
 
 d2kmapapi::Direction d2kmapapi::reverse(Direction direction){
     return Direction(3-direction);
@@ -15,4 +16,8 @@ int d2kmapapi::getRandomNumber(int begin, int end){
 int d2kmapapi::getRandomNumberOld(int begin, int end){
     int range = end - begin + 1;
     return rand() % range + begin;
+}
+
+int d2kmapapi::getManhattanDistance(int x1, int y1, int x2, int y2){
+    return abs(x2 - x1) + abs(y2 - y1);
 }
