@@ -106,10 +106,12 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
         }
         void applyChange(LocatedState<int> changing_number_state) override{
             last_number++;
+            last_position = {changing_number_state.x, changing_number_state.y};
             numbering[changing_number_state.y][changing_number_state.x] = last_number;
         }
         void undoChange(LocatedState<int> old_number_state) override{
             last_number--;
+            last_position = {old_number_state.x, old_number_state.y};
             numbering[old_number_state.y][old_number_state.x] = old_number_state.state;
         }
 
@@ -138,13 +140,13 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
             replacement_area.setPosition(old_replacement_area_location.getX(), old_replacement_area_location.getY());
         }
         
-
         int width = 0;
         int height = 0;
         PriorityMap<T> priority_map;
         int max_replaceable_priority = 0;
         WallPattern<T> pattern;
         int last_number = -1;
+        Location last_position = {NO_COORDS, NO_COORDS};
 
         SquareZone replacement_area;
         
