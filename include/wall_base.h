@@ -95,13 +95,48 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
                 y - (replacement_area.getHeight() / 2)
             });
         }
-        //bool virtual joinEnds(){
-        //    if (d2kmapapi::getManhattanDistance())
-        //}
+        bool virtual joinEnds(){
+            int x1 = first_position.getX();
+            int y1 = first_position.getY();
+            int x2 = last_position.getX();
+            int y2 = last_position.getY();
+            if (d2kmapapi::getManhattanDistance(x1, y1, x2, y2) > join_ends_max_distance)
+            return false;
+            int temp = max_replaceable_priority;
+            max_replaceable_priority = PriorityMap<T>::HIGHEST_PRIORITY;
+            if (x1 < x2){
+                x1++;
+                while (x1 < x2){
+                    join(x1, y1);
+                    x1++;
+                }
+            } else {
+                x2++;
+                while (x2 < x1){
+                    join(x2, y2);
+                    x2++;
+                }
+            }
+            if (y1 < y2){
+                y1++;
+                while (y1 < y2){
+                    join(y1, x1);
+                    y1++;
+                }
+            } else {
+                y2++;
+                while (y2 < y1){
+                    join(y2, x2);
+                    y2++;
+                }
+            }
+            max_replaceable_priority = temp;
+            return true;
+        }
         bool virtual join(int x, int y){
             for (int yi = 0; yi < pattern.getHeight(); yi++){
                 for (int xi = 0; xi < pattern.getWidth(); xi++){
-                    if (addSegment(x + xi - pattern.getXOffset(), y + yi - pattern.getYOffset(), pattern.getSegment(xi, yi)) != ReplacementStatus::PLACED){
+                    if (addSegment(x + xi - pattern.getXOffset(), y + yi - pattern.getYOffset(), pattern.getSegment(xi, yi)) == ReplacementStatus::NON_REPLACEABLE){
                         segments_history.discardChanges();
                         return false;
                     }
