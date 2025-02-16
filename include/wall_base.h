@@ -9,6 +9,7 @@
 #include "history_stack.h"
 #include "square_zone.h"
 #include "location.h"
+#include "util.h"
 
 enum class ReplacementStatus{
     PLACED,
@@ -95,7 +96,7 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
             });
         }
         //bool virtual joinEnds(){
-        //    
+        //    if (d2kmapapi::getManhattanDistance())
         //}
         bool virtual join(int x, int y){
             for (int yi = 0; yi < pattern.getHeight(); yi++){
@@ -120,6 +121,7 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
         WallPattern<T> pattern;
         int last_number = -1;
         Location last_position = {NO_COORDS, NO_COORDS};
+        Location first_position = {NO_COORDS, NO_COORDS};
 
         SquareZone replacement_area;
         
@@ -141,11 +143,15 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
             last_number++;
             last_position = {changing_number_state.x, changing_number_state.y};
             numbering[changing_number_state.y][changing_number_state.x] = last_number;
+            if (last_number == 0)
+                first_position = {changing_number_state.x, changing_number_state.y};
         }
         void undoChange(LocatedState<int> old_number_state) override{
             last_number--;
             last_position = {old_number_state.x, old_number_state.y};
             numbering[old_number_state.y][old_number_state.x] = old_number_state.state;
+            if (last_number == -1)
+                first_position = {NO_COORDS, NO_COORDS};
         }
 
 
