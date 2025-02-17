@@ -5,6 +5,7 @@
 */
 #pragma once
 #include <vector>
+#include <set>
 #include "map.h"
 
 namespace d2kmapapi{
@@ -17,6 +18,7 @@ namespace d2kmapapi{
         RIGHT = 2,
         DOWN = 3
     };
+    extern const std::set<d2kmapapi::Direction> directions;
     enum EdgeDirection {
         BEFORE = 0,
         AFTER = 1
