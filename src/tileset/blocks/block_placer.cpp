@@ -40,7 +40,10 @@ int BlockPlacer::getQuickShift(const Edge &edge, const d2kmapapi::Direction &dir
 std::pair<int, int> BlockPlacer::smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
     return placeOnEdgeShifted(edge, direction, block, getQuickShift(edge, direction, block));
 }
-std::pair<int, int> BlockPlacer::placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift){
+std::pair<int, int> BlockPlacer::getSmartEdgePlaceCoords(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block){
+    return getPlaceOnEdgeShiftedCoords(edge, direction, block, getQuickShift(edge, direction, block));
+}
+std::pair<int, int> BlockPlacer::getPlaceOnEdgeShiftedCoords(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift){
     checkPerpendicularToEdge(edge, direction);
     auto [x, y] = edge.onAfter()[0];
     
@@ -59,7 +62,11 @@ std::pair<int, int> BlockPlacer::placeOnEdgeShifted(const Edge &edge, const d2km
         case d2kmapapi::Direction::RIGHT:
             y -= shift;
             break;
-    }
+        }
+    return {x, y};
+}
+std::pair<int, int> BlockPlacer::placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift){
+    auto [x, y] = getPlaceOnEdgeShiftedCoords(edge, direction, block, shift);
     place(x, y, block);
     return {x, y};
 }
@@ -130,6 +137,21 @@ bool BlockPlacer::isEdgeCompatible(const Edge &edge) const{
     }
     return true;
 }
+
+//std::vector<Block> BlockPlacer::compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group, std::set<CompatibleType> must_fit_types){
+//    std::vector<Block> result = block_set->compatibleBlocks(map->getLineFacingEdge(edge, direction), group);
+//    for (auto block : result){
+//        auto top = compatible_checker->compatibleTypes(block.getDirectionalOutLine(d2kmapapi::UP));
+//        auto right = compatible_checker->compatibleTypes(block.getDirectionalOutLine(d2kmapapi::RIGHT));
+//        auto left = compatible_checker->compatibleTypes(block.getDirectionalOutLine(d2kmapapi::LEFT));
+//        auto bottom = compatible_checker->compatibleTypes(block.getDirectionalOutLine(d2kmapapi::DOWN));
+//        for (int i = 0; i < block.getWidth(); i++){
+//            if (must_fit_types.count(top[i])){
+//                getSideEdge(block, );
+//            }
+//        }
+//    }
+//}
 
 std::vector<Block> BlockPlacer::compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group){
     return block_set->compatibleBlocks(map->getLineFacingEdge(edge, direction), group);

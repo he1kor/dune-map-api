@@ -130,6 +130,7 @@ CompatibleChecker *BlockSet::getCompatibleChecker() const{
     return compatible_checker;
 }
 
+
 //TODO: add cache for already used blocks on such compatible types in such direction
 std::vector<Block> BlockSet::compatibleBlocks(const std::vector<CompatibleType>& compatible_types, d2kmapapi::Direction direction, std::string group_name){
     checkGroupExists(group_name);
