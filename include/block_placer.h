@@ -54,6 +54,8 @@ class BlockPlacer : ChangeTracker<BlockStamp> {
         std::vector<CompatibleType> getCompatibleTypesFacingEdge(const Edge& edge, const d2kmapapi::Direction &facing_direction);
         int getQuickShift(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         std::pair<int, int> smartEdgePlace(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
+        std::pair<int, int> getSmartEdgePlaceCoords(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
+        std::pair<int, int> getPlaceOnEdgeShiftedCoords(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift);
         std::pair<int, int> placeOnEdgeShifted(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, int shift);
         std::pair<int, int> placeOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block);
         DirectedEdge getSideEdge(const Block &block, const d2kmapapi::Direction &direction, int x, int y, int offset, int size);
@@ -61,7 +63,9 @@ class BlockPlacer : ChangeTracker<BlockStamp> {
         DirectedEdge placeNextOnEdge(const Edge &edge, const d2kmapapi::Direction &direction, const Block &block, std::set<CompatibleType> next_edge_types);
         DirectedEdge findNextEdgeOnBlock(const Block& block, int x, int y, const d2kmapapi::Direction& placement_direction, const std::set<CompatibleType>& edge_types);
         bool isEdgeCompatible(const Edge& edge) const;
+        std::vector<Block> compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group, std::set<CompatibleType> must_fit_types);
         std::vector<Block> compatibleBlocks(const Edge &edge, const d2kmapapi::Direction &direction, std::string group);
+
     private:
         BlockStamp getOldState(const BlockStamp& changing_state) const override;
         void applyChange(BlockStamp change) override;

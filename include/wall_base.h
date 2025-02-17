@@ -95,6 +95,7 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
                 y - (replacement_area.getHeight() / 2)
             });
         }
+        //todo:: raycast? determine if inner or not tile inside the wall
         bool virtual joinEnds(){
             int x1 = first_position.getX();
             int y1 = first_position.getY();

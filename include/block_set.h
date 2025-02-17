@@ -162,7 +162,8 @@ class BlockSet{
         */
         std::vector<Block> compatibleBlocks(const std::vector<CompatibleType> &compatible_types, d2kmapapi::Direction direction, std::string group_name);
         std::vector<Block> compatibleBlocks(const DirectionalLine &line, std::string group);
-        
+
+
     private:
         bool checkGroupExists(std::string group_name);
         CompatibleChecker* compatible_checker;
