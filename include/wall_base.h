@@ -10,6 +10,7 @@
 #include "square_zone.h"
 #include "location.h"
 #include "util.h"
+#include "edge.h"
 
 enum class ReplacementStatus{
     PLACED,
@@ -70,6 +71,17 @@ class WallBase : private ChangeTracker<LocatedState<int>>, private ChangeTracker
         }
         int getJoinEndsMaxDistance(){
             return join_ends_max_distance;
+        }
+        bool isBetweenSegments(Edge edge, T segment_type){
+            std::vector<std::pair<int, int>> before = edge.onBefore();
+            std::vector<std::pair<int, int>> after = edge.onAfter();
+            for (int i = 0; i < edge.getSize(); i++){
+                const auto& [x1, y1] = before[i];
+                const auto& [x2, y2] = after[i];
+                if (segments[y1][x1] == segment_type && segments[y2][x2] == segment_type)
+                    return true;
+            }
+            return false;
         }
     protected:
         ReplacementStatus addSegment(int x, int y, T t){
