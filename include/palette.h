@@ -62,6 +62,8 @@ class Palette{
         */
         Material findMaterial(uint16_t id);
 
+        std::string findMaterialName(uint16_t id);
+
         /**
          * \brief Adds a new key-value pair to materials.
          * \param material_name Name which will be mapped to Material.

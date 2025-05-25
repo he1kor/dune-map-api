@@ -40,6 +40,14 @@ Material Palette::findMaterial(uint16_t id){
     }
     return Material(id);
 }
+std::string Palette::findMaterialName(uint16_t id){
+    for (auto &material_pair : materials)
+    {
+        if (material_pair.second.containsTile(id))
+            return material_pair.first;
+    }
+    return "";
+}
 
 void Palette::removeMaterial(const std::string& material_name){
     materials.erase(materials.find(material_name));
